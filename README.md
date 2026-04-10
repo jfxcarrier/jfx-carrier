@@ -1,1 +1,1523 @@
-# jfx-carrier
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a2456"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="JFX Carrier"/>
+  <title>JFX Carrier Inc</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#f4f5f7;font-family:Montserrat,sans-serif}
+    #loading{position:fixed;inset:0;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+    #loading h1{font-size:36px;font-weight:900;letter-spacing:5px;color:#111;margin:16px 0 4px}
+    #loading h1 span{color:#9b1b1b}
+    #loading p{font-size:10px;letter-spacing:3px;color:#9ca3af;text-transform:uppercase;margin-bottom:24px}
+    #bar-wrap{width:160px;height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden}
+    #bar{height:100%;width:0%;background:linear-gradient(90deg,#1a2456,#9b1b1b);border-radius:99px;transition:width 0.3s}
+    #status{font-size:11px;color:#9ca3af;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div style="font-size:52px">🚚</div>
+    <h1>JFX <span>CARRIER</span></h1>
+    <p>Freight Transportation · USA</p>
+    <div id="bar-wrap"><div id="bar"></div></div>
+    <div id="status">Iniciando aplicación...</div>
+  </div>
+  <div id="root"></div>
+
+  <script>
+    var bar = document.getElementById('bar');
+    var status = document.getElementById('status');
+    var pct = 0;
+    var msgs = ['Cargando React...','Preparando interfaz...','Iniciando módulos...','Casi listo...'];
+    var interval = setInterval(function(){
+      pct = Math.min(pct + Math.random()*15, 90);
+      bar.style.width = pct + '%';
+      status.textContent = msgs[Math.min(Math.floor(pct/25), msgs.length-1)];
+    }, 400);
+  </script>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" onload="bar.style.width='40%';status.textContent='React cargado ✓'"></script>
+
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" onload="bar.style.width='60%';status.textContent='ReactDOM cargado ✓'"></script>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" onload="bar.style.width='80%';status.textContent='Compilando app...'"></script>
+
+  <script type="text/babel">
+
+const LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 120'%3E%3Crect width='300' height='120' fill='white'/%3E%3Ctext x='20' y='55' font-family='Arial Black' font-size='52' font-weight='900' fill='%231a2456'%3EJ%3C/text%3E%3Ctext x='58' y='55' font-family='Arial Black' font-size='52' font-weight='900' fill='%239b1b1b'%3EFX%3C/text%3E%3Ctext x='20' y='95' font-family='Arial' font-size='22' font-weight='700' fill='%23444'%3ECARRIER INC%3C/text%3E%3C/svg%3E";
+
+
+const DISPATCH_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231a2456'/%3E%3Ccircle cx='50' cy='35' r='16' fill='%2387ceeb'/%3E%3Cellipse cx='50' cy='80' rx='24' ry='16' fill='%2387ceeb'/%3E%3Cpath d='M30 32 Q30 18 50 18 Q70 18 70 32' stroke='%23f5a623' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Crect x='24' y='30' width='10' height='12' rx='5' fill='%23f5a623'/%3E%3Crect x='66' y='30' width='10' height='12' rx='5' fill='%23f5a623'/%3E%3Cpath d='M26 40 Q20 50 24 58' stroke='%23333' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='22' cy='60' rx='5' ry='7' fill='%23555'/%3E%3Cellipse cx='22' cy='60' rx='3' ry='5' fill='%239b1b1b'/%3E%3C/svg%3E";
+
+
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --navy:    #1a2456;
+    --navy2:   #0f1a40;
+    --red:     #9b1b1b;
+    --red2:    #b52020;
+    --red3:    #cc2222;
+    --white:   #ffffff;
+    --bg:      #f4f5f7;
+    --bg2:     #eaecf0;
+    --card:    #ffffff;
+    --border:  #dde1e9;
+    --border2: #c8cdd8;
+    --text:    #111827;
+    --gray:    #6b7280;
+    --lgray:   #9ca3af;
+    --green:   #16a34a;
+    --yellow:  #d97706;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Montserrat", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ══ LOGIN ══════════════════════════════════════════ */
+  .login-screen {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--white);
+    position: relative; overflow: hidden; padding: 24px;
+  }
+  .login-screen::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -52deg, transparent, transparent 40px,
+      rgba(26,36,86,0.025) 40px, rgba(26,36,86,0.025) 41px
+    );
+  }
+  .login-screen::after {
+    content: "";
+    position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--red2) 100%);
+  }
+
+  .login-box { width: 100%; max-width: 400px; position: relative; z-index: 1; }
+
+  .logo-block { text-align: center; margin-bottom: 36px; }
+  .logo-img   { width: 220px; height: auto; display: block; margin: 0 auto; }
+  .logo-tagline {
+    font-size: 10px; font-weight: 700; letter-spacing: 4px;
+    color: var(--lgray); text-transform: uppercase; margin-top: 10px;
+  }
+  .logo-dualbar { display: flex; justify-content: center; gap: 4px; margin-top: 12px; }
+  .logo-dualbar .l1 { width: 36px; height: 3px; background: var(--navy); border-radius: 2px; }
+  .logo-dualbar .l2 { width: 36px; height: 3px; background: var(--red2); border-radius: 2px; }
+
+  /* login card */
+  .login-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 24px rgba(26,36,86,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .section-label {
+    font-size: 9px; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--lgray); margin-bottom: 10px;
+  }
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+  .role-btn {
+    padding: 14px 8px 10px;
+    border: 1.5px solid var(--border);
+    background: var(--bg); color: var(--gray);
+    border-radius: 8px; cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    transition: all 0.18s;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+  }
+  .role-btn:hover { border-color: var(--navy); color: var(--navy); background: rgba(26,36,86,0.04); }
+  .role-btn.active { border-color: var(--navy); background: rgba(26,36,86,0.07); color: var(--navy); box-shadow: 0 0 0 3px rgba(26,36,86,0.08); }
+  .role-btn.active.role-red { border-color: var(--red2); background: rgba(155,27,27,0.06); color: var(--red2); box-shadow: 0 0 0 3px rgba(155,27,27,0.08); }
+  .role-icon { font-size: 22px; }
+
+  .input-group { margin-bottom: 14px; }
+  .input-group label, .form-group label {
+    display: block; font-size: 9px; font-weight: 800; color: var(--gray);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .input-group input, .form-group input, .form-group select {
+    width: 100%; padding: 12px 14px;
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px;
+    color: var(--text); font-family: "Montserrat", sans-serif;
+    font-size: 14px; font-weight: 500; outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s; -webkit-appearance: none;
+  }
+  .input-group input:focus, .form-group input:focus, .form-group select:focus {
+    border-color: var(--navy); box-shadow: 0 0 0 3px rgba(26,36,86,0.1); background: var(--white);
+  }
+  .form-group select option { background: var(--white); }
+
+  .btn-primary {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--navy) 0%, #253080 100%);
+    border: none; border-radius: 8px; color: var(--white);
+    font-family: "Montserrat", sans-serif; font-size: 12px; font-weight: 900;
+    letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.18s;
+    box-shadow: 0 4px 16px rgba(26,36,86,0.3); margin-top: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(26,36,86,0.4); }
+
+  .btn-accent {
+    width: 100%; padding: 12px 18px;
+    background: linear-gradient(135deg, var(--red) 0%, var(--red2) 100%);
+    border: none; border-radius: 8px; color: var(--white);
+    font-family: "Montserrat", sans-serif; font-size: 11px; font-weight: 900;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    transition: all 0.18s; box-shadow: 0 4px 14px rgba(155,27,27,0.25); margin-top: 4px;
+  }
+  .btn-accent:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(155,27,27,0.35); }
+
+  .btn-navy {
+    width: 100%; padding: 12px 18px;
+    background: linear-gradient(135deg, var(--navy) 0%, #253080 100%);
+    border: none; border-radius: 8px; color: var(--white);
+    font-family: "Montserrat", sans-serif; font-size: 11px; font-weight: 900;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    transition: all 0.18s; box-shadow: 0 4px 14px rgba(26,36,86,0.25); margin-top: 4px;
+  }
+  .btn-navy:hover { transform: translateY(-1px); }
+
+  .btn-outline {
+    padding: 9px 14px; background: transparent;
+    border: 1.5px solid var(--border2); border-radius: 8px; color: var(--gray);
+    font-family: "Montserrat", sans-serif; font-size: 10px; font-weight: 800;
+    letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.18s;
+  }
+  .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+
+  .btn-danger {
+    padding: 6px 11px;
+    background: rgba(155,27,27,0.07); border: 1.5px solid rgba(155,27,27,0.2);
+    border-radius: 6px; color: var(--red2); font-size: 13px; cursor: pointer; transition: all 0.18s;
+  }
+  .btn-danger:hover { background: rgba(155,27,27,0.14); }
+
+  /* ══ TOPBAR ══════════════════════════════════════════ */
+  .topbar {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 0 16px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 8px rgba(26,36,86,0.07);
+  }
+  .topbar::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: linear-gradient(to bottom, var(--navy) 50%, var(--red2) 50%);
+  }
+  .topbar-logo-img { height: 38px; width: auto; display: block; padding-left: 8px; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+  .badge { padding: 3px 9px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+  .badge-manager  { background: rgba(155,27,27,0.1);  color: var(--red2);  border: 1.5px solid rgba(155,27,27,0.2); }
+  .badge-billing  { background: rgba(22,163,74,0.1);  color: #16a34a; border: 1.5px solid rgba(22,163,74,0.2); }
+  .badge-dispatch { background: rgba(26,36,86,0.1);   color: var(--navy);  border: 1.5px solid rgba(26,36,86,0.2); }
+  .badge-driver   { background: rgba(217,119,6,0.1);  color: var(--yellow); border: 1.5px solid rgba(217,119,6,0.2); }
+
+  .icon-btn {
+    background: var(--bg); border: 1.5px solid var(--border); color: var(--gray);
+    width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 14px; transition: all 0.18s;
+  }
+  .icon-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* ══ BOTTOM NAV ══════════════════════════════════════ */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white); border-top: 1px solid var(--border);
+    display: flex; z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -2px 12px rgba(26,36,86,0.07);
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    padding: 9px 4px 7px; cursor: pointer; color: var(--lgray);
+    font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+    transition: color 0.18s; border: none; background: transparent; position: relative;
+  }
+  .nav-item .ni { font-size: 19px; margin-bottom: 3px; }
+  .nav-item.active { color: var(--navy); }
+  .nav-item.active::before {
+    content: ""; position: absolute; top: 0; left: 15%; right: 15%;
+    height: 2px; background: linear-gradient(90deg, var(--navy), var(--red2));
+    border-radius: 0 0 3px 3px;
+  }
+
+  /* ══ MAIN ════════════════════════════════════════════ */
+  .main { flex: 1; padding: 18px 14px 82px; }
+
+  /* ══ CARDS ═══════════════════════════════════════════ */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px; margin-bottom: 12px; position: relative; overflow: hidden;
+    box-shadow: 0 1px 6px rgba(26,36,86,0.06);
+  }
+  .card.accent-l::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(to bottom, var(--navy), var(--red2));
+  }
+  .card.accent-l { padding-left: 21px; }
+
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .card-title { font-family: "Bebas Neue", sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--text); }
+  .card-sub { font-size: 10px; color: var(--lgray); margin-top: 2px; font-weight: 600; }
+
+  /* ══ STATS ═══════════════════════════════════════════ */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 12px; position: relative; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(26,36,86,0.05);
+  }
+  .stat-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+  .stat-card.s-red::after    { background: linear-gradient(90deg, var(--red), var(--red3)); }
+  .stat-card.s-green::after  { background: var(--green); }
+  .stat-card.s-yellow::after { background: var(--yellow); }
+  .stat-card.s-navy::after   { background: var(--navy); }
+
+  .stat-label { font-size: 8px; font-weight: 800; color: var(--lgray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .stat-value { font-family: "Bebas Neue", sans-serif; font-size: 26px; letter-spacing: 1px; line-height: 1; }
+  .sv-red    { color: var(--red2); }
+  .sv-green  { color: var(--green); }
+  .sv-yellow { color: var(--yellow); }
+  .sv-navy   { color: var(--navy); }
+  .sv-text   { color: var(--text); }
+
+  /* ══ WEEK BADGE ══════════════════════════════════════ */
+  .week-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 3px solid var(--navy);
+    border-radius: 6px; padding: 6px 12px; font-size: 10px; font-weight: 700;
+    color: var(--gray); letter-spacing: 1px; margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(26,36,86,0.06);
+  }
+
+  /* ══ SUMMARY ROWS ════════════════════════════════════ */
+  .summary-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0; border-bottom: 1px solid var(--bg2); font-size: 13px;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .lbl { color: var(--gray); font-weight: 500; }
+  .summary-row .val { font-weight: 700; }
+  .summary-row.deduct .val { color: var(--red2); }
+  .summary-row.gross  .val { color: var(--yellow); }
+  .summary-row.total  .lbl { font-family: "Bebas Neue", sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--text); }
+  .summary-row.total  .val { font-family: "Bebas Neue", sans-serif; font-size: 24px; color: var(--green); }
+
+  .divider { height: 1px; background: var(--bg2); margin: 12px 0; }
+
+  /* ══ LOAD ITEMS ══════════════════════════════════════ */
+  .load-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 13px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 11px;
+    box-shadow: 0 1px 4px rgba(26,36,86,0.05);
+    transition: box-shadow 0.18s;
+  }
+  .load-item:hover { box-shadow: 0 4px 12px rgba(26,36,86,0.1); }
+  .load-icon {
+    width: 40px; height: 40px;
+    background: rgba(26,36,86,0.08); border: 1px solid rgba(26,36,86,0.15);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 19px; flex-shrink: 0;
+  }
+  .load-info { flex: 1; min-width: 0; }
+  .load-route { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .load-meta  { font-size: 10px; color: var(--lgray); margin-top: 3px; font-weight: 600; }
+  .load-right { text-align: right; flex-shrink: 0; }
+  .load-amount { font-family: "Bebas Neue", sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--green); }
+  .load-miles  { font-size: 9px; color: var(--lgray); font-weight: 700; letter-spacing: 1px; }
+
+  /* ══ FORM ════════════════════════════════════════════ */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-group { margin-bottom: 11px; }
+
+  /* ══ CHIPS ═══════════════════════════════════════════ */
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .chip-navy { background: rgba(26,36,86,0.1); color: var(--navy); border: 1px solid rgba(26,36,86,0.18); }
+  .chip-red  { background: rgba(155,27,27,0.1); color: var(--red2); border: 1px solid rgba(155,27,27,0.18); }
+
+  /* ══ SECTION TITLE ═══════════════════════════════════ */
+  .sec-title { font-family: "Bebas Neue", sans-serif; font-size: 14px; letter-spacing: 3px; color: var(--lgray); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .sec-title::after { content: ""; flex: 1; height: 1px; background: var(--bg2); }
+
+  /* ══ EMPTY STATE ═════════════════════════════════════ */
+  .empty-state { text-align: center; padding: 44px 20px; color: var(--lgray); }
+  .empty-icon  { font-size: 48px; margin-bottom: 14px; opacity: 0.35; }
+  .empty-text  { font-size: 13px; font-weight: 600; }
+
+  /* ══ MODAL ════════════════════════════════════════════ */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(26,36,86,0.5); z-index: 200;
+    display: flex; align-items: flex-end; animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-sheet {
+    background: var(--white); border-top: 3px solid var(--navy);
+    border-radius: 16px 16px 0 0; width: 100%;
+    padding: 18px 14px 40px;
+    animation: slideUp 0.3s cubic-bezier(.16,1,.3,1);
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 -8px 40px rgba(26,36,86,0.15);
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle { width: 34px; height: 4px; background: var(--bg2); border-radius: 2px; margin: 0 auto 18px; }
+  .modal-title { font-family: "Bebas Neue", sans-serif; font-size: 22px; letter-spacing: 3px; margin-bottom: 14px; color: var(--text); }
+
+  /* ══ PDF ══════════════════════════════════════════════ */
+  .pdf-preview {
+    background: #f9f9f9; color: #111; border-radius: 8px; border: 1px solid var(--border);
+    padding: 20px 16px; font-family: "Montserrat", sans-serif; font-size: 11px;
+    margin-bottom: 12px; max-height: 50vh; overflow-y: auto;
+  }
+  .pdf-header { text-align: center; margin-bottom: 12px; }
+  .pdf-logo-img { height: 52px; width: auto; margin: 0 auto 4px; display: block; }
+  .pdf-tagline { font-size: 8px; font-weight: 800; letter-spacing: 3px; color: #888; text-transform: uppercase; }
+  .pdf-dualbar { height: 3px; background: linear-gradient(90deg, #1a2456 50%, #9b1b1b 50%); margin: 10px 0; border-radius: 2px; }
+  .pdf-meta { display: flex; justify-content: space-between; font-size: 9px; color: #666; font-weight: 700; margin-bottom: 10px; }
+  .pdf-sec { font-family: "Bebas Neue", sans-serif; font-size: 12px; letter-spacing: 2px; background: #111; color: #fff; padding: 4px 8px; border-radius: 3px; margin: 8px 0 6px; }
+  .pdf-sec.red  { background: #9b1b1b; }
+  .pdf-sec.navy { background: #1a2456; }
+  .pdf-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #ebebeb; font-size: 10px; }
+  .pdf-row:last-child { border-bottom: none; }
+  .pdf-total { display: flex; justify-content: space-between; background: #eef0f6; padding: 8px 10px; border-radius: 4px; font-weight: 900; font-size: 13px; margin-top: 8px; border-left: 3px solid #1a2456; }
+  .pdf-green { color: #16a34a; }
+  .pdf-red   { color: #9b1b1b; font-weight: 700; }
+`;
+
+const DRIVERS    = ["Carlos Mendez", "John Williams", "Maria Lopez", "David Chen"];
+const MANAGERS   = ["Luis Fernandez", "Sandra Gomez", "Robert King"];
+const DISPATCHERS= ["Ana Martinez", "Pedro Salinas", "Kevin Torres"];
+
+// Usuarios con credenciales — en producción esto va en base de datos
+const USERS = {
+  // Managers / Staff
+  "admin":    { role:"manager",  name:"JFX Manager",    driver:null },
+  "billing1": { role:"billing",  name:"JFX Billing",    driver:null },
+  "dispatch1":{ role:"dispatch", name:"JFX Dispatch",   driver:null },
+  // Drivers — contraseña = nombre en minúsculas sin espacios
+  "carlosmendez":  { role:"driver", name:"Carlos Mendez",  driver:"Carlos Mendez"  },
+  "johnwilliams":  { role:"driver", name:"John Williams",  driver:"John Williams"  },
+  "marialopez":    { role:"driver", name:"Maria Lopez",    driver:"Maria Lopez"    },
+  "davidchen":     { role:"driver", name:"David Chen",     driver:"David Chen"     },
+};
+const INITIAL_LOADS = [
+  { id:1, from:"Chicago, IL",     to:"Dallas, TX",   miles:917, rate:2400, diesel:310, driver:"Carlos Mendez",  date:"2025-06-02" },
+  { id:2, from:"Atlanta, GA",     to:"Miami, FL",    miles:662, rate:1850, diesel:220, driver:"John Williams",  date:"2025-06-03" },
+  { id:3, from:"Los Angeles, CA", to:"Phoenix, AZ",  miles:372, rate:1100, diesel:130, driver:"Maria Lopez",   date:"2025-06-04" },
+];
+
+const INITIAL_TRUCKS = [
+  { id:1, unit:"T-101", make:"Freightliner", model:"Cascadia", year:2020, plate:"JFX-101", driver:"Carlos Mendez",  totalMiles:124500, lastOilMiles:112800, maintenances:[], weeklyLogs:[] },
+  { id:2, unit:"T-102", make:"Kenworth",     model:"T680",     year:2019, plate:"JFX-102", driver:"John Williams",  totalMiles:98300,  lastOilMiles:89200,  maintenances:[], weeklyLogs:[] },
+  { id:3, unit:"T-103", make:"Peterbilt",    model:"579",      year:2021, plate:"JFX-103", driver:"Maria Lopez",    totalMiles:76400,  lastOilMiles:70100,  maintenances:[], weeklyLogs:[] },
+  { id:4, unit:"T-104", make:"Volvo",        model:"VNL 860",  year:2022, plate:"JFX-104", driver:"David Chen",     totalMiles:45200,  lastOilMiles:43900,  maintenances:[], weeklyLogs:[] },
+];
+const OIL_INTERVAL = 13000; // millas entre cambios de aceite
+
+const fmt = n => "$" + Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const getWeek = () => {
+  const now=new Date(), mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+  return mon.toLocaleDateString("en-US",{month:"short",day:"numeric"})+" – "+sun.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+};
+
+// ══ EXCEL EXPORT ══════════════════════════════════════════════════════
+function exportToExcel(loads, filename="JFX_Weekly_Report") {
+  const rows = [
+    ["JFX CARRIER INC - Weekly Report"],
+    ["Week:", getWeek()],
+    [""],
+    ["FROM", "TO", "MILES", "RATE ($)", "DIESEL ($)", "DRIVER", "DATE"],
+    ...loads.map(l => [l.from, l.to, l.miles, l.rate, l.diesel, l.driver, l.date]),
+    [""],
+    ["FINANCIAL SUMMARY", ""],
+    ["Gross Revenue", loads.reduce((s,l)=>s+l.rate,0)],
+    ["Dispatch (10%)", loads.reduce((s,l)=>s+l.rate,0)*0.10],
+    ["Driver Pay (30%)", loads.reduce((s,l)=>s+l.rate,0)*0.30],
+    ["Insurance", 250],
+    ["Diesel", loads.reduce((s,l)=>s+l.diesel,0)],
+    ["NET PROFIT", loads.reduce((s,l)=>s+l.rate,0) - loads.reduce((s,l)=>s+l.rate,0)*0.40 - 250 - loads.reduce((s,l)=>s+l.diesel,0)],
+  ];
+  // Build CSV (Excel-compatible)
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const bom = "\uFEFF"; // UTF-8 BOM for Excel
+  const blob = new Blob([bom + csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename+".csv"; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportDriverExcel(loads, driver) {
+  const dl = loads.filter(l=>l.driver===driver);
+  const gross = dl.reduce((s,l)=>s+l.rate,0);
+  const rows = [
+    ["JFX CARRIER INC - Driver Earnings Statement"],
+    ["Driver:", driver],
+    ["Week:", getWeek()],
+    [""],
+    ["FROM", "TO", "MILES", "LOAD RATE ($)", "DRIVER PAY 30% ($)", "DATE"],
+    ...dl.map(l => [l.from, l.to, l.miles, l.rate, (l.rate*0.30).toFixed(2), l.date]),
+    [""],
+    ["TOTAL EARNINGS (30%)", (gross*0.30).toFixed(2)],
+  ];
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const bom = "\uFEFF";
+  const blob = new Blob([bom + csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = `JFX_Driver_${driver.replace(/ /g,"_")}.csv`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══ PDF PRINT / EMAIL ══════════════════════════════════════════════════════
+function printPDF(type, loads, driver="") {
+  const dl = type==="driver" ? loads.filter(l=>l.driver===driver) : loads;
+  const gross = dl.reduce((s,l)=>s+l.rate,0);
+  const diesel = dl.reduce((s,l)=>s+l.diesel,0);
+  const d10=gross*0.10, d30=gross*0.30, ins=250, net=gross-d10-d30-ins-diesel;
+  const fmt = n=>"$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  const rows = dl.map(l=>`
+    <tr>
+      <td>${l.from} → ${l.to}</td>
+      <td style="text-align:center">${l.miles}</td>
+      <td style="text-align:right;font-weight:700">${fmt(l.rate)}</td>
+      ${type==="driver"?`<td style="text-align:right;color:#16a34a;font-weight:700">+${fmt(l.rate*0.30)}</td>`:`<td style="text-align:center">${l.driver}</td>`}
+      <td style="text-align:center">${l.date}</td>
+    </tr>`).join("");
+
+  const w = window.open("","_blank","width=800,height=900");
+  w.document.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8"/>
+    <title>JFX Carrier - ${type==="driver"?"Driver Statement":"Weekly Report"}</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{font-family:Montserrat,sans-serif;padding:32px;color:#111;background:#fff;max-width:760px;margin:0 auto}
+      .header{text-align:center;margin-bottom:24px}
+      .logo-name{font-size:36px;font-weight:900;letter-spacing:6px;color:#111}
+      .logo-name span{color:#9b1b1b}
+      .tagline{font-size:11px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-top:4px}
+      .dualbar{height:3px;background:linear-gradient(90deg,#1a2456 50%,#9b1b1b 50%);margin:16px 0;border-radius:2px}
+      .meta{display:flex;justify-content:space-between;font-size:11px;color:#555;font-weight:600;margin-bottom:20px}
+      .sec{font-size:13px;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+           background:#1a2456;color:white;padding:6px 12px;border-radius:4px;margin:16px 0 8px}
+      .sec.red{background:#9b1b1b}
+      table{width:100%;border-collapse:collapse;font-size:12px}
+      th{background:#f0f2f8;padding:8px 10px;text-align:left;font-weight:800;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#444}
+      td{padding:8px 10px;border-bottom:1px solid #f0f0f0;font-size:12px}
+      .summary-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+      .summary-row .lbl{color:#666}
+      .summary-row .val{font-weight:700}
+      .deduct .val{color:#9b1b1b}
+      .total-row{display:flex;justify-content:space-between;background:#eef0f6;padding:12px 14px;border-radius:6px;font-weight:900;font-size:16px;margin-top:12px;border-left:4px solid #1a2456}
+      .total-row .green{color:#16a34a}
+      .footer{margin-top:32px;text-align:center;font-size:10px;color:#aaa;letter-spacing:2px;border-top:1px solid #eee;padding-top:16px}
+      .btn-row{display:flex;gap:10px;justify-content:center;margin:20px 0;print-display:none}
+      .btn{padding:10px 24px;border:none;border-radius:6px;font-family:Montserrat,sans-serif;font-size:12px;font-weight:800;letter-spacing:2px;cursor:pointer}
+      .btn-print{background:#1a2456;color:white}
+      .btn-email{background:#9b1b1b;color:white}
+      @media print{.btn-row{display:none}}
+    </style>
+
+  </head><body>
+    <div class="header">
+      <div class="logo-name">JFX <span>CARRIER</span></div>
+      <div class="tagline">${type==="driver"?"Driver Earnings Statement":"Weekly Financial Report"}</div>
+    </div>
+    <div class="dualbar"></div>
+    <div class="meta">
+      <span>📅 Week: ${getWeek()}</span>
+      ${type==="driver"?`<span>👤 Driver: ${driver}</span>`:`<span>📦 Total Loads: ${dl.length}</span>`}
+    </div>
+
+```
+<div class="btn-row">
+  <button class="btn btn-print" onclick="window.print()">🖨️ PRINT / SAVE PDF</button>
+  <button class="btn btn-email" onclick="window.location.href='mailto:?subject=JFX Carrier Report - ${getWeek()}&body=Please find attached the JFX Carrier report for ${getWeek()}. Open the PDF attached.'">📧 SEND BY EMAIL</button>
+</div>
+
+<div class="sec">📦 Loads Performed</div>
+<table>
+  <thead><tr>
+    <th>Route</th><th>Miles</th><th>Rate</th>
+    ${type==="driver"?"<th>Earnings</th>":"<th>Driver</th>"}
+    <th>Date</th>
+  </tr></thead>
+  <tbody>${rows}</tbody>
+</table>
+
+${type!=="driver"?`
+<div class="sec">💰 Financial Summary</div>
+<div class="summary-row"><span class="lbl">Gross Revenue</span><span class="val" style="color:#d97706">${fmt(gross)}</span></div>
+<div class="sec red">📉 Deductions</div>
+<div class="summary-row deduct"><span class="lbl">Dispatch (10%)</span><span class="val">-${fmt(d10)}</span></div>
+<div class="summary-row deduct"><span class="lbl">Driver Pay (30%)</span><span class="val">-${fmt(d30)}</span></div>
+<div class="summary-row deduct"><span class="lbl">Insurance</span><span class="val">-${fmt(ins)}</span></div>
+<div class="summary-row deduct"><span class="lbl">Diesel</span><span class="val">-${fmt(diesel)}</span></div>
+<div class="total-row"><span>NET PROFIT</span><span class="green">${fmt(net)}</span></div>
+`:`
+<div class="total-row"><span>TOTAL EARNINGS (30%)</span><span class="green">${fmt(gross*0.30)}</span></div>
+`}
+
+<div class="footer">JFX CARRIER INC · FREIGHT TRANSPORTATION SERVICES · USA</div>
+```
+
+  </body></html>`);
+  w.document.close();
+}
+
+function WeeklyPDF({loads}){
+const gr=loads.reduce((s,l)=>s+l.rate,0),di=loads.reduce((s,l)=>s+l.diesel,0);
+const d10=gr*0.10,d30=gr*0.30,ins=250,net=gr-d10-d30-ins-di;
+return(<div className="pdf-preview">
+<div className="pdf-header">
+<img src={LOGO} className="pdf-logo-img" alt="JFX"/>
+<div className="pdf-tagline">Freight Transportation Services · USA</div>
+</div>
+<div className="pdf-dualbar"/>
+<div className="pdf-meta"><span>📅 {getWeek()}</span><span>{loads.length} loads</span></div>
+<div className="pdf-sec navy">Loads Performed</div>
+{loads.map(l=><div key={l.id} className="pdf-row"><span>{l.from} → {l.to}</span><span style={{color:”#999”}}>{l.miles}mi</span><span style={{fontWeight:700}}>{fmt(l.rate)}</span></div>)}
+<div className="pdf-sec">Gross Revenue</div>
+<div className="pdf-row"><span>Total</span><span style={{fontWeight:800}}>{fmt(gr)}</span></div>
+<div className="pdf-sec red">Deductions</div>
+<div className="pdf-row"><span>Dispatch (10%)</span><span className="pdf-red">-{fmt(d10)}</span></div>
+<div className="pdf-row"><span>Driver Pay (30%)</span><span className="pdf-red">-{fmt(d30)}</span></div>
+<div className="pdf-row"><span>Insurance</span><span className="pdf-red">-{fmt(ins)}</span></div>
+<div className="pdf-row"><span>Diesel</span><span className="pdf-red">-{fmt(di)}</span></div>
+<div className="pdf-total"><span>NET PROFIT</span><span className="pdf-green">{fmt(net)}</span></div>
+
+  </div>);
+}
+
+function DriverPDF({loads,driver}){
+const dl=loads.filter(l=>l.driver===driver),gr=dl.reduce((s,l)=>s+l.rate,0);
+return(<div className="pdf-preview">
+<div className="pdf-header">
+<img src={LOGO} className="pdf-logo-img" alt="JFX"/>
+<div className="pdf-tagline">Driver Earnings Statement</div>
+</div>
+<div className="pdf-dualbar"/>
+<div className="pdf-meta"><span>👤 {driver}</span><span>📅 {getWeek()}</span></div>
+<div className="pdf-sec navy">Loads — {dl.length} Trips</div>
+{dl.map(l=><div key={l.id} className="pdf-row"><span>{l.from} → {l.to}</span><span style={{color:”#999”}}>{l.miles}mi</span><span className="pdf-green" style={{fontWeight:800}}>+{fmt(l.rate*0.30)}</span></div>)}
+<div className="pdf-total"><span>TOTAL PAY (30%)</span><span className="pdf-green">{fmt(gr*0.30)}</span></div>
+
+  </div>);
+}
+
+const DispatchIcon = ({size=32}) => <img src={DISPATCH_ICON} alt=“Dispatch” style={{width:size,height:size,objectFit:“contain”}}/>;
+
+const ROLES=[
+{id:“manager”,  label:“Manager”,  icon:“👔”,   red:false, svg:false},
+{id:“billing”,  label:“Billing”,  icon:“💳”,   red:true,  svg:false},
+{id:“dispatch”, label:“Dispatch”, icon:null,    red:false, svg:true},
+{id:“driver”,   label:“Driver”,   icon:“🚛”,   red:true,  svg:false},
+];
+
+function JFXCarrier(){
+const [user,setUser]=useState(null);
+const [role,setRole]=useState(“manager”);
+const [pass,setPass]=useState(””);
+const [tab,setTab]=useState(“dashboard”);
+const [loads,setLoads]=useState(INITIAL_LOADS);
+const [showPDF,setShowPDF]=useState(false);
+const [pdfType,setPdfType]=useState(“weekly”);
+const [selDrv,setSelDrv]=useState(DRIVERS[0]);
+const [form,setForm]=useState({from:””,to:””,miles:””,rate:””,diesel:””,driver:DRIVERS[0]});
+const [selectedDriver,setSelectedDriver]=useState(DRIVERS[0]);
+const [selectedManager,setSelectedManager]=useState(MANAGERS[0]);
+const [selectedDispatcher,setSelectedDispatcher]=useState(DISPATCHERS[0]);
+const [trucks,setTrucks]=useState(INITIAL_TRUCKS);
+const [showAddTruck,setShowAddTruck]=useState(false);
+const [showMaint,setShowMaint]=useState(null); // truck id
+const [truckForm,setTruckForm]=useState({unit:””,make:””,model:””,year:””,plate:””,driver:DRIVERS[0],totalMiles:””,lastOilMiles:””});
+const [maintForm,setMaintForm]=useState({type:””,date:””,miles:””,cost:””,notes:””});
+const [weeklyMiles,setWeeklyMiles]=useState({start:””,end:””});
+const [showWeeklyLog,setShowWeeklyLog]=useState(false);
+const [showMileageEntry,setShowMileageEntry]=useState(false); // modal al entrar
+const [entryMiles,setEntryMiles]=useState(””);
+const [mileageRecords,setMileageRecords]=useState([]); // registro global visible solo por manager
+
+const login=()=>{
+if(!pass){ alert(“Ingresa tu contraseña”); return; }
+if(role === “driver”){
+if(!selectedDriver){ alert(“Selecciona tu nombre”); return; }
+setUser({role:“driver”, name:selectedDriver, driver:selectedDriver});
+setShowMileageEntry(true); // show mileage modal before dashboard
+return; // don’t setTab yet — modal will do it
+} else if(role === “manager”){
+if(!selectedManager){ alert(“Selecciona tu nombre”); return; }
+setUser({role:“manager”, name:selectedManager, driver:null});
+} else if(role === “dispatch”){
+if(!selectedDispatcher){ alert(“Selecciona tu nombre”); return; }
+setUser({role:“dispatch”, name:selectedDispatcher, driver:null});
+} else {
+setUser({role, name:“JFX “+role.charAt(0).toUpperCase()+role.slice(1), driver:null});
+}
+setTab(“dashboard”);
+};
+const addLoad=()=>{
+if(!form.from||!form.to||!form.miles||!form.rate) return;
+setLoads([…loads,{id:Date.now(),from:form.from,to:form.to,miles:+form.miles,rate:+form.rate,diesel:+form.diesel||0,driver:form.driver,date:new Date().toISOString().split(“T”)[0],createdBy:user?.name||“Unknown”}]);
+setForm({from:””,to:””,miles:””,rate:””,diesel:””,driver:DRIVERS[0]});
+};
+
+const myLoads=user?.role===“driver”?loads.filter(l=>l.driver===user.driver):loads;
+const gross=myLoads.reduce((s,l)=>s+l.rate,0);
+const totD=myLoads.reduce((s,l)=>s+l.diesel,0);
+const d10=gross*0.10,d30=gross*0.30,ins=250,net=gross-d10-d30-ins-totD;
+const canAdd=[“manager”,“dispatch”].includes(user?.role);
+const canPDF=[“manager”,“billing”].includes(user?.role);
+const canTrucks=user?.role===“manager”;
+const navItems=[
+{id:“dashboard”,icon:“📊”,label:“Dashboard”},
+…(canAdd?[{id:“loads”,icon:“📦”,label:“Loads”}]:[]),
+{id:“weekly”,icon:“📅”,label:“Weekly”},
+…(canPDF?[{id:“reports”,icon:“📄”,label:“Reports”}]:[]),
+{id:“drivers”,icon:“🚛”,label:“Drivers”},
+…(canTrucks?[{id:“trucks”,icon:“🚚”,label:“Camiones”}]:[]),
+];
+
+if(!user) return(<>
+<style>{CSS}</style>
+<div className="login-screen">
+<div className="login-box">
+<div className="logo-block">
+<img src={LOGO} className="logo-img" alt="JFX Carrier Inc"/>
+<div className="logo-tagline">Freight Transportation Management</div>
+<div className="logo-dualbar"><div className="l1"/><div className="l2"/></div>
+</div>
+<div className="login-card">
+<div className="section-label">Select Your Role</div>
+<div className="role-grid">
+{ROLES.map(r=>(
+<button key={r.id} className={“role-btn “+(role===r.id?“active “:””)+(role===r.id&&r.red?“role-red”:””)} onClick={()=>setRole(r.id)}>
+{r.svg ? <DispatchIcon size={32}/> : <span className="role-icon">{r.icon}</span>}
+{r.label}
+</button>
+))}
+</div>
+{/* Manager name selector */}
+{role === “manager” && (
+<div className="input-group">
+<label>Selecciona tu nombre</label>
+<select value={selectedManager} onChange={e=>setSelectedManager(e.target.value)} style={{width:“100%”,padding:“12px 14px”,background:”#f4f5f7”,border:“1.5px solid #dde1e9”,borderRadius:8,color:”#111827”,fontFamily:“Montserrat,sans-serif”,fontSize:14,fontWeight:600,outline:“none”}}>
+{MANAGERS.map(d=><option key={d} value={d}>{d}</option>)}
+</select>
+</div>
+)}
+
+```
+      {/* Dispatch name selector */}
+      {role === "dispatch" && (
+        <div className="input-group">
+          <label>Selecciona tu nombre</label>
+          <select value={selectedDispatcher} onChange={e=>setSelectedDispatcher(e.target.value)} style={{width:"100%",padding:"12px 14px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111827",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:600,outline:"none"}}>
+            {DISPATCHERS.map(d=><option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+      )}
+
+      {/* Driver name selector */}
+      {role === "driver" && (()=>{
+        const myTruck = INITIAL_TRUCKS.find(t=>t.driver===selectedDriver);
+        const milesSinceOil = myTruck ? myTruck.totalMiles - myTruck.lastOilMiles : 0;
+        const oilPct = myTruck ? Math.min((milesSinceOil/13000)*100,100) : 0;
+        const oilColor = milesSinceOil>=13000?"#9b1b1b":milesSinceOil>=12500?"#d97706":"#16a34a";
+        return(
+          <>
+            <div className="input-group">
+              <label>Selecciona tu nombre</label>
+              <select value={selectedDriver} onChange={e=>setSelectedDriver(e.target.value)}
+                style={{width:"100%",padding:"12px 14px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111827",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:600,outline:"none"}}>
+                {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            {myTruck && (
+              <div style={{background:"rgba(26,36,86,0.05)",border:"1.5px solid rgba(26,36,86,0.15)",borderRadius:10,padding:"14px",marginBottom:14}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+                  <span style={{fontSize:28}}>🚚</span>
+                  <div>
+                    <div style={{fontWeight:900,fontSize:14,color:"#1a2456"}}>{myTruck.unit} — {myTruck.make} {myTruck.model}</div>
+                    <div style={{fontSize:11,color:"#6b7280",fontWeight:600}}>{myTruck.year} · Placa: {myTruck.plate}</div>
+                  </div>
+                </div>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+                  <div style={{textAlign:"center",flex:1}}>
+                    <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}}>Total Millas</div>
+                    <div style={{fontWeight:900,fontSize:18,color:"#1a2456"}}>{myTruck.totalMiles.toLocaleString()}</div>
+                  </div>
+                  <div style={{width:1,background:"#e5e7eb"}}/>
+                  <div style={{textAlign:"center",flex:1}}>
+                    <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}}>Desde Aceite</div>
+                    <div style={{fontWeight:900,fontSize:18,color:oilColor}}>{milesSinceOil.toLocaleString()}</div>
+                  </div>
+                </div>
+                <div style={{marginBottom:4,display:"flex",justifyContent:"space-between"}}>
+                  <span style={{fontSize:10,fontWeight:800,color:oilColor}}>🛢️ Cambio de aceite</span>
+                  <span style={{fontSize:10,fontWeight:700,color:oilColor}}>{milesSinceOil>=13000?"¡VENCIDO!":`Faltan ${(13000-milesSinceOil).toLocaleString()} mi`}</span>
+                </div>
+                <div style={{background:"#e5e7eb",borderRadius:999,height:7,overflow:"hidden"}}>
+                  <div style={{height:"100%",width:`${oilPct}%`,background:oilColor,borderRadius:999}}/>
+                </div>
+              </div>
+            )}
+          </>
+        );
+      })()}
+
+      <div className="input-group">
+        <label>Contraseña</label>
+        <input type="password" value={pass} onChange={e=>setPass(e.target.value)} placeholder="Ingresa tu contraseña" onKeyDown={e=>e.key==="Enter"&&login()}/>
+      </div>
+      <button className="btn-primary" onClick={login}>ENTRAR</button>
+    </div>
+  </div>
+</div>
+```
+
+</>);
+
+// ── MILEAGE ENTRY MODAL (shown immediately after driver login) ──
+if(showMileageEntry && user?.role===“driver”){
+const myTruck = trucks.find(t=>t.driver===user.driver);
+const now = new Date();
+const timeStr = now.toLocaleTimeString(“en-US”,{hour:“2-digit”,minute:“2-digit”});
+const dateStr = now.toLocaleDateString(“en-US”,{weekday:“long”,month:“short”,day:“numeric”,year:“numeric”});
+return(
+<>
+<style>{CSS}</style>
+<div style={{minHeight:“100vh”,background:”#f4f5f7”,display:“flex”,alignItems:“center”,justifyContent:“center”,padding:20}}>
+<div style={{width:“100%”,maxWidth:400,background:“white”,borderRadius:16,overflow:“hidden”,boxShadow:“0 8px 40px rgba(26,36,86,0.15)”}}>
+
+```
+        {/* Header */}
+        <div style={{background:"linear-gradient(135deg,#1a2456,#253080)",padding:"24px 20px",textAlign:"center"}}>
+          <div style={{fontSize:40,marginBottom:8}}>🚚</div>
+          <div style={{fontFamily:"Bebas Neue,sans-serif",fontSize:26,letterSpacing:3,color:"white",marginBottom:4}}>
+            {myTruck ? `${myTruck.unit} — ${myTruck.make}` : "Mi Camión"}
+          </div>
+          <div style={{fontSize:11,color:"rgba(255,255,255,0.7)",fontWeight:600}}>
+            Bienvenido, {user.name}
+          </div>
+          <div style={{fontSize:11,color:"rgba(255,255,255,0.5)",marginTop:4}}>
+            {dateStr} · {timeStr}
+          </div>
+        </div>
+
+        {/* Truck quick info */}
+        {myTruck && (
+          <div style={{display:"flex",justifyContent:"space-around",padding:"14px 20px",borderBottom:"1px solid #f0f0f0",background:"#fafbff"}}>
+            <div style={{textAlign:"center"}}>
+              <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}}>Unidad</div>
+              <div style={{fontWeight:900,fontSize:16,color:"#1a2456"}}>{myTruck.unit}</div>
+            </div>
+            <div style={{textAlign:"center"}}>
+              <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}}>Placa</div>
+              <div style={{fontWeight:900,fontSize:16,color:"#1a2456"}}>{myTruck.plate}</div>
+            </div>
+            <div style={{textAlign:"center"}}>
+              <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}}>Odómetro</div>
+              <div style={{fontWeight:900,fontSize:16,color:"#1a2456"}}>{myTruck.totalMiles.toLocaleString()}</div>
+            </div>
+          </div>
+        )}
+
+        {/* Mileage input */}
+        <div style={{padding:"24px 20px"}}>
+          <div style={{textAlign:"center",marginBottom:20}}>
+            <div style={{fontSize:13,fontWeight:800,color:"#111",marginBottom:4}}>📍 Ingresa tus millas de entrada</div>
+            <div style={{fontSize:11,color:"#6b7280"}}>Este registro es obligatorio al iniciar cada jornada</div>
+          </div>
+
+          <div style={{marginBottom:6,fontSize:9,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase"}}>
+            Millas actuales del odómetro
+          </div>
+          <input
+            type="number"
+            value={entryMiles}
+            onChange={e=>setEntryMiles(e.target.value)}
+            placeholder={myTruck ? myTruck.totalMiles.toString() : "Ej: 124500"}
+            autoFocus
+            style={{width:"100%",padding:"16px",background:"#f4f5f7",border:"2px solid #dde1e9",borderRadius:10,color:"#111",fontFamily:"Montserrat,sans-serif",fontSize:22,fontWeight:900,outline:"none",textAlign:"center",marginBottom:16,letterSpacing:1}}
+            onKeyDown={e=>e.key==="Enter"&&entryMiles&&(()=>{
+              const miles = +entryMiles;
+              const rec = {id:Date.now(),driver:user.name,truck:myTruck?.unit||"—",plate:myTruck?.plate||"—",miles,type:"entrada",date:new Date().toLocaleDateString("en-US"),time:timeStr,week:getWeek()};
+              setMileageRecords(prev=>[...prev,rec]);
+              if(myTruck) setTrucks(prev=>prev.map(t=>t.id===myTruck.id?{...t,totalMiles:Math.max(t.totalMiles,miles)}:t));
+              setEntryMiles("");
+              setShowMileageEntry(false);
+              setTab("dashboard");
+            })()}
+          />
+
+          {/* Last entry info */}
+          {mileageRecords.filter(r=>r.driver===user.name).slice(-1).map(r=>(
+            <div key={r.id} style={{background:"rgba(26,36,86,0.05)",border:"1px solid rgba(26,36,86,0.1)",borderRadius:8,padding:"10px 12px",marginBottom:14,fontSize:11,color:"#374151",fontWeight:600}}>
+              📋 Último registro: <strong>{r.miles.toLocaleString()} mi</strong> — {r.date} {r.time}
+            </div>
+          ))}
+
+          <button
+            style={{width:"100%",padding:"15px",background:"linear-gradient(135deg,#1a2456,#253080)",border:"none",borderRadius:10,color:"white",fontFamily:"Montserrat,sans-serif",fontSize:13,fontWeight:900,letterSpacing:3,textTransform:"uppercase",cursor:"pointer",boxShadow:"0 4px 16px rgba(26,36,86,0.3)",marginBottom:10}}
+            onClick={()=>{
+              if(!entryMiles){ alert("⚠️ Ingresa tus millas de entrada para continuar"); return; }
+              const miles = +entryMiles;
+              const now2 = new Date();
+              const rec = {
+                id:Date.now(), driver:user.name, truck:myTruck?.unit||"—",
+                plate:myTruck?.plate||"—", miles, type:"entrada",
+                date:now2.toLocaleDateString("en-US"),
+                time:now2.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}),
+                week:getWeek(), dayOfWeek:now2.toLocaleDateString("en-US",{weekday:"long"})
+              };
+              setMileageRecords(prev=>[...prev,rec]);
+              if(myTruck) setTrucks(prev=>prev.map(t=>t.id===myTruck.id?{...t,totalMiles:Math.max(t.totalMiles,miles)}:t));
+              setEntryMiles("");
+              setShowMileageEntry(false);
+              setTab("dashboard");
+            }}
+          >
+            ✅ CONFIRMAR Y ENTRAR
+          </button>
+
+
+        </div>
+      </div>
+    </div>
+  </>
+);
+```
+
+}
+
+return(<>
+<style>{CSS}</style>
+<div style={{display:“flex”,flexDirection:“column”,minHeight:“100vh”}}>
+<div className="topbar">
+<img src={LOGO} className="topbar-logo-img" alt="JFX"/>
+<div className="topbar-right">
+<div style={{textAlign:“right”}}>
+<div style={{fontSize:11,fontWeight:800,color:”#1a2456”,lineHeight:1}}>{user.name}</div>
+<span className={“badge badge-”+user.role} style={{marginTop:3,display:“inline-block”}}>{user.role}</span>
+</div>
+<button className=“icon-btn” onClick={()=>setUser(null)} title=“Cerrar sesión”>⬅</button>
+</div>
+</div>
+
+```
+  <div className="main">
+
+    {tab==="dashboard" && <>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+        <div className="week-badge" style={{marginBottom:0}}>📅 {getWeek()}</div>
+        {user?.driver && <div style={{fontSize:11,fontWeight:700,color:"#1a2456",background:"rgba(26,36,86,0.08)",padding:"5px 10px",borderRadius:6,border:"1px solid rgba(26,36,86,0.15)"}}>👤 {user.driver}</div>}
+      </div>
+
+      {/* ── DRIVER: My Truck + Weekly Mileage Log ── */}
+      {user?.role==="driver" && (()=>{
+        const myTruck = trucks.find(t=>t.driver===user.driver);
+        const lastLog = myTruck?.weeklyLogs?.slice(-1)[0];
+        const milesSinceOil = myTruck ? myTruck.totalMiles - myTruck.lastOilMiles : 0;
+        const oilColor = milesSinceOil>=13000?"#9b1b1b":milesSinceOil>=12500?"#d97706":"#16a34a";
+        return myTruck ? (
+          <>
+            {/* My Truck Card */}
+            <div style={{background:"linear-gradient(135deg,rgba(26,36,86,0.06),rgba(26,36,86,0.03))",border:"1.5px solid rgba(26,36,86,0.18)",borderRadius:12,padding:16,marginBottom:12}}>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+                <span style={{fontSize:32}}>🚚</span>
+                <div>
+                  <div style={{fontWeight:900,fontSize:16,color:"#1a2456"}}>{myTruck.unit} — {myTruck.make} {myTruck.model}</div>
+                  <div style={{fontSize:11,color:"#6b7280",fontWeight:600}}>{myTruck.year} · {myTruck.plate}</div>
+                </div>
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
+                <div style={{background:"white",borderRadius:8,padding:"10px 12px",border:"1px solid #e5e7eb",textAlign:"center"}}>
+                  <div style={{fontSize:8,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:4}}>Total Millas</div>
+                  <div style={{fontWeight:900,fontSize:20,color:"#1a2456"}}>{myTruck.totalMiles.toLocaleString()}</div>
+                </div>
+                <div style={{background:"white",borderRadius:8,padding:"10px 12px",border:`1px solid ${oilColor}40`,textAlign:"center"}}>
+                  <div style={{fontSize:8,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:4}}>Desde Aceite</div>
+                  <div style={{fontWeight:900,fontSize:20,color:oilColor}}>{milesSinceOil.toLocaleString()}</div>
+                </div>
+              </div>
+              {/* Oil bar */}
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+                <span style={{fontSize:10,fontWeight:800,color:oilColor}}>🛢️ Cambio de aceite</span>
+                <span style={{fontSize:10,fontWeight:700,color:oilColor}}>{milesSinceOil>=13000?"⚠️ ¡VENCIDO!":`Faltan ${(13000-milesSinceOil).toLocaleString()} mi`}</span>
+              </div>
+              <div style={{background:"#e5e7eb",borderRadius:999,height:8,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${Math.min((milesSinceOil/13000)*100,100)}%`,background:oilColor,borderRadius:999}}/>
+              </div>
+            </div>
+
+            {/* Weekly Mileage Log */}
+            <div style={{background:"white",border:"1.5px solid #dde1e9",borderRadius:12,padding:16,marginBottom:12,boxShadow:"0 1px 6px rgba(26,36,86,0.06)"}}>
+              <div style={{fontFamily:"Bebas Neue,sans-serif",fontSize:18,letterSpacing:2,color:"#111",marginBottom:12}}>📍 Millas Semanales</div>
+
+              {/* Last log info */}
+              {lastLog && (
+                <div style={{background:"rgba(26,36,86,0.05)",borderRadius:8,padding:"10px 12px",marginBottom:12,fontSize:11}}>
+                  <div style={{fontWeight:800,color:"#1a2456",marginBottom:4}}>Semana anterior:</div>
+                  <div style={{display:"flex",justifyContent:"space-between",color:"#374151",fontWeight:600}}>
+                    <span>🟢 Inicio: {lastLog.startMiles?.toLocaleString()} mi</span>
+                    <span>🔴 Fin: {lastLog.endMiles ? lastLog.endMiles.toLocaleString()+" mi" : "—"}</span>
+                  </div>
+                  {lastLog.endMiles && <div style={{marginTop:4,color:"#16a34a",fontWeight:800}}>✅ Recorrido: {(lastLog.endMiles-lastLog.startMiles).toLocaleString()} millas</div>}
+                </div>
+              )}
+
+              {/* Input start/end miles */}
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}}>
+                <div>
+                  <div style={{fontSize:9,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>🟢 Millas Inicio Semana</div>
+                  <input type="number" value={weeklyMiles.start} onChange={e=>setWeeklyMiles({...weeklyMiles,start:e.target.value})}
+                    placeholder={myTruck.totalMiles.toString()}
+                    style={{width:"100%",padding:"11px 12px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:700,outline:"none"}}/>
+                </div>
+                <div>
+                  <div style={{fontSize:9,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>🔴 Millas Fin (Lunes)</div>
+                  <input type="number" value={weeklyMiles.end} onChange={e=>setWeeklyMiles({...weeklyMiles,end:e.target.value})}
+                    placeholder="Al cerrar semana"
+                    style={{width:"100%",padding:"11px 12px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:700,outline:"none"}}/>
+                </div>
+              </div>
+
+              <button className="btn-navy" style={{marginBottom:0}} onClick={()=>{
+                const start = +weeklyMiles.start;
+                const end   = +weeklyMiles.end || null;
+                if(!start){ alert("Ingresa las millas de inicio"); return; }
+                const newLog = { id:Date.now(), week:getWeek(), startMiles:start, endMiles:end, date:new Date().toISOString().split("T")[0] };
+                const newTotalMiles = end || start;
+                setTrucks(trucks.map(t=>t.id===myTruck.id
+                  ? {...t, weeklyLogs:[...(t.weeklyLogs||[]), newLog], totalMiles: Math.max(t.totalMiles, newTotalMiles)}
+                  : t
+                ));
+                setWeeklyMiles({start:"",end:""});
+                alert("✅ Millas registradas correctamente");
+              }}>💾 Guardar Millas</button>
+
+              {/* Weekly log history */}
+              {myTruck.weeklyLogs?.length > 0 && (
+                <div style={{marginTop:14,borderTop:"1px solid #f0f0f0",paddingTop:12}}>
+                  <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Historial de Semanas</div>
+                  {[...myTruck.weeklyLogs].reverse().slice(0,5).map(log=>(
+                    <div key={log.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}}>
+                      <span style={{color:"#6b7280",fontWeight:600}}>📅 {log.week}</span>
+                      <span style={{fontWeight:700,color:"#1a2456"}}>🟢 {log.startMiles?.toLocaleString()}</span>
+                      <span style={{fontWeight:700,color:log.endMiles?"#9b1b1b":"#9ca3af"}}>🔴 {log.endMiles?.toLocaleString()||"—"}</span>
+                      {log.endMiles && <span style={{fontWeight:800,color:"#16a34a"}}>+{(log.endMiles-log.startMiles).toLocaleString()} mi</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ) : null;
+      })()}
+      <div className="stats-grid">
+        <div className="stat-card s-yellow"><div className="stat-label">Gross Revenue</div><div className="stat-value sv-yellow">{fmt(gross)}</div></div>
+        <div className="stat-card s-green"><div className="stat-label">Net Profit</div><div className="stat-value sv-green">{fmt(net)}</div></div>
+        <div className="stat-card s-navy"><div className="stat-label">Total Loads</div><div className="stat-value sv-navy">{myLoads.length}</div></div>
+        <div className="stat-card s-red"><div className="stat-label">Diesel Cost</div><div className="stat-value sv-red">{fmt(totD)}</div></div>
+      </div>
+      <div className="card accent-l">
+        <div className="card-header">
+          <div><div className="card-title">Weekly Breakdown</div><div className="card-sub">Mon → Mon cycle · Auto-calculated</div></div>
+        </div>
+        <div className="summary-row gross"><span className="lbl">Gross Revenue</span><span className="val">{fmt(gross)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">Dispatch (10%)</span><span className="val">-{fmt(d10)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">Driver Pay (30%)</span><span className="val">-{fmt(d30)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">Insurance</span><span className="val">-$250.00</span></div>
+        <div className="summary-row deduct"><span className="lbl">Diesel</span><span className="val">-{fmt(totD)}</span></div>
+        <div className="divider"/>
+        <div className="summary-row total"><span className="lbl">NET PROFIT</span><span className="val">{fmt(net)}</span></div>
+      </div>
+      <div className="sec-title">Recent Loads</div>
+      {myLoads.slice(-3).reverse().map(l=>(
+        <div key={l.id} className="load-item">
+          <div className="load-icon">🚛</div>
+          <div className="load-info"><div className="load-route">{l.from} → {l.to}</div><div className="load-meta">{l.driver} · {l.date}</div></div>
+          <div className="load-right"><div className="load-amount">{fmt(l.rate)}</div><div className="load-miles">{l.miles} MI</div></div>
+        </div>
+      ))}
+    </>}
+
+    {tab==="loads" && canAdd && <>
+      <div className="card accent-l">
+        <div className="card-header"><div className="card-title">+ Add New Load</div></div>
+        <div className="form-row">
+          <div className="form-group"><label>From City</label><input value={form.from} onChange={e=>setForm({...form,from:e.target.value})} placeholder="Chicago, IL"/></div>
+          <div className="form-group"><label>To City</label><input value={form.to} onChange={e=>setForm({...form,to:e.target.value})} placeholder="Dallas, TX"/></div>
+        </div>
+        <div className="form-row">
+          <div className="form-group"><label>Miles</label><input type="number" value={form.miles} onChange={e=>setForm({...form,miles:e.target.value})} placeholder="917"/></div>
+          <div className="form-group"><label>Load Rate ($)</label><input type="number" value={form.rate} onChange={e=>setForm({...form,rate:e.target.value})} placeholder="2400"/></div>
+        </div>
+        <div className="form-row">
+          <div className="form-group"><label>Diesel ($)</label><input type="number" value={form.diesel} onChange={e=>setForm({...form,diesel:e.target.value})} placeholder="310"/></div>
+          <div className="form-group"><label>Driver</label><select value={form.driver} onChange={e=>setForm({...form,driver:e.target.value})}>{DRIVERS.map(d=><option key={d}>{d}</option>)}</select></div>
+        </div>
+        <button className="btn-accent" onClick={addLoad}>+ Add Load</button>
+      </div>
+      <div className="sec-title">All Loads ({loads.length})</div>
+      {loads.length===0&&<div className="empty-state"><div className="empty-icon">🚛</div><div className="empty-text">No loads yet.</div></div>}
+      {loads.map(l=>(
+        <div key={l.id} className="load-item">
+          <div className="load-icon">📦</div>
+          <div className="load-info">
+            <div className="load-route">{l.from} → {l.to}</div>
+            <div className="load-meta"><span className="chip chip-navy">{l.driver}</span> · {l.miles} mi · ⛽ {fmt(l.diesel)}</div>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
+            <div className="load-amount">{fmt(l.rate)}</div>
+            <button className="btn-danger" onClick={()=>setLoads(loads.filter(x=>x.id!==l.id))}>✕</button>
+          </div>
+        </div>
+      ))}
+    </>}
+
+    {tab==="weekly" && <>
+      <div className="week-badge">📅 {getWeek()}</div>
+      <div className="card accent-l">
+        <div className="card-header">
+          <div><div className="card-title">Weekly Summary</div><div className="card-sub">{myLoads.length} loads this cycle</div></div>
+          {canPDF&&<div style={{display:"flex",gap:8}}>
+            <button className="btn-outline" onClick={()=>exportToExcel(myLoads,"JFX_Weekly_Report")} title="Exportar Excel">📊 Excel</button>
+            <button className="btn-outline" onClick={()=>printPDF("weekly",myLoads)}>📄 PDF</button>
+          </div>}
+        </div>
+        <div className="summary-row gross"><span className="lbl">Total Gross</span><span className="val">{fmt(gross)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">− Dispatch (10%)</span><span className="val">-{fmt(d10)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">− Driver Pay (30%)</span><span className="val">-{fmt(d30)}</span></div>
+        <div className="summary-row deduct"><span className="lbl">− Insurance</span><span className="val">-$250.00</span></div>
+        <div className="summary-row deduct"><span className="lbl">− Diesel</span><span className="val">-{fmt(totD)}</span></div>
+        <div className="divider"/>
+        <div className="summary-row total"><span className="lbl">NET UTILITY</span><span className="val">{fmt(net)}</span></div>
+      </div>
+      <div className="sec-title">Load Detail</div>
+      {myLoads.map(l=>(
+        <div key={l.id} className="load-item">
+          <div className="load-icon">🗺️</div>
+          <div className="load-info"><div className="load-route">{l.from} → {l.to}</div><div className="load-meta">{l.miles} mi · Diesel: {fmt(l.diesel)}</div></div>
+          <div className="load-right"><div className="load-amount">{fmt(l.rate)}</div><div className="load-miles">DRV: {fmt(l.rate*0.30)}</div></div>
+        </div>
+      ))}
+    </>}
+
+    {tab==="reports" && canPDF && <>
+      <div className="card accent-l">
+        <div className="card-title" style={{marginBottom:14}}>Generate Reports</div>
+        <div style={{display:"flex",gap:8,marginBottom:10}}>
+          <button className="btn-navy" style={{flex:1}} onClick={()=>printPDF("weekly",loads)}>📄 PDF Semanal</button>
+          <button className="btn-outline" style={{flex:1}} onClick={()=>exportToExcel(loads,"JFX_Weekly_Report")}>📊 Excel</button>
+        </div>
+        <div className="divider"/>
+        <div className="form-group" style={{marginTop:10}}>
+          <label>Select Driver</label>
+          <select value={selDrv} onChange={e=>setSelDrv(e.target.value)}>{DRIVERS.map(d=><option key={d}>{d}</option>)}</select>
+        </div>
+        <div style={{display:"flex",gap:8}}>
+          <button className="btn-accent" style={{flex:1}} onClick={()=>printPDF("driver",loads,selDrv)}>📄 PDF Driver</button>
+          <button className="btn-outline" style={{flex:1}} onClick={()=>exportDriverExcel(loads,selDrv)}>📊 Excel</button>
+        </div>
+      </div>
+      <div className="sec-title">Driver Overview</div>
+      {DRIVERS.map(d=>{const dl=loads.filter(l=>l.driver===d),dg=dl.reduce((s,l)=>s+l.rate,0);return(
+        <div key={d} className="load-item">
+          <div className="load-icon">👤</div>
+          <div className="load-info"><div className="load-route">{d}</div><div className="load-meta">{dl.length} loads · Gross: {fmt(dg)}</div></div>
+          <div className="load-right"><div className="load-amount">{fmt(dg*0.30)}</div><div className="load-miles">30% PAY</div></div>
+        </div>
+      );})}
+    </>}
+
+    {tab==="drivers" && <>
+      {DRIVERS.map(d=>{
+        const dl=loads.filter(l=>l.driver===d),dg=dl.reduce((s,l)=>s+l.rate,0),dm=dl.reduce((s,l)=>s+l.miles,0);
+        return(<div key={d} className="card accent-l">
+          <div className="card-header">
+            <div><div className="card-title">{d}</div><div className="card-sub">{dl.length} loads · {dm.toLocaleString()} miles</div></div>
+            <span className="chip chip-red">Driver</span>
+          </div>
+          <div className="stats-grid" style={{marginBottom:0}}>
+            <div className="stat-card s-yellow"><div className="stat-label">Gross</div><div className="stat-value sv-yellow" style={{fontSize:20}}>{fmt(dg)}</div></div>
+            <div className="stat-card s-green"><div className="stat-label">Pay (30%)</div><div className="stat-value sv-green" style={{fontSize:20}}>{fmt(dg*0.30)}</div></div>
+          </div>
+        </div>);
+      })}
+    </>}
+
+    {/* ══ TRUCKS / CAMIONES TAB ══ */}
+    {tab==="trucks" && canTrucks && <>
+
+      {/* ── MANAGER: MILEAGE RECORDS REGISTER ── */}
+      {mileageRecords.length > 0 && (
+        <div className="card accent-l" style={{marginBottom:14}}>
+          <div className="card-header" style={{marginBottom:12}}>
+            <div>
+              <div className="card-title">📍 Registro de Millas</div>
+              <div className="card-sub">Entradas registradas por drivers — solo visible para Manager</div>
+            </div>
+            <span style={{background:"rgba(155,27,27,0.1)",color:"#9b1b1b",border:"1px solid rgba(155,27,27,0.2)",borderRadius:4,padding:"3px 10px",fontSize:10,fontWeight:800,letterSpacing:1}}>PRIVADO</span>
+          </div>
+
+          {/* Summary by driver this week */}
+          <div style={{marginBottom:12}}>
+            <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Resumen Semana Actual</div>
+            {DRIVERS.map(d=>{
+              const driverRecs = mileageRecords.filter(r=>r.driver===d && r.week===getWeek());
+              if(!driverRecs.length) return(
+                <div key={d} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}}>
+                  <span style={{fontWeight:700,color:"#374151"}}>👤 {d}</span>
+                  <span style={{color:"#d97706",fontWeight:700}}>⏳ Sin registro esta semana</span>
+                </div>
+              );
+              const first = driverRecs[0];
+              const last  = driverRecs[driverRecs.length-1];
+              const diff  = last.miles - first.miles;
+              return(
+                <div key={d} style={{padding:"8px 0",borderBottom:"1px solid #f5f5f5"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
+                    <span style={{fontWeight:800,fontSize:12,color:"#111"}}>👤 {d}</span>
+                    <span style={{fontWeight:800,fontSize:12,color:"#16a34a"}}>+{diff.toLocaleString()} mi</span>
+                  </div>
+                  <div style={{display:"flex",gap:16,fontSize:10,color:"#6b7280",fontWeight:600}}>
+                    <span>🟢 Entrada: {first.miles.toLocaleString()}</span>
+                    <span>📅 {first.dayOfWeek}</span>
+                    <span>🕐 {first.time}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Full log */}
+          <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Historial Completo ({mileageRecords.length})</div>
+          <div style={{maxHeight:220,overflowY:"auto"}}>
+            {[...mileageRecords].reverse().map(r=>(
+              <div key={r.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}}>
+                <div>
+                  <div style={{fontWeight:800,color:"#111"}}>{r.driver}</div>
+                  <div style={{fontSize:10,color:"#6b7280",fontWeight:600}}>{r.truck} · {r.plate}</div>
+                </div>
+                <div style={{textAlign:"center"}}>
+                  <div style={{fontWeight:800,color:"#1a2456",fontSize:13}}>{r.miles.toLocaleString()} mi</div>
+                  <div style={{fontSize:9,color:"#9ca3af"}}>{r.dayOfWeek}</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:10,color:"#374151",fontWeight:700}}>{r.date}</div>
+                  <div style={{fontSize:10,color:"#9ca3af"}}>{r.time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Export mileage records */}
+          <button className="btn-navy" style={{marginTop:12}} onClick={()=>{
+            const rows=[
+              ["JFX CARRIER - REGISTRO DE MILLAS"],
+              ["Driver","Unidad","Placa","Millas","Día","Fecha","Hora","Semana"],
+              ...mileageRecords.map(r=>[r.driver,r.truck,r.plate,r.miles,r.dayOfWeek||"",r.date,r.time,r.week])
+            ];
+            const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+            const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+            const url=URL.createObjectURL(blob);
+            const a=document.createElement("a");
+            a.href=url;a.download="JFX_Registro_Millas.csv";a.click();
+            URL.revokeObjectURL(url);
+          }}>📊 Exportar Registro a Excel</button>
+        </div>
+      )}
+
+      {/* OIL CHANGE ALERTS */}
+      {trucks.filter(t=>(t.totalMiles - t.lastOilMiles) >= OIL_INTERVAL - 500).length > 0 && (
+        <div style={{background:"#fff7ed",border:"2px solid #f59e0b",borderRadius:10,padding:"14px 16px",marginBottom:14,display:"flex",alignItems:"flex-start",gap:12}}>
+          <span style={{fontSize:28}}>⚠️</span>
+          <div>
+            <div style={{fontWeight:800,fontSize:13,color:"#92400e",marginBottom:4}}>ALERTA CAMBIO DE ACEITE</div>
+            {trucks.filter(t=>(t.totalMiles-t.lastOilMiles)>=OIL_INTERVAL-500).map(t=>{
+              const milesSince = t.totalMiles - t.lastOilMiles;
+              const overdue = milesSince >= OIL_INTERVAL;
+              return(
+                <div key={t.id} style={{fontSize:12,color: overdue?"#9b1b1b":"#92400e",fontWeight:600,marginBottom:2}}>
+                  {overdue?"🔴":"🟡"} {t.unit} — {t.make} {t.model} · {milesSince.toLocaleString()} millas desde último cambio
+                  {overdue && <span style={{marginLeft:6,background:"#9b1b1b",color:"white",padding:"1px 6px",borderRadius:4,fontSize:10,fontWeight:800}}>VENCIDO</span>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ADD TRUCK BUTTON */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+        <div className="sec-title" style={{marginBottom:0,flex:1}}>Flota de Camiones ({trucks.length})</div>
+        <button className="btn-accent" style={{width:"auto",padding:"9px 16px",fontSize:11}} onClick={()=>setShowAddTruck(true)}>+ Agregar Unidad</button>
+      </div>
+
+      {/* TRUCK CARDS */}
+      {trucks.map(t=>{
+        const milesSinceOil = t.totalMiles - t.lastOilMiles;
+        const oilPct = Math.min((milesSinceOil/OIL_INTERVAL)*100, 100);
+        const oilOverdue = milesSinceOil >= OIL_INTERVAL;
+        const oilWarning = milesSinceOil >= OIL_INTERVAL - 500;
+        const oilColor = oilOverdue?"#9b1b1b": oilWarning?"#d97706":"#16a34a";
+        const oilBg = oilOverdue?"rgba(155,27,27,0.08)": oilWarning?"rgba(217,119,6,0.08)":"rgba(22,163,74,0.08)";
+        return(
+          <div key={t.id} className="card accent-l" style={{marginBottom:12}}>
+            {/* Header */}
+            <div className="card-header" style={{marginBottom:12}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:48,height:48,background:"rgba(26,36,86,0.08)",border:"1px solid rgba(26,36,86,0.15)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>🚚</div>
+                <div>
+                  <div style={{fontFamily:"Bebas Neue,sans-serif",fontSize:22,letterSpacing:2,color:"#111"}}>{t.unit} — {t.make} {t.model}</div>
+                  <div style={{fontSize:11,color:"#6b7280",fontWeight:600}}>{t.year} · {t.plate} · {t.driver}</div>
+                </div>
+              </div>
+              <button className="btn-outline" style={{fontSize:11,padding:"7px 12px"}} onClick={()=>setShowMaint(t.id)}>📋 Mantenimientos</button>
+            </div>
+
+            {/* Miles stats */}
+            <div className="stats-grid" style={{marginBottom:12}}>
+              <div className="stat-card s-navy">
+                <div className="stat-label">Total Millas</div>
+                <div className="stat-value sv-navy" style={{fontSize:20}}>{t.totalMiles.toLocaleString()}</div>
+              </div>
+              <div className="stat-card" style={{borderBottomColor:oilColor}}>
+                <div className="stat-label">Desde Último Aceite</div>
+                <div className="stat-value" style={{fontSize:20,color:oilColor}}>{milesSinceOil.toLocaleString()}</div>
+              </div>
+            </div>
+
+            {/* Oil change progress bar */}
+            <div style={{background:oilBg,border:`1px solid ${oilColor}30`,borderRadius:8,padding:"10px 12px"}}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+                <span style={{fontSize:11,fontWeight:800,color:oilColor}}>🛢️ CAMBIO DE ACEITE</span>
+                <span style={{fontSize:11,fontWeight:700,color:oilColor}}>
+                  {oilOverdue ? "¡VENCIDO!" : `${(OIL_INTERVAL-milesSinceOil).toLocaleString()} millas restantes`}
+                </span>
+              </div>
+              <div style={{background:"#e5e7eb",borderRadius:999,height:8,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${oilPct}%`,background:oilColor,borderRadius:999,transition:"width 0.3s"}}/>
+              </div>
+              <div style={{display:"flex",justifyContent:"space-between",marginTop:4}}>
+                <span style={{fontSize:9,color:"#9ca3af",fontWeight:700}}>0 mi</span>
+                <span style={{fontSize:9,color:"#9ca3af",fontWeight:700}}>{OIL_INTERVAL.toLocaleString()} mi</span>
+              </div>
+            </div>
+
+            {/* Update mileage */}
+            <div style={{marginTop:10,display:"flex",gap:8,alignItems:"flex-end"}}>
+              <div style={{flex:1}}>
+                <div style={{fontSize:9,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>Actualizar Millas Totales</div>
+                <input type="number" placeholder={t.totalMiles.toString()}
+                  style={{width:"100%",padding:"9px 12px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111",fontFamily:"Montserrat,sans-serif",fontSize:13,fontWeight:600,outline:"none"}}
+                  onBlur={e=>{
+                    const v = parseInt(e.target.value);
+                    if(v && v > t.totalMiles){
+                      setTrucks(trucks.map(x=>x.id===t.id?{...x,totalMiles:v}:x));
+                      e.target.value="";
+                    }
+                  }}
+                />
+              </div>
+              <button className="btn-navy" style={{width:"auto",padding:"9px 14px",fontSize:11,marginTop:0}}
+                onClick={()=>{
+                  setTrucks(trucks.map(x=>x.id===t.id?{...x,lastOilMiles:x.totalMiles,maintenances:[...x.maintenances,{id:Date.now(),type:"Cambio de Aceite",date:new Date().toISOString().split("T")[0],miles:x.totalMiles,cost:0,notes:"Cambio de aceite registrado"}]}:x));
+                }}>
+                ✅ Aceite OK
+              </button>
+            </div>
+
+            {/* Recent maintenances preview */}
+            {t.maintenances.length > 0 && (
+              <div style={{marginTop:10,borderTop:"1px solid #f0f0f0",paddingTop:10}}>
+                <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,marginBottom:6}}>ÚLTIMO MANTENIMIENTO</div>
+                {[...t.maintenances].reverse().slice(0,1).map(m=>(
+                  <div key={m.id} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"#374151"}}>
+                    <span>🔧 {m.type}</span><span>{m.date}</span><span style={{color:"#16a34a",fontWeight:700}}>{m.cost?"$"+m.cost:"-"}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      {/* ADD TRUCK MODAL */}
+      {showAddTruck && (
+        <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowAddTruck(false)}>
+          <div className="modal-sheet">
+            <div className="modal-handle"/>
+            <div className="modal-title">🚚 Agregar Unidad</div>
+            <div className="form-row">
+              <div className="form-group"><label>Unidad #</label><input value={truckForm.unit} onChange={e=>setTruckForm({...truckForm,unit:e.target.value})} placeholder="T-105"/></div>
+              <div className="form-group"><label>Placa</label><input value={truckForm.plate} onChange={e=>setTruckForm({...truckForm,plate:e.target.value})} placeholder="JFX-105"/></div>
+            </div>
+            <div className="form-row">
+              <div className="form-group"><label>Marca</label><input value={truckForm.make} onChange={e=>setTruckForm({...truckForm,make:e.target.value})} placeholder="Freightliner"/></div>
+              <div className="form-group"><label>Modelo</label><input value={truckForm.model} onChange={e=>setTruckForm({...truckForm,model:e.target.value})} placeholder="Cascadia"/></div>
+            </div>
+            <div className="form-row">
+              <div className="form-group"><label>Año</label><input type="number" value={truckForm.year} onChange={e=>setTruckForm({...truckForm,year:e.target.value})} placeholder="2023"/></div>
+              <div className="form-group"><label>Driver Asignado</label>
+                <select value={truckForm.driver} onChange={e=>setTruckForm({...truckForm,driver:e.target.value})}>
+                  {DRIVERS.map(d=><option key={d}>{d}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group"><label>Millas Actuales</label><input type="number" value={truckForm.totalMiles} onChange={e=>setTruckForm({...truckForm,totalMiles:e.target.value})} placeholder="50000"/></div>
+              <div className="form-group"><label>Millas Último Aceite</label><input type="number" value={truckForm.lastOilMiles} onChange={e=>setTruckForm({...truckForm,lastOilMiles:e.target.value})} placeholder="50000"/></div>
+            </div>
+            <button className="btn-accent" onClick={()=>{
+              if(!truckForm.unit||!truckForm.make) return;
+              setTrucks([...trucks,{id:Date.now(),unit:truckForm.unit,make:truckForm.make,model:truckForm.model,year:truckForm.year,plate:truckForm.plate,driver:truckForm.driver,totalMiles:+truckForm.totalMiles||0,lastOilMiles:+truckForm.lastOilMiles||0,maintenances:[]}]);
+              setTruckForm({unit:"",make:"",model:"",year:"",plate:"",driver:DRIVERS[0],totalMiles:"",lastOilMiles:""});
+              setShowAddTruck(false);
+            }}>+ Agregar Camión</button>
+            <div style={{height:8}}/>
+            <button className="btn-outline" style={{width:"100%"}} onClick={()=>setShowAddTruck(false)}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
+      {/* MAINTENANCE MODAL */}
+      {showMaint && (()=>{
+        const truck = trucks.find(t=>t.id===showMaint);
+        if(!truck) return null;
+        return(
+          <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowMaint(null)}>
+            <div className="modal-sheet">
+              <div className="modal-handle"/>
+              <div className="modal-title">🔧 {truck.unit} — Mantenimientos</div>
+
+              {/* Add maintenance form */}
+              <div style={{background:"#f4f5f7",borderRadius:10,padding:14,marginBottom:14}}>
+                <div style={{fontSize:10,fontWeight:800,color:"#1a2456",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>+ Registrar Mantenimiento</div>
+                <div className="form-row">
+                  <div className="form-group"><label>Tipo</label>
+                    <select value={maintForm.type} onChange={e=>setMaintForm({...maintForm,type:e.target.value})}>
+                      <option value="">Seleccionar...</option>
+                      <option>Cambio de Aceite</option>
+                      <option>Cambio de Filtros</option>
+                      <option>Frenos</option>
+                      <option>Neumáticos</option>
+                      <option>Revisión General</option>
+                      <option>Transmisión</option>
+                      <option>Motor</option>
+                      <option>Suspensión</option>
+                      <option>Eléctrico</option>
+                      <option>Otro</option>
+                    </select>
+                  </div>
+                  <div className="form-group"><label>Fecha</label><input type="date" value={maintForm.date} onChange={e=>setMaintForm({...maintForm,date:e.target.value})}/></div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group"><label>Millas</label><input type="number" value={maintForm.miles} onChange={e=>setMaintForm({...maintForm,miles:e.target.value})} placeholder={truck.totalMiles.toString()}/></div>
+                  <div className="form-group"><label>Costo ($)</label><input type="number" value={maintForm.cost} onChange={e=>setMaintForm({...maintForm,cost:e.target.value})} placeholder="0"/></div>
+                </div>
+                <div className="form-group"><label>Notas</label><input value={maintForm.notes} onChange={e=>setMaintForm({...maintForm,notes:e.target.value})} placeholder="Descripción del trabajo realizado"/></div>
+                <button className="btn-accent" onClick={()=>{
+                  if(!maintForm.type||!maintForm.date) return;
+                  const newM = {id:Date.now(),type:maintForm.type,date:maintForm.date,miles:+maintForm.miles||truck.totalMiles,cost:+maintForm.cost||0,notes:maintForm.notes};
+                  const updatedTruck = {...truck, maintenances:[...truck.maintenances, newM]};
+                  if(maintForm.type==="Cambio de Aceite") updatedTruck.lastOilMiles = +maintForm.miles||truck.totalMiles;
+                  setTrucks(trucks.map(x=>x.id===showMaint?updatedTruck:x));
+                  setMaintForm({type:"",date:"",miles:"",cost:"",notes:""});
+                }}>+ Registrar</button>
+              </div>
+
+              {/* Maintenance history */}
+              <div style={{fontSize:10,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Historial ({truck.maintenances.length})</div>
+              {truck.maintenances.length===0 && <div className="empty-state" style={{padding:"24px 0"}}><div className="empty-icon">🔧</div><div className="empty-text">Sin mantenimientos registrados</div></div>}
+              {[...truck.maintenances].reverse().map(m=>(
+                <div key={m.id} style={{background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:8,padding:"12px 14px",marginBottom:8}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+                    <span style={{fontWeight:800,fontSize:13,color:"#111"}}>{m.type}</span>
+                    <span style={{fontWeight:700,fontSize:13,color:"#16a34a"}}>{m.cost?"$"+m.cost.toLocaleString():"-"}</span>
+                  </div>
+                  <div style={{display:"flex",gap:12,fontSize:11,color:"#6b7280",fontWeight:600}}>
+                    <span>📅 {m.date}</span>
+                    <span>📍 {m.miles.toLocaleString()} mi</span>
+                  </div>
+                  {m.notes && <div style={{fontSize:11,color:"#374151",marginTop:4,fontStyle:"italic"}}>"{m.notes}"</div>}
+                </div>
+              ))}
+              <div style={{height:8}}/>
+              <button className="btn-outline" style={{width:"100%"}} onClick={()=>setShowMaint(null)}>Cerrar</button>
+            </div>
+          </div>
+        );
+      })()}
+
+    </>}
+
+  </div>
+
+  <div className="bottom-nav">
+    {navItems.map(n=>(
+      <button key={n.id} className={"nav-item "+(tab===n.id?"active":"")} onClick={()=>setTab(n.id)}>
+        <span className="ni">{n.icon}</span>{n.label}
+      </button>
+    ))}
+  </div>
+
+  {showPDF&&(
+    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowPDF(false)}>
+      <div className="modal-sheet">
+        <div className="modal-handle"/>
+        <div className="modal-title">{pdfType==="weekly"?"📊 Weekly Report":"🚛 Driver Statement"}</div>
+        {pdfType==="weekly"?<WeeklyPDF loads={loads}/>:<DriverPDF loads={loads} driver={selDrv}/>}
+        <button className="btn-accent" onClick={()=>{alert("📄 PDF listo! En producción descarga o envía el reporte.");setShowPDF(false);}}>📤 Download / Send PDF</button>
+        <div style={{height:10}}/>
+        <button className="btn-outline" style={{width:"100%"}} onClick={()=>setShowPDF(false)}>Close</button>
+      </div>
+    </div>
+  )}
+</div>
+```
+
+</>);
+}
+
+bar.style.width = ‘100%’;
+status.textContent = ‘¡Listo!’;
+clearInterval(interval);
+setTimeout(function(){
+document.getElementById(‘loading’).style.display = ‘none’;
+}, 500);
+
+ReactDOM.createRoot(document.getElementById(‘root’)).render(React.createElement(JFXCarrier));
+</script>
+
+</body>
+</html>
