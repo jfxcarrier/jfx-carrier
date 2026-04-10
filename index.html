@@ -1,26 +1,120 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <title>JFX Test</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a2456"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="JFX Carrier"/>
+  <title>JFX Carrier Inc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    :root{--navy:#1a2456;--red:#9b1b1b;--red2:#b52020;--white:#fff;--bg:#f4f5f7;--card:#fff;--border:#dde1e9;--gray:#6b7280;--lgray:#9ca3af;--green:#16a34a;--yellow:#d97706}
+    body{font-family:Montserrat,sans-serif;background:var(--bg);color:#111;min-height:100vh}
+    /* TOPBAR */
+    .topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(26,36,86,0.07)}
+    .topbar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--navy) 50%,var(--red2) 50%)}
+    .topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;padding-left:8px}
+    .topbar-logo span{color:var(--red)}
+    .badge{padding:3px 9px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+    .badge-manager{background:rgba(155,27,27,0.1);color:var(--red2);border:1.5px solid rgba(155,27,27,0.2)}
+    .badge-billing{background:rgba(22,163,74,0.1);color:#16a34a;border:1.5px solid rgba(22,163,74,0.2)}
+    .badge-dispatch{background:rgba(26,36,86,0.1);color:var(--navy);border:1.5px solid rgba(26,36,86,0.2)}
+    .badge-driver{background:rgba(217,119,6,0.1);color:var(--yellow);border:1.5px solid rgba(217,119,6,0.2)}
+    /* BOTTOM NAV */
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 12px rgba(26,36,86,0.07)}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;cursor:pointer;color:var(--lgray);font-size:8px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;border:none;background:transparent;position:relative}
+    .nav-item .ni{font-size:19px;margin-bottom:3px}
+    .nav-item.active{color:var(--navy)}
+    .nav-item.active::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,var(--navy),var(--red2));border-radius:0 0 3px 3px}
+    /* MAIN */
+    .main{padding:18px 14px 82px}
+    /* CARDS */
+    .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 1px 6px rgba(26,36,86,0.06)}
+    .card-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
+    .card-sub{font-size:10px;color:var(--lgray);margin-top:2px;font-weight:600}
+    /* STATS */
+    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+    .stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 12px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(26,36,86,0.05)}
+    .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+    .stat-card.s-red::after{background:linear-gradient(90deg,#9b1b1b,#cc2222)}
+    .stat-card.s-green::after{background:#16a34a}
+    .stat-card.s-yellow::after{background:#d97706}
+    .stat-card.s-navy::after{background:#1a2456}
+    .stat-label{font-size:8px;font-weight:800;color:var(--lgray);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    .stat-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1}
+    .sv-red{color:#b52020}.sv-green{color:#16a34a}.sv-yellow{color:#d97706}.sv-navy{color:#1a2456}
+    /* INPUTS */
+    input,select{width:100%;padding:12px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;color:#111;font-family:Montserrat,sans-serif;font-size:14px;font-weight:500;outline:none;-webkit-appearance:none;margin-bottom:12px}
+    input:focus,select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,36,86,0.1)}
+    label{display:block;font-size:9px;font-weight:800;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+    /* BUTTONS */
+    .btn{width:100%;padding:13px;border:none;border-radius:8px;color:#fff;font-family:Montserrat,sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:4px;transition:all 0.2s}
+    .btn-navy{background:linear-gradient(135deg,#1a2456,#253080);box-shadow:0 4px 14px rgba(26,36,86,0.25)}
+    .btn-red{background:linear-gradient(135deg,#9b1b1b,#b52020);box-shadow:0 4px 14px rgba(155,27,27,0.25)}
+    .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--gray);width:auto;padding:9px 14px}
+    .btn-sm{width:auto;padding:8px 14px;font-size:10px}
+    /* LOAD ITEMS */
+    .load-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:11px;box-shadow:0 1px 4px rgba(26,36,86,0.05)}
+    .load-icon{width:40px;height:40px;background:rgba(26,36,86,0.08);border:1px solid rgba(26,36,86,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .load-info{flex:1;min-width:0}
+    .load-route{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .load-meta{font-size:10px;color:var(--lgray);margin-top:3px;font-weight:600}
+    .load-amount{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#16a34a}
+    .load-miles{font-size:9px;color:var(--lgray);font-weight:700;text-align:right}
+    /* SUMMARY */
+    .sum-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f2f5;font-size:13px}
+    .sum-row:last-child{border-bottom:none}
+    .sum-label{color:var(--gray);font-weight:500}
+    .sum-val{font-weight:700}
+    .sum-red{color:#b52020}
+    .sum-yellow{color:#d97706}
+    .sum-green{color:#16a34a;font-family:'Bebas Neue',sans-serif;font-size:22px}
+    .sum-total-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px}
+    /* LOGIN */
+    .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:24px}
+    .login-box{width:100%;max-width:400px}
+    .logo-block{text-align:center;margin-bottom:32px}
+    .logo-img{width:200px;height:auto;display:block;margin:0 auto 12px}
+    .logo-tagline{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--lgray);text-transform:uppercase}
+    .login-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:0 4px 24px rgba(26,36,86,0.08)}
+    .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+    .role-btn{padding:14px 8px 10px;border:1.5px solid var(--border);background:var(--bg);color:var(--gray);border-radius:8px;cursor:pointer;font-family:Montserrat,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all 0.2s}
+    .role-btn.active{border-color:var(--navy);background:rgba(26,36,86,0.07);color:var(--navy)}
+    .role-icon{font-size:22px}
+    .week-badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:6px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--gray);margin-bottom:14px}
+    .chip{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+    .chip-navy{background:rgba(26,36,86,0.1);color:var(--navy);border:1px solid rgba(26,36,86,0.18)}
+    .chip-red{background:rgba(155,27,27,0.1);color:var(--red2);border:1px solid rgba(155,27,27,0.18)}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--lgray);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .divider{height:1px;background:var(--border);margin:12px 0}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .alert-oil{background:#fff7ed;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
+    /* OIL BAR */
+    .oil-bar-wrap{background:#e5e7eb;border-radius:999px;height:8px;overflow:hidden}
+    .oil-bar-inner{height:100%;border-radius:999px;transition:width 0.3s}
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(26,36,86,0.5);z-index:200;display:flex;align-items:flex-end}
+    .modal-sheet{background:#fff;border-top:3px solid var(--navy);border-radius:16px 16px 0 0;width:100%;padding:18px 14px 40px;max-height:92vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(26,36,86,0.15)}
+    .modal-handle{width:34px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
+    /* MILEAGE ENTRY */
+    .mile-screen{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+    .mile-card{width:100%;max-width:400px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(26,36,86,0.15)}
+    .mile-header{background:linear-gradient(135deg,#1a2456,#253080);padding:24px 20px;text-align:center;color:#fff}
+    .icon-btn{background:var(--bg);border:1.5px solid var(--border);color:var(--gray);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
+  </style>
 </head>
 <body>
   <div id="root"></div>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script>
-    function App() {
-      const [count, setCount] = React.useState(0);
-      return React.createElement("div", {style:{textAlign:"center",marginTop:100,fontFamily:"Arial"}},
-        React.createElement("h1", {style:{color:"#1a2456"}}, "🚚 JFX CARRIER"),
-        React.createElement("p", {style:{color:"#9b1b1b",marginTop:10}}, "React funciona correctamente"),
-        React.createElement("button", {
-          onClick: () => setCount(count+1),
-          style:{marginTop:20,padding:"10px 20px",background:"#1a2456",color:"white",border:"none",borderRadius:8,fontSize:16,cursor:"pointer"}
-        }, "Taps: " + count)
-      );
-    }
-    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
-  </script>
+  <script src="app1.js"></script>
+  <script src="app2.js"></script>
+  <script src="app3.js"></script>
 </body>
 </html>
