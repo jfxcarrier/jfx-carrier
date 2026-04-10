@@ -2,704 +2,605 @@
 
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-  <meta name="theme-color" content="#1a2456"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="JFX Carrier"/>
-  <title>JFX Carrier Inc</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    :root{--navy:#1a2456;--red:#9b1b1b;--red2:#b52020;--white:#fff;--bg:#f4f5f7;--card:#fff;--border:#dde1e9;--gray:#6b7280;--lgray:#9ca3af;--green:#16a34a;--yellow:#d97706}
-    body{font-family:Montserrat,sans-serif;background:var(--bg);color:#111;min-height:100vh}
-    /* TOPBAR */
-    .topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(26,36,86,0.07)}
-    .topbar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--navy) 50%,var(--red2) 50%)}
-    .topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;padding-left:8px}
-    .topbar-logo span{color:var(--red)}
-    .badge{padding:3px 9px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
-    .badge-manager{background:rgba(155,27,27,0.1);color:var(--red2);border:1.5px solid rgba(155,27,27,0.2)}
-    .badge-billing{background:rgba(22,163,74,0.1);color:#16a34a;border:1.5px solid rgba(22,163,74,0.2)}
-    .badge-dispatch{background:rgba(26,36,86,0.1);color:var(--navy);border:1.5px solid rgba(26,36,86,0.2)}
-    .badge-driver{background:rgba(217,119,6,0.1);color:var(--yellow);border:1.5px solid rgba(217,119,6,0.2)}
-    /* BOTTOM NAV */
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 12px rgba(26,36,86,0.07)}
-    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;cursor:pointer;color:var(--lgray);font-size:8px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;border:none;background:transparent;position:relative}
-    .nav-item .ni{font-size:19px;margin-bottom:3px}
-    .nav-item.active{color:var(--navy)}
-    .nav-item.active::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,var(--navy),var(--red2));border-radius:0 0 3px 3px}
-    /* MAIN */
-    .main{padding:18px 14px 82px}
-    /* CARDS */
-    .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 1px 6px rgba(26,36,86,0.06)}
-    .card-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px}
-    .card-sub{font-size:10px;color:var(--lgray);margin-top:2px;font-weight:600}
-    /* STATS */
-    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-    .stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 12px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(26,36,86,0.05)}
-    .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
-    .stat-card.s-red::after{background:linear-gradient(90deg,#9b1b1b,#cc2222)}
-    .stat-card.s-green::after{background:#16a34a}
-    .stat-card.s-yellow::after{background:#d97706}
-    .stat-card.s-navy::after{background:#1a2456}
-    .stat-label{font-size:8px;font-weight:800;color:var(--lgray);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
-    .stat-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1}
-    .sv-red{color:#b52020}.sv-green{color:#16a34a}.sv-yellow{color:#d97706}.sv-navy{color:#1a2456}
-    /* INPUTS */
-    input,select{width:100%;padding:12px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;color:#111;font-family:Montserrat,sans-serif;font-size:14px;font-weight:500;outline:none;-webkit-appearance:none;margin-bottom:12px}
-    input:focus,select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,36,86,0.1)}
-    label{display:block;font-size:9px;font-weight:800;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-    /* BUTTONS */
-    .btn{width:100%;padding:13px;border:none;border-radius:8px;color:#fff;font-family:Montserrat,sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:4px;transition:all 0.2s}
-    .btn-navy{background:linear-gradient(135deg,#1a2456,#253080);box-shadow:0 4px 14px rgba(26,36,86,0.25)}
-    .btn-red{background:linear-gradient(135deg,#9b1b1b,#b52020);box-shadow:0 4px 14px rgba(155,27,27,0.25)}
-    .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--gray);width:auto;padding:9px 14px}
-    .btn-sm{width:auto;padding:8px 14px;font-size:10px}
-    /* LOAD ITEMS */
-    .load-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:11px;box-shadow:0 1px 4px rgba(26,36,86,0.05)}
-    .load-icon{width:40px;height:40px;background:rgba(26,36,86,0.08);border:1px solid rgba(26,36,86,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-    .load-info{flex:1;min-width:0}
-    .load-route{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .load-meta{font-size:10px;color:var(--lgray);margin-top:3px;font-weight:600}
-    .load-amount{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#16a34a}
-    .load-miles{font-size:9px;color:var(--lgray);font-weight:700;text-align:right}
-    /* SUMMARY */
-    .sum-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f2f5;font-size:13px}
-    .sum-row:last-child{border-bottom:none}
-    .sum-label{color:var(--gray);font-weight:500}
-    .sum-val{font-weight:700}
-    .sum-red{color:#b52020}
-    .sum-yellow{color:#d97706}
-    .sum-green{color:#16a34a;font-family:'Bebas Neue',sans-serif;font-size:22px}
-    .sum-total-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px}
-    /* LOGIN */
-    .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:24px}
-    .login-box{width:100%;max-width:400px}
-    .logo-block{text-align:center;margin-bottom:32px}
-    .logo-img{width:200px;height:auto;display:block;margin:0 auto 12px}
-    .logo-tagline{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--lgray);text-transform:uppercase}
-    .login-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:0 4px 24px rgba(26,36,86,0.08)}
-    .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-    .role-btn{padding:14px 8px 10px;border:1.5px solid var(--border);background:var(--bg);color:var(--gray);border-radius:8px;cursor:pointer;font-family:Montserrat,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all 0.2s}
-    .role-btn.active{border-color:var(--navy);background:rgba(26,36,86,0.07);color:var(--navy)}
-    .role-icon{font-size:22px}
-    .week-badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:6px;padding:6px 12px;font-size:10px;font-weight:700;color:var(--gray);margin-bottom:14px}
-    .chip{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-    .chip-navy{background:rgba(26,36,86,0.1);color:var(--navy);border:1px solid rgba(26,36,86,0.18)}
-    .chip-red{background:rgba(155,27,27,0.1);color:var(--red2);border:1px solid rgba(155,27,27,0.18)}
-    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--lgray);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-    .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
-    .divider{height:1px;background:var(--border);margin:12px 0}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .alert-oil{background:#fff7ed;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
-    /* OIL BAR */
-    .oil-bar-wrap{background:#e5e7eb;border-radius:999px;height:8px;overflow:hidden}
-    .oil-bar-inner{height:100%;border-radius:999px;transition:width 0.3s}
-    /* MODAL */
-    .modal-overlay{position:fixed;inset:0;background:rgba(26,36,86,0.5);z-index:200;display:flex;align-items:flex-end}
-    .modal-sheet{background:#fff;border-top:3px solid var(--navy);border-radius:16px 16px 0 0;width:100%;padding:18px 14px 40px;max-height:92vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(26,36,86,0.15)}
-    .modal-handle{width:34px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
-    /* MILEAGE ENTRY */
-    .mile-screen{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
-    .mile-card{width:100%;max-width:400px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(26,36,86,0.15)}
-    .mile-header{background:linear-gradient(135deg,#1a2456,#253080);padding:24px 20px;text-align:center;color:#fff}
-    .icon-btn{background:var(--bg);border:1.5px solid var(--border);color:var(--gray);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#1a2456"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="JFX Carrier"/>
+<title>JFX Carrier Inc</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f5f7;color:#111;min-height:100vh}
+.topbar{background:#fff;border-bottom:2px solid #1a2456;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar h1{font-size:22px;font-weight:900;letter-spacing:3px;color:#1a2456}
+.topbar h1 span{color:#9b1b1b}
+.badge{padding:3px 8px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.badge-manager{background:#fde8e8;color:#9b1b1b;border:1px solid #9b1b1b}
+.badge-billing{background:#d1fae5;color:#065f46;border:1px solid #065f46}
+.badge-dispatch{background:#dbeafe;color:#1e40af;border:1px solid #1e40af}
+.badge-driver{background:#fef3c7;color:#92400e;border:1px solid #92400e}
+.main{padding:16px;padding-bottom:80px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #1a2456;display:flex}
+.nav-btn{flex:1;border:none;background:transparent;padding:10px 4px 8px;font-size:8px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:#9ca3af;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.nav-btn span{font-size:18px}
+.nav-btn.active{color:#1a2456;border-top:2px solid #9b1b1b}
+.card{background:#fff;border:1px solid #dde1e9;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:18px;font-weight:900;letter-spacing:1px;color:#111;margin-bottom:12px}
+.card h3{font-size:12px;font-weight:700;color:#6b7280;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid #dde1e9;border-radius:8px;padding:12px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.stat .lbl{font-size:8px;font-weight:800;color:#9ca3af;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.stat .val{font-size:24px;font-weight:900}
+.val-red{color:#9b1b1b}.val-green{color:#16a34a}.val-blue{color:#1a2456}.val-yellow{color:#d97706}
+.sum-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.sum-row:last-child{border-bottom:none}
+.sum-lbl{color:#6b7280}
+.sum-val{font-weight:700}
+.sum-red{color:#9b1b1b}.sum-yellow{color:#d97706}.sum-total{font-size:20px;font-weight:900;color:#16a34a}
+.load-item{background:#fff;border:1px solid #dde1e9;border-radius:8px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.load-icon{width:38px;height:38px;background:#eef0f6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.load-info{flex:1;min-width:0}
+.load-route{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.load-meta{font-size:10px;color:#9ca3af;margin-top:2px}
+.load-amt{font-size:18px;font-weight:900;color:#16a34a;text-align:right}
+.load-mi{font-size:9px;color:#9ca3af;text-align:right}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:6px;color:#fff}
+.btn-navy{background:#1a2456}.btn-red{background:#9b1b1b}
+.btn-sm{width:auto;padding:8px 12px;font-size:10px;margin-top:0}
+.btn-outline{background:transparent;border:1.5px solid #dde1e9;color:#6b7280;width:auto;padding:8px 12px;font-size:10px}
+label{display:block;font-size:9px;font-weight:800;color:#6b7280;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;margin-top:10px}
+input,select{width:100%;padding:11px 12px;background:#f4f5f7;border:1.5px solid #dde1e9;border-radius:8px;font-size:14px;font-weight:600;color:#111;outline:none;-webkit-appearance:none;font-family:Arial,sans-serif}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;padding:20px}
+.login-box{width:100%;max-width:380px}
+.logo-area{text-align:center;margin-bottom:28px}
+.logo-area h1{font-size:40px;font-weight:900;letter-spacing:5px;color:#1a2456}
+.logo-area h1 span{color:#9b1b1b}
+.logo-area p{font-size:10px;letter-spacing:3px;color:#9ca3af;text-transform:uppercase;margin-top:4px}
+.dualbar{height:3px;background:linear-gradient(90deg,#1a2456 50%,#9b1b1b 50%);margin:12px auto;width:80px;border-radius:2px}
+.login-card{background:#fff;border:1px solid #dde1e9;border-radius:12px;padding:22px;box-shadow:0 4px 20px rgba(26,36,86,0.1)}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.role-btn{padding:13px 6px 10px;border:1.5px solid #dde1e9;background:#f4f5f7;border-radius:8px;cursor:pointer;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6b7280;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:Arial,sans-serif}
+.role-btn.active{border-color:#1a2456;background:#eef0f6;color:#1a2456}
+.role-icon{font-size:20px}
+.divider{height:1px;background:#f0f0f0;margin:12px 0}
+.week-badge{display:inline-flex;align-items:center;background:#fff;border:1px solid #dde1e9;border-left:3px solid #1a2456;border-radius:6px;padding:5px 11px;font-size:10px;font-weight:700;color:#6b7280;margin-bottom:12px}
+.chip{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:#eef0f6;color:#1a2456;border:1px solid #c7d2fe}
+.mile-wrap{min-height:100vh;background:#f4f5f7;display:flex;align-items:center;justify-content:center;padding:20px}
+.mile-card{width:100%;max-width:380px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(26,36,86,0.15)}
+.mile-header{background:#1a2456;padding:22px 18px;text-align:center;color:#fff}
+.mile-header h2{font-size:22px;font-weight:900;letter-spacing:3px;margin-top:8px}
+.mile-header p{font-size:11px;opacity:0.7;margin-top:4px}
+.mile-body{padding:22px 18px}
+.oil-bar-bg{background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden;margin-top:5px}
+.oil-bar-fill{height:100%;border-radius:99px}
+.alert-box{background:#fff7ed;border:2px solid #f59e0b;border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;font-weight:600;color:#92400e}
+.sec-title{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#9ca3af;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:#e5e7eb}
+</style>
 </head>
 <body>
-<div id="root"></div>
+<div id="app"></div>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script>
-const {useState, useEffect} = React;
-const e = React.createElement;
+var h = React.createElement;
+var useState = React.useState;
 
-// ── DATA ──────────────────────────────────────────────────────
-const LOGO_SVG = “data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ viewBox=‘0 0 300 120’%3E%3Crect width=‘300’ height=‘120’ fill=‘white’/%3E%3Ctext x=‘10’ y=‘90’ font-family=‘Arial Black’ font-size=‘90’ font-weight=‘900’ fill=’%231a2456’%3EJ%3C/text%3E%3Ctext x=‘80’ y=‘90’ font-family=‘Arial Black’ font-size=‘90’ font-weight=‘900’ fill=’%239b1b1b’%3EFX%3C/text%3E%3C/svg%3E”;
-const DRIVERS = [“Carlos Mendez”,“John Williams”,“Maria Lopez”,“David Chen”];
-const MANAGERS = [“Luis Fernandez”,“Sandra Gomez”,“Robert King”];
-const DISPATCHERS = [“Ana Martinez”,“Pedro Salinas”,“Kevin Torres”];
-const OIL_INTERVAL = 13000;
+var DRIVERS = [“Carlos Mendez”,“John Williams”,“Maria Lopez”,“David Chen”];
+var MANAGERS = [“Luis Fernandez”,“Sandra Gomez”,“Robert King”];
+var DISPATCHERS = [“Ana Martinez”,“Pedro Salinas”,“Kevin Torres”];
+var OIL_MI = 13000;
 
-const INIT_LOADS = [
-{id:1,from:“Chicago, IL”,to:“Dallas, TX”,miles:917,rate:2400,diesel:310,driver:“Carlos Mendez”,date:“2025-06-02”,createdBy:“Ana Martinez”},
-{id:2,from:“Atlanta, GA”,to:“Miami, FL”,miles:662,rate:1850,diesel:220,driver:“John Williams”,date:“2025-06-03”,createdBy:“Pedro Salinas”},
-{id:3,from:“Los Angeles, CA”,to:“Phoenix, AZ”,miles:372,rate:1100,diesel:130,driver:“Maria Lopez”,date:“2025-06-04”,createdBy:“Ana Martinez”},
+var LOADS0 = [
+{id:1,from:“Chicago, IL”,to:“Dallas, TX”,miles:917,rate:2400,diesel:310,driver:“Carlos Mendez”,date:“2025-06-02”,by:“Ana Martinez”},
+{id:2,from:“Atlanta, GA”,to:“Miami, FL”,miles:662,rate:1850,diesel:220,driver:“John Williams”,date:“2025-06-03”,by:“Pedro Salinas”},
+{id:3,from:“Los Angeles, CA”,to:“Phoenix, AZ”,miles:372,rate:1100,diesel:130,driver:“Maria Lopez”,date:“2025-06-04”,by:“Ana Martinez”}
 ];
 
-const INIT_TRUCKS = [
-{id:1,unit:“T-101”,make:“Freightliner”,model:“Cascadia”,year:2020,plate:“JFX-101”,driver:“Carlos Mendez”,totalMiles:124500,lastOilMiles:112800,maintenances:[],weeklyLogs:[]},
-{id:2,unit:“T-102”,make:“Kenworth”,model:“T680”,year:2019,plate:“JFX-102”,driver:“John Williams”,totalMiles:98300,lastOilMiles:89200,maintenances:[],weeklyLogs:[]},
-{id:3,unit:“T-103”,make:“Peterbilt”,model:“579”,year:2021,plate:“JFX-103”,driver:“Maria Lopez”,totalMiles:76400,lastOilMiles:70100,maintenances:[],weeklyLogs:[]},
-{id:4,unit:“T-104”,make:“Volvo”,model:“VNL 860”,year:2022,plate:“JFX-104”,driver:“David Chen”,totalMiles:45200,lastOilMiles:43900,maintenances:[],weeklyLogs:[]},
+var TRUCKS0 = [
+{id:1,unit:“T-101”,make:“Freightliner”,model:“Cascadia”,year:2020,plate:“JFX-101”,driver:“Carlos Mendez”,mi:124500,oilMi:112800,mx:[]},
+{id:2,unit:“T-102”,make:“Kenworth”,model:“T680”,year:2019,plate:“JFX-102”,driver:“John Williams”,mi:98300,oilMi:89200,mx:[]},
+{id:3,unit:“T-103”,make:“Peterbilt”,model:“579”,year:2021,plate:“JFX-103”,driver:“Maria Lopez”,mi:76400,oilMi:70100,mx:[]},
+{id:4,unit:“T-104”,make:“Volvo”,model:“VNL 860”,year:2022,plate:“JFX-104”,driver:“David Chen”,mi:45200,oilMi:43900,mx:[]}
 ];
 
-const fmt = n => “$” + Number(n).toLocaleString(“en-US”,{minimumFractionDigits:2,maximumFractionDigits:2});
-const getWeek = () => {
-const now=new Date(), mon=new Date(now);
-mon.setDate(now.getDate()-((now.getDay()+6)%7));
-const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-return mon.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”})+” – “+sun.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”,year:“numeric”});
-};
+function money(n) {
+return “$” + Number(n).toLocaleString(“en-US”,{minimumFractionDigits:2,maximumFractionDigits:2});
+}
 
-// ── HELPERS ────────────────────────────────────────────────────
-function exportCSV(rows, filename) {
-const csv = rows.map(r=>r.map(c=>’”’+String(c).replace(/”/g,’””’)+’”’).join(”,”)).join(”\n”);
-const blob = new Blob([”\uFEFF”+csv],{type:“text/csv;charset=utf-8;”});
-const url = URL.createObjectURL(blob);
-const a = document.createElement(“a”);
-a.href=url; a.download=filename+”.csv”; a.click();
+function getWeek() {
+var now = new Date();
+var mon = new Date(now);
+mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+var sun = new Date(mon);
+sun.setDate(mon.getDate() + 6);
+var opt1 = {month:“short”,day:“numeric”};
+var opt2 = {month:“short”,day:“numeric”,year:“numeric”};
+return mon.toLocaleDateString(“en-US”,opt1) + “ - “ + sun.toLocaleDateString(“en-US”,opt2);
+}
+
+function exportCSV(rows, name) {
+var csv = rows.map(function(r){ return r.map(function(c){ return ‘”’+String(c).replace(/”/g,’””’)+’”’; }).join(”,”); }).join(”
+“);
+var blob = new Blob([“﻿”+csv], {type:“text/csv;charset=utf-8;”});
+var url = URL.createObjectURL(blob);
+var a = document.createElement(“a”);
+a.href = url; a.download = name+”.csv”; a.click();
 URL.revokeObjectURL(url);
 }
 
-function printReport(loads, type, driver) {
-const dl = type===“driver” ? loads.filter(l=>l.driver===driver) : loads;
-const gross=dl.reduce((s,l)=>s+l.rate,0), diesel=dl.reduce((s,l)=>s+l.diesel,0);
-const d10=gross*0.10, d30=gross*0.30, ins=250, net=gross-d10-d30-ins-diesel;
-const w = window.open(””,”_blank”);
-w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JFX Carrier Report</title>
-
-  <style>body{font-family:Montserrat,Arial,sans-serif;padding:32px;max-width:700px;margin:0 auto}
-  h1{font-size:32px;font-weight:900;letter-spacing:5px;color:#111}h1 span{color:#9b1b1b}
-  .bar{height:3px;background:linear-gradient(90deg,#1a2456 50%,#9b1b1b 50%);margin:12px 0}
-  table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
-  th{background:#1a2456;color:#fff;padding:8px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase}
-  td{padding:8px;border-bottom:1px solid #f0f0f0}
-  .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0}
-  .total{display:flex;justify-content:space-between;background:#eef0f6;padding:12px;border-radius:6px;font-weight:900;font-size:16px;border-left:4px solid #1a2456;margin-top:8px}
-  .green{color:#16a34a}.red{color:#9b1b1b}
-  @media print{.nobtn{display:none}}</style></head><body>
-
-  <h1>JFX <span>CARRIER</span></h1>
-  <div class="bar"></div>
-  <p style="font-size:11px;color:#888;margin-bottom:16px">Cal ${getWeek()} ${type==="driver"?"· User "+driver:""}</p>
-  <button class="nobtn" onclick="window.print()" style="padding:10px 20px;background:#1a2456;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:800;margin-bottom:16px">Print Imprimir / PDF</button>
-  <h3 style="font-size:13px;background:#1a2456;color:#fff;padding:6px 10px;border-radius:4px;margin-bottom:8px">CARGAS</h3>
-  <table><thead><tr><th>Ruta</th><th>Millas</th><th>Tarifa</th>${type==="driver"?"<th>Ganancia</th>":"<th>Driver</th>"}</tr></thead><tbody>
-  ${dl.map(l=>`<tr><td>${l.from} → ${l.to}</td><td>${l.miles}</td><td>${fmt(l.rate)}</td><td>${type==="driver"?'<span class="green">+'+fmt(l.rate*0.30)+'</span>':l.driver}</td></tr>`).join("")}
-  </tbody></table>
-  ${type!=="driver"?`
-  <div class="row"><span>Gross Revenue</span><span style="color:#d97706;font-weight:700">${fmt(gross)}</span></div>
-  <div class="row"><span>Dispatch (10%)</span><span class="red">-${fmt(d10)}</span></div>
-  <div class="row"><span>Driver Pay (30%)</span><span class="red">-${fmt(d30)}</span></div>
-  <div class="row"><span>Insurance</span><span class="red">-${fmt(ins)}</span></div>
-  <div class="row"><span>Diesel</span><span class="red">-${fmt(diesel)}</span></div>
-  <div class="total"><span>NET PROFIT</span><span class="green">${fmt(net)}</span></div>`
-  :`<div class="total"><span>TOTAL PAY (30%)</span><span class="green">${fmt(gross*0.30)}</span></div>`}
-  <p style="text-align:center;font-size:10px;color:#aaa;margin-top:32px;border-top:1px solid #eee;padding-top:16px">JFX CARRIER INC · FREIGHT TRANSPORTATION SERVICES · USA</p>
-  </body></html>`);
-  w.document.close();
-}
-
-// ── MAIN APP ───────────────────────────────────────────────────
 function App() {
-const [user,setUser] = useState(null);
-const [role,setRole] = useState(“manager”);
-const [pass,setPass] = useState(””);
-const [selDriver,setSelDriver] = useState(DRIVERS[0]);
-const [selManager,setSelManager] = useState(MANAGERS[0]);
-const [selDispatcher,setSelDispatcher] = useState(DISPATCHERS[0]);
-const [tab,setTab] = useState(“dashboard”);
-const [loads,setLoads] = useState(INIT_LOADS);
-const [trucks,setTrucks] = useState(INIT_TRUCKS);
-const [mileageRecords,setMileageRecords] = useState([]);
-const [showMileEntry,setShowMileEntry] = useState(false);
-const [entryMiles,setEntryMiles] = useState(””);
-const [showPDF,setShowPDF] = useState(null);
-const [showMaint,setShowMaint] = useState(null);
-const [showAddTruck,setShowAddTruck] = useState(false);
-const [weeklyMiles,setWeeklyMiles] = useState({start:””,end:””});
-const [form,setForm] = useState({from:””,to:””,miles:””,rate:””,diesel:””,driver:DRIVERS[0]});
-const [truckForm,setTruckForm] = useState({unit:””,make:””,model:””,year:””,plate:””,driver:DRIVERS[0],totalMiles:””,lastOilMiles:””});
-const [maintForm,setMaintForm] = useState({type:””,date:””,miles:””,cost:””,notes:””});
-const [pdfDriver,setPdfDriver] = useState(DRIVERS[0]);
+var us = useState(null); var user = us[0]; var setUser = us[1];
+var rs = useState(“manager”); var role = rs[0]; var setRole = rs[1];
+var ps = useState(””); var pass = ps[0]; var setPass = ps[1];
+var ts = useState(“dashboard”); var tab = ts[0]; var setTab = ts[1];
+var ls = useState(LOADS0); var loads = ls[0]; var setLoads = ls[1];
+var trs = useState(TRUCKS0); var trucks = trs[0]; var setTrucks = trs[1];
+var mrs = useState([]); var mileRecs = mrs[0]; var setMileRecs = mrs[1];
+var mes = useState(false); var showMileEntry = mes[0]; var setShowMileEntry = mes[1];
+var ems = useState(””); var entryMi = ems[0]; var setEntryMi = ems[1];
+var sds = useState(DRIVERS[0]); var selDrv = sds[0]; var setSelDrv = sds[1];
+var sms = useState(MANAGERS[0]); var selMgr = sms[0]; var setSelMgr = sms[1];
+var sdis = useState(DISPATCHERS[0]); var selDis = sdis[0]; var setSelDis = sdis[1];
+var pds = useState(DRIVERS[0]); var pdfDrv = pds[0]; var setPdfDrv = pds[1];
+var fs = useState({from:””,to:””,miles:””,rate:””,diesel:””,driver:DRIVERS[0]});
+var form = fs[0]; var setForm = fs[1];
+var sms2 = useState(null); var showMaint = sms2[0]; var setShowMaint = sms2[1];
+var mfs = useState({type:””,date:””,miles:””,cost:””,notes:””});
+var mf = mfs[0]; var setMf = mfs[1];
+var wms = useState({start:””,end:””}); var wm = wms[0]; var setWm = wms[1];
 
-const login = () => {
-if(!pass){alert(“Ingresa tu contraseña”);return;}
-if(role===“driver”){setUser({role:“driver”,name:selDriver,driver:selDriver});setShowMileEntry(true);}
-else if(role===“manager”){setUser({role:“manager”,name:selManager,driver:null});setTab(“dashboard”);}
-else if(role===“dispatch”){setUser({role:“dispatch”,name:selDispatcher,driver:null});setTab(“dashboard”);}
-else{setUser({role,name:“JFX “+role,driver:null});setTab(“dashboard”);}
-};
-
-const myLoads = user?.role===“driver” ? loads.filter(l=>l.driver===user.driver) : loads;
-const gross = myLoads.reduce((s,l)=>s+l.rate,0);
-const totD = myLoads.reduce((s,l)=>s+l.diesel,0);
-const d10=gross*0.10, d30=gross*0.30, ins=250, net=gross-d10-d30-ins-totD;
-const canAdd = [“manager”,“dispatch”].includes(user?.role);
-const canPDF = [“manager”,“billing”].includes(user?.role);
-const canTrucks = user?.role===“manager”;
-
-const navItems = [
-{id:“dashboard”,icon:“Chart”,label:“Dashboard”},
-…(canAdd?[{id:“loads”,icon:“Box”,label:“Loads”}]:[]),
-{id:“weekly”,icon:“Cal”,label:“Weekly”},
-…(canPDF?[{id:“reports”,icon:“Doc”,label:“Reports”}]:[]),
-{id:“drivers”,icon:“Truck”,label:“Drivers”},
-…(canTrucks?[{id:“trucks”,icon:“Truck”,label:“Camiones”}]:[]),
-];
-
-// ── MILEAGE ENTRY SCREEN ──────────────────────────────────
-if(showMileEntry && user?.role===“driver”) {
-const myTruck = trucks.find(t=>t.driver===user.driver);
-const now = new Date();
-const timeStr = now.toLocaleTimeString(“en-US”,{hour:“2-digit”,minute:“2-digit”});
-const dateStr = now.toLocaleDateString(“en-US”,{weekday:“long”,month:“short”,day:“numeric”});
-return e(“div”,{className:“mile-screen”},
-e(“div”,{className:“mile-card”},
-e(“div”,{className:“mile-header”},
-e(“div”,{style:{fontSize:42,marginBottom:8}},“Truck”),
-e(“div”,{style:{fontFamily:”‘Bebas Neue’,sans-serif”,fontSize:24,letterSpacing:3,marginBottom:4}},
-myTruck ? myTruck.unit+” — “+myTruck.make : “Mi Camión”),
-e(“div”,{style:{fontSize:11,opacity:0.7}},“Bienvenido, “+user.name),
-e(“div”,{style:{fontSize:11,opacity:0.5,marginTop:4}},dateStr+” · “+timeStr)
-),
-myTruck && e(“div”,{style:{display:“flex”,justifyContent:“space-around”,padding:“14px 20px”,borderBottom:“1px solid #f0f0f0”,background:”#fafbff”}},
-e(“div”,{style:{textAlign:“center”}},e(“div”,{style:{fontSize:8,fontWeight:800,color:”#9ca3af”,letterSpacing:2,textTransform:“uppercase”}},“Unidad”),e(“div”,{style:{fontWeight:900,fontSize:16,color:”#1a2456”}},myTruck.unit)),
-e(“div”,{style:{textAlign:“center”}},e(“div”,{style:{fontSize:8,fontWeight:800,color:”#9ca3af”,letterSpacing:2,textTransform:“uppercase”}},“Placa”),e(“div”,{style:{fontWeight:900,fontSize:16,color:”#1a2456”}},myTruck.plate)),
-e(“div”,{style:{textAlign:“center”}},e(“div”,{style:{fontSize:8,fontWeight:800,color:”#9ca3af”,letterSpacing:2,textTransform:“uppercase”}},“Odómetro”),e(“div”,{style:{fontWeight:900,fontSize:16,color:”#1a2456”}},myTruck.totalMiles.toLocaleString()))
-),
-e(“div”,{style:{padding:“24px 20px”}},
-e(“div”,{style:{textAlign:“center”,marginBottom:20}},
-e(“div”,{style:{fontSize:13,fontWeight:800,color:”#111”,marginBottom:4}},“Pin Ingresa tus millas de entrada”),
-e(“div”,{style:{fontSize:11,color:”#6b7280”}},“Obligatorio al iniciar cada jornada”)
-),
-e(“label”,null,“Millas actuales del odómetro”),
-e(“input”,{type:“number”,value:entryMiles,onChange:ev=>setEntryMiles(ev.target.value),
-placeholder:myTruck?myTruck.totalMiles.toString():“Ej: 124500”,
-style:{fontSize:22,fontWeight:900,textAlign:“center”,padding:16,marginBottom:16}}),
-e(“button”,{className:“btn btn-navy”,onClick:()=>{
-if(!entryMiles){alert(”(!) Ingresa tus millas para continuar”);return;}
-const miles=+entryMiles;
-const rec={id:Date.now(),driver:user.name,truck:myTruck?.unit||”—”,plate:myTruck?.plate||”—”,miles,type:“entrada”,date:now.toLocaleDateString(“en-US”),time:timeStr,week:getWeek(),dayOfWeek:now.toLocaleDateString(“en-US”,{weekday:“long”})};
-setMileageRecords(prev=>[…prev,rec]);
-if(myTruck) setTrucks(prev=>prev.map(t=>t.id===myTruck.id?{…t,totalMiles:Math.max(t.totalMiles,miles)}:t));
-setEntryMiles(””);setShowMileEntry(false);setTab(“dashboard”);
-}},“OK CONFIRMAR Y ENTRAR”)
-)
-)
-);
+function login() {
+if (!pass) { alert(“Ingresa tu contrasena”); return; }
+var u;
+if (role === “manager”) u = {role:“manager”, name:selMgr, driver:null};
+else if (role === “dispatch”) u = {role:“dispatch”, name:selDis, driver:null};
+else if (role === “billing”) u = {role:“billing”, name:“JFX Billing”, driver:null};
+else { u = {role:“driver”, name:selDrv, driver:selDrv}; }
+setUser(u);
+if (role === “driver”) { setShowMileEntry(true); }
+else { setTab(“dashboard”); }
 }
 
-// ── LOGIN ──────────────────────────────────────────────────
-if(!user) {
-const myTruck = trucks.find(t=>t.driver===selDriver);
-const mso = myTruck ? myTruck.totalMiles-myTruck.lastOilMiles : 0;
-const oilColor = mso>=OIL_INTERVAL?”#9b1b1b”:mso>=OIL_INTERVAL-500?”#d97706”:”#16a34a”;
-return e(“div”,{className:“login-screen”},
-e(“div”,{className:“login-box”},
-e(“div”,{className:“logo-block”},
-e(“img”,{src:LOGO_SVG,className:“logo-img”,alt:“JFX Carrier”}),
-e(“div”,{className:“logo-tagline”},“Freight Transportation Management”)
-),
-e(“div”,{className:“login-card”},
-e(“div”,{style:{fontSize:9,fontWeight:800,color:”#9ca3af”,letterSpacing:3,textTransform:“uppercase”,marginBottom:10}},“Selecciona tu rol”),
-e(“div”,{className:“role-grid”},
-[
-{id:“manager”,label:“Manager”,icon:“Mgr”},
-{id:“billing”,label:“Billing”,icon:“Bill”},
-{id:“dispatch”,label:“Dispatch”,icon:“Disp”},
-{id:“driver”,label:“Driver”,icon:“Truck”},
-].map(r=>e(“button”,{key:r.id,className:“role-btn”+(role===r.id?” active”:””),onClick:()=>setRole(r.id)},
-e(“span”,{className:“role-icon”},r.icon), r.label
-))
-),
-role===“manager” && e(“div”,null,
-e(“label”,null,“Selecciona tu nombre”),
-e(“select”,{value:selManager,onChange:ev=>setSelManager(ev.target.value)},
-MANAGERS.map(m=>e(“option”,{key:m},m)))
-),
-role===“dispatch” && e(“div”,null,
-e(“label”,null,“Selecciona tu nombre”),
-e(“select”,{value:selDispatcher,onChange:ev=>setSelDispatcher(ev.target.value)},
-DISPATCHERS.map(d=>e(“option”,{key:d},d)))
-),
-role===“driver” && e(“div”,null,
-e(“label”,null,“Selecciona tu nombre”),
-e(“select”,{value:selDriver,onChange:ev=>setSelDriver(ev.target.value)},
-DRIVERS.map(d=>e(“option”,{key:d},d))),
-myTruck && e(“div”,{style:{background:“rgba(26,36,86,0.05)”,border:“1.5px solid rgba(26,36,86,0.15)”,borderRadius:10,padding:14,marginBottom:12}},
-e(“div”,{style:{display:“flex”,alignItems:“center”,gap:10,marginBottom:10}},
-e(“span”,{style:{fontSize:28}},“Truck”),
-e(“div”,null,
-e(“div”,{style:{fontWeight:900,fontSize:14,color:”#1a2456”}},myTruck.unit+” — “+myTruck.make+” “+myTruck.model),
-e(“div”,{style:{fontSize:11,color:”#6b7280”,fontWeight:600}},myTruck.year+” · “+myTruck.plate)
-)
-),
-e(“div”,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:10}},
-e(“div”,{style:{textAlign:“center”,background:”#fff”,borderRadius:8,padding:“10px 8px”,border:“1px solid #e5e7eb”}},
-e(“div”,{style:{fontSize:8,fontWeight:800,color:”#9ca3af”,letterSpacing:2,textTransform:“uppercase”,marginBottom:4}},“Total Millas”),
-e(“div”,{style:{fontWeight:900,fontSize:18,color:”#1a2456”}},myTruck.totalMiles.toLocaleString())
-),
-e(“div”,{style:{textAlign:“center”,background:”#fff”,borderRadius:8,padding:“10px 8px”,border:“1px solid “+oilColor+“40”}},
-e(“div”,{style:{fontSize:8,fontWeight:800,color:”#9ca3af”,letterSpacing:2,textTransform:“uppercase”,marginBottom:4}},“Desde Aceite”),
-e(“div”,{style:{fontWeight:900,fontSize:18,color:oilColor}},mso.toLocaleString())
-)
-),
-e(“div”,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:5}},
-e(“span”,{style:{fontSize:10,fontWeight:800,color:oilColor}},“Oil Cambio de aceite”),
-e(“span”,{style:{fontSize:10,fontWeight:700,color:oilColor}},mso>=OIL_INTERVAL?”(!) ¡VENCIDO!”:“Faltan “+(OIL_INTERVAL-mso).toLocaleString()+” mi”)
-),
-e(“div”,{className:“oil-bar-wrap”},
-e(“div”,{className:“oil-bar-inner”,style:{width:Math.min(mso/OIL_INTERVAL*100,100)+”%”,background:oilColor}})
-)
-)
-),
-e(“label”,null,“Contraseña”),
-e(“input”,{type:“password”,value:pass,onChange:ev=>setPass(ev.target.value),placeholder:“Ingresa tu contraseña”,onKeyDown:ev=>ev.key===“Enter”&&login()}),
-e(“button”,{className:“btn btn-navy”,onClick:login},“ENTRAR”)
-)
-)
-);
-}
+var myLoads = user && user.role === “driver” ? loads.filter(function(l){ return l.driver === user.driver; }) : loads;
+var gross = myLoads.reduce(function(s,l){ return s+l.rate; }, 0);
+var totD = myLoads.reduce(function(s,l){ return s+l.diesel; }, 0);
+var d10 = gross*0.10, d30 = gross*0.30, ins = 250;
+var net = gross - d10 - d30 - ins - totD;
 
-// ── MAIN APP ───────────────────────────────────────────────
-return e(“div”,{style:{display:“flex”,flexDirection:“column”,minHeight:“100vh”}},
+var canAdd = user && (user.role === “manager” || user.role === “dispatch”);
+var canPDF = user && (user.role === “manager” || user.role === “billing”);
+var canTrucks = user && user.role === “manager”;
+
+var navItems = [{id:“dashboard”,icon:“Chart”,label:“Dashboard”}];
+if (canAdd) navItems.push({id:“loads”,icon:“Box”,label:“Loads”});
+navItems.push({id:“weekly”,icon:“Cal”,label:“Weekly”});
+if (canPDF) navItems.push({id:“reports”,icon:“Doc”,label:“Reports”});
+navItems.push({id:“drivers”,icon:“Drv”,label:“Drivers”});
+if (canTrucks) navItems.push({id:“trucks”,icon:“Trk”,label:“Camiones”});
+
+// MILEAGE ENTRY
+if (showMileEntry && user && user.role === “driver”) {
+var myTruck = trucks.find(function(t){ return t.driver === user.driver; });
+var now = new Date();
+var timeStr = now.toLocaleTimeString(“en-US”,{hour:“2-digit”,minute:“2-digit”});
+var dateStr = now.toLocaleDateString(“en-US”,{weekday:“long”,month:“short”,day:“numeric”});
+var mso = myTruck ? myTruck.mi - myTruck.oilMi : 0;
+var oilColor = mso >= OIL_MI ? “#9b1b1b” : mso >= OIL_MI-500 ? “#d97706” : “#16a34a”;
 
 ```
-// TOPBAR
-e("div",{className:"topbar"},
-  e("div",{className:"topbar-logo"},e("span",null,"JFX "),e("span",{style:{color:"#9b1b1b"}},"CARRIER")),
-  e("div",{style:{display:"flex",alignItems:"center",gap:10}},
-    e("div",{style:{textAlign:"right"}},
-      e("div",{style:{fontSize:11,fontWeight:800,color:"#1a2456",lineHeight:1}},user.name),
-      e("span",{className:"badge badge-"+user.role,style:{marginTop:3,display:"inline-block"}},user.role)
+return h("div",{className:"mile-wrap"},
+  h("div",{className:"mile-card"},
+    h("div",{className:"mile-header"},
+      h("div",{style:{fontSize:36}},"[Truck]"),
+      h("h2",null, myTruck ? myTruck.unit+" - "+myTruck.make : "Mi Camion"),
+      h("p",null,"Bienvenido, "+user.name),
+      h("p",null,dateStr+" - "+timeStr)
     ),
-    e("button",{className:"icon-btn",onClick:()=>{setUser(null);setPass("");}},e("span",null,"<"))
+    myTruck && h("div",{style:{display:"flex",justifyContent:"space-around",padding:"12px 16px",borderBottom:"1px solid #f0f0f0",background:"#fafbff"}},
+      h("div",{style:{textAlign:"center"}},h("div",{style:{fontSize:8,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}},"Unidad"),h("div",{style:{fontWeight:900,fontSize:15,color:"#1a2456"}},myTruck.unit)),
+      h("div",{style:{textAlign:"center"}},h("div",{style:{fontSize:8,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}},"Placa"),h("div",{style:{fontWeight:900,fontSize:15,color:"#1a2456"}},myTruck.plate)),
+      h("div",{style:{textAlign:"center"}},h("div",{style:{fontSize:8,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase"}},"Odometro"),h("div",{style:{fontWeight:900,fontSize:15,color:"#1a2456"}},myTruck.mi.toLocaleString()))
+    ),
+    h("div",{className:"mile-body"},
+      h("div",{style:{textAlign:"center",marginBottom:16}},
+        h("div",{style:{fontSize:13,fontWeight:800,color:"#111",marginBottom:4}},"Ingresa tus millas de entrada"),
+        h("div",{style:{fontSize:11,color:"#6b7280"}},"Obligatorio al iniciar cada jornada")
+      ),
+      h("label",null,"Millas actuales del odometro"),
+      h("input",{type:"number",value:entryMi,onChange:function(e){setEntryMi(e.target.value);},
+        placeholder:myTruck ? String(myTruck.mi) : "124500",
+        style:{fontSize:20,fontWeight:900,textAlign:"center",padding:14,marginBottom:14}}),
+      h("button",{className:"btn btn-navy",onClick:function(){
+        if (!entryMi) { alert("Ingresa tus millas para continuar"); return; }
+        var miles = parseInt(entryMi);
+        var rec = {id:Date.now(),driver:user.name,truck:myTruck?myTruck.unit:"",plate:myTruck?myTruck.plate:"",miles:miles,date:now.toLocaleDateString("en-US"),time:timeStr,week:getWeek(),day:now.toLocaleDateString("en-US",{weekday:"long"})};
+        setMileRecs(function(prev){ return prev.concat([rec]); });
+        if (myTruck) setTrucks(function(prev){ return prev.map(function(t){ return t.id===myTruck.id ? Object.assign({},t,{mi:Math.max(t.mi,miles)}) : t; }); });
+        setEntryMi("");
+        setShowMileEntry(false);
+        setTab("dashboard");
+      }},"CONFIRMAR Y ENTRAR")
+    )
+  )
+);
+```
+
+}
+
+// LOGIN
+if (!user) {
+var loginTruck = trucks.find(function(t){ return t.driver === selDrv; });
+var lmso = loginTruck ? loginTruck.mi - loginTruck.oilMi : 0;
+var loilColor = lmso >= OIL_MI ? “#9b1b1b” : lmso >= OIL_MI-500 ? “#d97706” : “#16a34a”;
+
+```
+return h("div",{className:"login-wrap"},
+  h("div",{className:"login-box"},
+    h("div",{className:"logo-area"},
+      h("h1",null,"JFX ",h("span",null,"CARRIER")),
+      h("p",null,"Freight Transportation Management"),
+      h("div",{className:"dualbar"})
+    ),
+    h("div",{className:"login-card"},
+      h("div",{style:{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:3,textTransform:"uppercase",marginBottom:10}},"Selecciona tu rol"),
+      h("div",{className:"role-grid"},
+        [{id:"manager",label:"Manager",icon:"[M]"},
+         {id:"billing",label:"Billing",icon:"[B]"},
+         {id:"dispatch",label:"Dispatch",icon:"[D]"},
+         {id:"driver",label:"Driver",icon:"[T]"}
+        ].map(function(r){
+          return h("button",{key:r.id,className:"role-btn"+(role===r.id?" active":""),onClick:function(){setRole(r.id);}},
+            h("span",{className:"role-icon"},r.icon), r.label);
+        })
+      ),
+      role==="manager" && h("div",null,
+        h("label",null,"Selecciona tu nombre"),
+        h("select",{value:selMgr,onChange:function(e){setSelMgr(e.target.value);}},
+          MANAGERS.map(function(m){ return h("option",{key:m},m); }))
+      ),
+      role==="dispatch" && h("div",null,
+        h("label",null,"Selecciona tu nombre"),
+        h("select",{value:selDis,onChange:function(e){setSelDis(e.target.value);}},
+          DISPATCHERS.map(function(d){ return h("option",{key:d},d); }))
+      ),
+      role==="driver" && h("div",null,
+        h("label",null,"Selecciona tu nombre"),
+        h("select",{value:selDrv,onChange:function(e){setSelDrv(e.target.value);}},
+          DRIVERS.map(function(d){ return h("option",{key:d},d); })),
+        loginTruck && h("div",{style:{background:"#eef0f6",border:"1.5px solid #c7d2fe",borderRadius:10,padding:12,marginTop:8}},
+          h("div",{style:{fontWeight:800,fontSize:13,color:"#1a2456",marginBottom:6}},loginTruck.unit+" - "+loginTruck.make+" "+loginTruck.model),
+          h("div",{style:{display:"flex",justifyContent:"space-between",fontSize:12,marginBottom:8}},
+            h("span",null,"Total: ",h("strong",null,loginTruck.mi.toLocaleString()," mi")),
+            h("span",{style:{color:loilColor,fontWeight:700}},"Aceite: "+lmso.toLocaleString()+" mi")
+          ),
+          h("div",{style:{fontSize:10,color:loilColor,fontWeight:700,marginBottom:4}},lmso>=OIL_MI?"ACEITE VENCIDO":"Faltan "+(OIL_MI-lmso).toLocaleString()+" mi"),
+          h("div",{className:"oil-bar-bg"},
+            h("div",{className:"oil-bar-fill",style:{width:Math.min(lmso/OIL_MI*100,100)+"%",background:loilColor}})
+          )
+        )
+      ),
+      h("label",null,"Contrasena"),
+      h("input",{type:"password",value:pass,onChange:function(e){setPass(e.target.value);},placeholder:"Ingresa tu contrasena",onKeyDown:function(e){if(e.key==="Enter")login();}}),
+      h("button",{className:"btn btn-navy",onClick:login,style:{marginTop:12}},"ENTRAR")
+    )
+  )
+);
+```
+
+}
+
+// MAIN APP
+return h(“div”,{style:{display:“flex”,flexDirection:“column”,minHeight:“100vh”}},
+
+```
+h("div",{className:"topbar"},
+  h("h1",null,"JFX ",h("span",null,"CARRIER")),
+  h("div",{style:{display:"flex",alignItems:"center",gap:10}},
+    h("div",{style:{textAlign:"right"}},
+      h("div",{style:{fontSize:11,fontWeight:800,color:"#1a2456"}},user.name),
+      h("span",{className:"badge badge-"+user.role},user.role)
+    ),
+    h("button",{style:{background:"#f4f5f7",border:"1px solid #dde1e9",borderRadius:6,width:32,height:32,cursor:"pointer",fontSize:14},onClick:function(){setUser(null);setPass("");}},"←")
   )
 ),
 
-// CONTENT
-e("div",{className:"main"},
+h("div",{className:"main"},
 
-  // ── DASHBOARD ──
-  tab==="dashboard" && e("div",null,
-    e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
-      e("div",{className:"week-badge",style:{marginBottom:0}},"Cal "+getWeek()),
-      user?.driver && e("div",{style:{fontSize:11,fontWeight:700,color:"#1a2456",background:"rgba(26,36,86,0.08)",padding:"5px 10px",borderRadius:6,border:"1px solid rgba(26,36,86,0.15)"}},"User "+user.driver)
+  // DASHBOARD
+  tab==="dashboard" && h("div",null,
+    h("div",{className:"week-badge"},getWeek()),
+    h("div",{className:"stats"},
+      h("div",{className:"stat"},h("div",{className:"lbl"},"Gross"),h("div",{className:"val val-yellow"},money(gross))),
+      h("div",{className:"stat"},h("div",{className:"lbl"},"Net Profit"),h("div",{className:"val val-green"},money(net))),
+      h("div",{className:"stat"},h("div",{className:"lbl"},"Loads"),h("div",{className:"val val-blue"},myLoads.length)),
+      h("div",{className:"stat"},h("div",{className:"lbl"},"Diesel"),h("div",{className:"val val-red"},money(totD)))
     ),
-    e("div",{className:"stats-grid"},
-      e("div",{className:"stat-card s-yellow"},e("div",{className:"stat-label"},"Gross Revenue"),e("div",{className:"stat-value sv-yellow"},fmt(gross))),
-      e("div",{className:"stat-card s-green"},e("div",{className:"stat-label"},"Net Profit"),e("div",{className:"stat-value sv-green"},fmt(net))),
-      e("div",{className:"stat-card s-navy"},e("div",{className:"stat-label"},"Total Loads"),e("div",{className:"stat-value sv-navy"},myLoads.length)),
-      e("div",{className:"stat-card s-red"},e("div",{className:"stat-label"},"Diesel"),e("div",{className:"stat-value sv-red"},fmt(totD)))
+    h("div",{className:"card"},
+      h("h2",null,"Weekly Breakdown"),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Gross Revenue"),h("span",{className:"sum-val sum-yellow"},money(gross))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Dispatch (10%)"),h("span",{className:"sum-val sum-red"},"-"+money(d10))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Driver Pay (30%)"),h("span",{className:"sum-val sum-red"},"-"+money(d30))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Insurance"),h("span",{className:"sum-val sum-red"},"-$250.00")),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Diesel"),h("span",{className:"sum-val sum-red"},"-"+money(totD))),
+      h("div",{className:"divider"}),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl",style:{fontSize:14,fontWeight:900,color:"#111"}},"NET PROFIT"),h("span",{className:"sum-total"},money(net)))
     ),
-    e("div",{className:"card"},
-      e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},
-        e("div",null,e("div",{className:"card-title"},"Weekly Breakdown"),e("div",{className:"card-sub"},"Mon → Mon · Auto-calculado"))
-      ),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Gross Revenue"),e("span",{className:"sum-val sum-yellow"},fmt(gross))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Dispatch (10%)"),e("span",{className:"sum-val sum-red"},"-"+fmt(d10))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Driver Pay (30%)"),e("span",{className:"sum-val sum-red"},"-"+fmt(d30))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Insurance"),e("span",{className:"sum-val sum-red"},"-$250.00")),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Diesel"),e("span",{className:"sum-val sum-red"},"-"+fmt(totD))),
-      e("div",{className:"divider"}),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label sum-total-label"},"NET PROFIT"),e("span",{className:"sum-val sum-green"},fmt(net)))
-    ),
-    e("div",{className:"sec-title"},"Recent Loads"),
-    myLoads.slice(-3).reverse().map(l=>e("div",{key:l.id,className:"load-item"},
-      e("div",{className:"load-icon"},"Truck"),
-      e("div",{className:"load-info"},e("div",{className:"load-route"},l.from+" → "+l.to),e("div",{className:"load-meta"},l.driver+" · "+l.date+(l.createdBy?" · Edit "+l.createdBy:""))),
-      e("div",null,e("div",{className:"load-amount"},fmt(l.rate)),e("div",{className:"load-miles"},l.miles+" MI"))
-    ))
+    h("div",{className:"sec-title"},"Recent Loads"),
+    myLoads.slice(-3).reverse().map(function(l){
+      return h("div",{key:l.id,className:"load-item"},
+        h("div",{className:"load-icon"},"[T]"),
+        h("div",{className:"load-info"},h("div",{className:"load-route"},l.from+" > "+l.to),h("div",{className:"load-meta"},l.driver+" - "+l.date+(l.by?" - "+l.by:""))),
+        h("div",null,h("div",{className:"load-amt"},money(l.rate)),h("div",{className:"load-mi"},l.miles+" mi"))
+      );
+    })
   ),
 
-  // ── LOADS ──
-  tab==="loads" && canAdd && e("div",null,
-    e("div",{className:"card"},
-      e("div",{className:"card-title",style:{marginBottom:16}},"+ Add New Load"),
-      e("div",{className:"form-row"},
-        e("div",null,e("label",null,"From City"),e("input",{value:form.from,onChange:ev=>setForm({...form,from:ev.target.value}),placeholder:"Chicago, IL"})),
-        e("div",null,e("label",null,"To City"),e("input",{value:form.to,onChange:ev=>setForm({...form,to:ev.target.value}),placeholder:"Dallas, TX"}))
+  // LOADS
+  tab==="loads" && canAdd && h("div",null,
+    h("div",{className:"card"},
+      h("h2",null,"Add New Load"),
+      h("div",{className:"form2"},
+        h("div",null,h("label",null,"From"),h("input",{value:form.from,onChange:function(e){setForm(Object.assign({},form,{from:e.target.value}));},placeholder:"Chicago, IL"})),
+        h("div",null,h("label",null,"To"),h("input",{value:form.to,onChange:function(e){setForm(Object.assign({},form,{to:e.target.value}));},placeholder:"Dallas, TX"}))
       ),
-      e("div",{className:"form-row"},
-        e("div",null,e("label",null,"Miles"),e("input",{type:"number",value:form.miles,onChange:ev=>setForm({...form,miles:ev.target.value}),placeholder:"917"})),
-        e("div",null,e("label",null,"Load Rate ($)"),e("input",{type:"number",value:form.rate,onChange:ev=>setForm({...form,rate:ev.target.value}),placeholder:"2400"}))
+      h("div",{className:"form2"},
+        h("div",null,h("label",null,"Miles"),h("input",{type:"number",value:form.miles,onChange:function(e){setForm(Object.assign({},form,{miles:e.target.value}));},placeholder:"917"})),
+        h("div",null,h("label",null,"Rate ($)"),h("input",{type:"number",value:form.rate,onChange:function(e){setForm(Object.assign({},form,{rate:e.target.value}));},placeholder:"2400"}))
       ),
-      e("div",{className:"form-row"},
-        e("div",null,e("label",null,"Diesel ($)"),e("input",{type:"number",value:form.diesel,onChange:ev=>setForm({...form,diesel:ev.target.value}),placeholder:"310"})),
-        e("div",null,e("label",null,"Driver"),e("select",{value:form.driver,onChange:ev=>setForm({...form,driver:ev.target.value})},DRIVERS.map(d=>e("option",{key:d},d))))
+      h("div",{className:"form2"},
+        h("div",null,h("label",null,"Diesel ($)"),h("input",{type:"number",value:form.diesel,onChange:function(e){setForm(Object.assign({},form,{diesel:e.target.value}));},placeholder:"310"})),
+        h("div",null,h("label",null,"Driver"),h("select",{value:form.driver,onChange:function(e){setForm(Object.assign({},form,{driver:e.target.value}));}},DRIVERS.map(function(d){return h("option",{key:d},d);})))
       ),
-      e("button",{className:"btn btn-red",onClick:()=>{
+      h("button",{className:"btn btn-red",onClick:function(){
         if(!form.from||!form.to||!form.miles||!form.rate){alert("Completa todos los campos");return;}
-        setLoads([...loads,{id:Date.now(),from:form.from,to:form.to,miles:+form.miles,rate:+form.rate,diesel:+form.diesel||0,driver:form.driver,date:new Date().toISOString().split("T")[0],createdBy:user?.name||""}]);
+        var newLoad = {id:Date.now(),from:form.from,to:form.to,miles:parseInt(form.miles),rate:parseInt(form.rate),diesel:parseInt(form.diesel)||0,driver:form.driver,date:new Date().toISOString().split("T")[0],by:user?user.name:""};
+        setLoads(function(prev){return prev.concat([newLoad]);});
         setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0]});
       }},"+ Add Load")
     ),
-    e("div",{className:"sec-title"},"All Loads ("+loads.length+")"),
-    loads.map(l=>e("div",{key:l.id,className:"load-item"},
-      e("div",{className:"load-icon"},"Box"),
-      e("div",{className:"load-info"},
-        e("div",{className:"load-route"},l.from+" → "+l.to),
-        e("div",{className:"load-meta"},e("span",{className:"chip chip-navy"},l.driver)," · "+l.miles+" mi · Gas "+fmt(l.diesel)),
-        l.createdBy && e("div",{style:{fontSize:9,color:"#9ca3af",marginTop:2,fontWeight:600}},"Edit "+l.createdBy)
-      ),
-      e("div",{style:{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}},
-        e("div",{className:"load-amount"},fmt(l.rate)),
-        e("button",{style:{padding:"6px 10px",background:"rgba(155,27,27,0.1)",border:"1px solid rgba(155,27,27,0.25)",borderRadius:5,color:"#b52020",cursor:"pointer"},onClick:()=>setLoads(loads.filter(x=>x.id!==l.id))},"X")
-      )
-    ))
-  ),
-
-  // ── WEEKLY ──
-  tab==="weekly" && e("div",null,
-    e("div",{className:"week-badge"},"Cal "+getWeek()),
-    e("div",{className:"card"},
-      e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},
-        e("div",null,e("div",{className:"card-title"},"Weekly Summary"),e("div",{className:"card-sub"},myLoads.length+" loads")),
-        canPDF && e("div",{style:{display:"flex",gap:8}},
-          e("button",{className:"btn btn-outline btn-sm",onClick:()=>{exportCSV([["JFX CARRIER - Weekly Report"],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","DIESEL","DRIVER","CREATED BY"],...myLoads.map(l=>[l.from,l.to,l.miles,l.rate,l.diesel,l.driver,l.createdBy||""])],  "JFX_Weekly")}},"Chart Excel"),
-          e("button",{className:"btn btn-outline btn-sm",onClick:()=>printReport(myLoads,"weekly","")},"Doc PDF")
-        )
-      ),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"Total Gross"),e("span",{className:"sum-val sum-yellow"},fmt(gross))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"− Dispatch (10%)"),e("span",{className:"sum-val sum-red"},"-"+fmt(d10))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"− Driver Pay (30%)"),e("span",{className:"sum-val sum-red"},"-"+fmt(d30))),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"− Insurance"),e("span",{className:"sum-val sum-red"},"-$250.00")),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label"},"− Diesel"),e("span",{className:"sum-val sum-red"},"-"+fmt(totD))),
-      e("div",{className:"divider"}),
-      e("div",{className:"sum-row"},e("span",{className:"sum-label sum-total-label"},"NET UTILITY"),e("span",{className:"sum-val sum-green"},fmt(net)))
-    ),
-    e("div",{className:"sec-title"},"Load Detail"),
-    myLoads.map(l=>e("div",{key:l.id,className:"load-item"},
-      e("div",{className:"load-icon"},"Map"),
-      e("div",{className:"load-info"},e("div",{className:"load-route"},l.from+" → "+l.to),e("div",{className:"load-meta"},l.miles+" mi · Diesel: "+fmt(l.diesel))),
-      e("div",null,e("div",{className:"load-amount"},fmt(l.rate)),e("div",{className:"load-miles"},"DRV: "+fmt(l.rate*0.30)))
-    ))
-  ),
-
-  // ── REPORTS ──
-  tab==="reports" && canPDF && e("div",null,
-    e("div",{className:"card"},
-      e("div",{className:"card-title",style:{marginBottom:14}},"Generate Reports"),
-      e("div",{style:{display:"flex",gap:8,marginBottom:10}},
-        e("button",{className:"btn btn-navy",style:{flex:1},onClick:()=>printReport(loads,"weekly","")},"Doc PDF Semanal"),
-        e("button",{className:"btn btn-outline",style:{flex:1},onClick:()=>{exportCSV([["JFX CARRIER - Weekly"],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","DIESEL","DRIVER"],...loads.map(l=>[l.from,l.to,l.miles,l.rate,l.diesel,l.driver])],"JFX_Weekly")}},"Chart Excel")
-      ),
-      e("div",{className:"divider"}),
-      e("label",{style:{marginTop:10}},"Seleccionar Driver"),
-      e("select",{value:pdfDriver,onChange:ev=>setPdfDriver(ev.target.value)},DRIVERS.map(d=>e("option",{key:d},d))),
-      e("div",{style:{display:"flex",gap:8}},
-        e("button",{className:"btn btn-red",style:{flex:1},onClick:()=>printReport(loads,"driver",pdfDriver)},"Doc PDF Driver"),
-        e("button",{className:"btn btn-outline",style:{flex:1},onClick:()=>{const dl=loads.filter(l=>l.driver===pdfDriver);exportCSV([["JFX CARRIER - Driver: "+pdfDriver],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","EARNINGS 30%","DATE"],...dl.map(l=>[l.from,l.to,l.miles,l.rate,(l.rate*0.30).toFixed(2),l.date])],"JFX_Driver_"+pdfDriver.replace(/ /g,"_"))}},"Chart Excel")
-      )
-    ),
-    e("div",{className:"sec-title"},"Driver Overview"),
-    DRIVERS.map(d=>{const dl=loads.filter(l=>l.driver===d),dg=dl.reduce((s,l)=>s+l.rate,0);return e("div",{key:d,className:"load-item"},
-      e("div",{className:"load-icon"},"User"),
-      e("div",{className:"load-info"},e("div",{className:"load-route"},d),e("div",{className:"load-meta"},dl.length+" loads · Gross: "+fmt(dg))),
-      e("div",null,e("div",{className:"load-amount"},fmt(dg*0.30)),e("div",{className:"load-miles"},"30% PAY"))
-    );})
-  ),
-
-  // ── DRIVERS ──
-  tab==="drivers" && e("div",null,
-    DRIVERS.map(d=>{
-      const dl=loads.filter(l=>l.driver===d),dg=dl.reduce((s,l)=>s+l.rate,0),dm=dl.reduce((s,l)=>s+l.miles,0);
-      return e("div",{key:d,className:"card"},
-        e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
-          e("div",null,e("div",{className:"card-title"},d),e("div",{className:"card-sub"},dl.length+" loads · "+dm.toLocaleString()+" miles")),
-          e("span",{className:"chip chip-red"},"Driver")
+    h("div",{className:"sec-title"},"All Loads ("+loads.length+")"),
+    loads.map(function(l){
+      return h("div",{key:l.id,className:"load-item"},
+        h("div",{className:"load-icon"},"[B]"),
+        h("div",{className:"load-info"},
+          h("div",{className:"load-route"},l.from+" > "+l.to),
+          h("div",{className:"load-meta"},h("span",{className:"chip"},l.driver)," - "+l.miles+" mi - $"+l.diesel+" diesel"),
+          l.by && h("div",{style:{fontSize:9,color:"#9ca3af",marginTop:2}},"Por: "+l.by)
         ),
-        e("div",{className:"stats-grid",style:{marginBottom:0}},
-          e("div",{className:"stat-card s-yellow"},e("div",{className:"stat-label"},"Gross"),e("div",{className:"stat-value sv-yellow",style:{fontSize:20}},fmt(dg))),
-          e("div",{className:"stat-card s-green"},e("div",{className:"stat-label"},"Pay (30%)"),e("div",{className:"stat-value sv-green",style:{fontSize:20}},fmt(dg*0.30)))
+        h("div",{style:{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}},
+          h("div",{className:"load-amt"},money(l.rate)),
+          h("button",{style:{padding:"5px 10px",background:"#fde8e8",border:"1px solid #9b1b1b",borderRadius:5,color:"#9b1b1b",cursor:"pointer",fontSize:12},onClick:function(){setLoads(function(prev){return prev.filter(function(x){return x.id!==l.id;});});}},"×")
         )
       );
     })
   ),
 
-  // ── TRUCKS / CAMIONES ──
-  tab==="trucks" && canTrucks && e("div",null,
-
-    // Mileage Records (manager only)
-    mileageRecords.length>0 && e("div",{className:"card",style:{marginBottom:14}},
-      e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
-        e("div",null,e("div",{className:"card-title"},"Pin Registro de Millas"),e("div",{className:"card-sub"},"Solo visible para Manager")),
-        e("span",{className:"chip chip-red"},"PRIVADO")
+  // WEEKLY
+  tab==="weekly" && h("div",null,
+    h("div",{className:"week-badge"},getWeek()),
+    h("div",{className:"card"},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
+        h("h2",{style:{marginBottom:0}},"Weekly Summary"),
+        canPDF && h("div",{style:{display:"flex",gap:6}},
+          h("button",{className:"btn-outline",style:{padding:"7px 11px",borderRadius:6,background:"transparent",border:"1.5px solid #dde1e9",color:"#6b7280",fontSize:10,fontWeight:800,cursor:"pointer"},onClick:function(){
+            exportCSV([["JFX CARRIER - Weekly"],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","DIESEL","DRIVER"]].concat(myLoads.map(function(l){return [l.from,l.to,l.miles,l.rate,l.diesel,l.driver];})),"JFX_Weekly");
+          }},"Excel"),
+          h("button",{className:"btn-outline",style:{padding:"7px 11px",borderRadius:6,background:"transparent",border:"1.5px solid #9b1b1b",color:"#9b1b1b",fontSize:10,fontWeight:800,cursor:"pointer"},onClick:function(){
+            var w=window.open("","_blank");
+            var rows=myLoads.map(function(l){return "<tr><td>"+l.from+" > "+l.to+"</td><td>"+l.miles+"</td><td>"+money(l.rate)+"</td><td>"+l.driver+"</td></tr>";}).join("");
+            w.document.write("<!DOCTYPE html><html><head><title>JFX Weekly</title><style>body{font-family:Arial;padding:24px;max-width:700px;margin:0 auto}h1{color:#1a2456;letter-spacing:4px}table{width:100%;border-collapse:collapse}th{background:#1a2456;color:#fff;padding:8px;font-size:11px;text-align:left}td{padding:8px;border-bottom:1px solid #f0f0f0}.total{background:#f0f0f0;font-weight:900;font-size:16px;padding:10px}</style></head><body><h1>JFX <span style='color:#9b1b1b'>CARRIER</span></h1><p style='color:#9ca3af'>"+getWeek()+"</p><table><thead><tr><th>Route</th><th>Miles</th><th>Rate</th><th>Driver</th></tr></thead><tbody>"+rows+"</tbody></table><br><div class='total'>Gross: "+money(gross)+" | Dispatch: -"+money(d10)+" | Drivers: -"+money(d30)+" | Insurance: -$250 | Diesel: -"+money(totD)+" | NET: "+money(net)+"</div><br><button onclick='window.print()' style='padding:10px 20px;background:#1a2456;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:800'>Print / PDF</button></body></html>");
+            w.document.close();
+          }},"PDF")
+        )
       ),
-      e("div",{style:{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}},"Esta Semana"),
-      DRIVERS.map(d=>{
-        const recs=mileageRecords.filter(r=>r.driver===d&&r.week===getWeek());
-        if(!recs.length) return e("div",{key:d,style:{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}},
-          e("span",{style:{fontWeight:700}},d),e("span",{style:{color:"#d97706",fontWeight:700}},"⏳ Sin registro"));
-        const first=recs[0],last=recs[recs.length-1];
-        return e("div",{key:d,style:{padding:"8px 0",borderBottom:"1px solid #f5f5f5"}},
-          e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:3}},
-            e("span",{style:{fontWeight:800,fontSize:12}},d),
-            e("span",{style:{fontWeight:800,fontSize:12,color:"#16a34a"}},"+"+(last.miles-first.miles).toLocaleString()+" mi")
-          ),
-          e("div",{style:{fontSize:10,color:"#6b7280",fontWeight:600}},
-            "● "+first.miles.toLocaleString()+" · "+first.dayOfWeek+" ·  "+first.time)
-        );
-      }),
-      e("div",{style:{marginTop:10,fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}},"Historial Completo"),
-      e("div",{style:{maxHeight:180,overflowY:"auto"}},
-        [...mileageRecords].reverse().map(r=>e("div",{key:r.id,style:{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}},
-          e("div",null,e("div",{style:{fontWeight:800}},r.driver),e("div",{style:{fontSize:10,color:"#6b7280"}},r.truck)),
-          e("div",{style:{fontWeight:800,color:"#1a2456"}},r.miles.toLocaleString()+" mi"),
-          e("div",{style:{textAlign:"right"}},e("div",{style:{fontSize:10}},r.date),e("div",{style:{fontSize:10,color:"#9ca3af"}},r.time))
-        ))
-      ),
-      e("button",{className:"btn btn-navy",style:{marginTop:12},onClick:()=>{
-        exportCSV([["JFX CARRIER - REGISTRO DE MILLAS"],["Driver","Unidad","Placa","Millas","Día","Fecha","Hora","Semana"],
-          ...mileageRecords.map(r=>[r.driver,r.truck,r.plate,r.miles,r.dayOfWeek||"",r.date,r.time,r.week])],"JFX_Registro_Millas");
-      }},"Chart Exportar a Excel")
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Total Gross"),h("span",{className:"sum-val sum-yellow"},money(gross))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Dispatch 10%"),h("span",{className:"sum-val sum-red"},"-"+money(d10))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Driver Pay 30%"),h("span",{className:"sum-val sum-red"},"-"+money(d30))),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Insurance"),h("span",{className:"sum-val sum-red"},"-$250.00")),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl"},"Diesel"),h("span",{className:"sum-val sum-red"},"-"+money(totD))),
+      h("div",{className:"divider"}),
+      h("div",{className:"sum-row"},h("span",{className:"sum-lbl",style:{fontSize:14,fontWeight:900,color:"#111"}},"NET UTILITY"),h("span",{className:"sum-total"},money(net)))
     ),
+    h("div",{className:"sec-title"},"Loads"),
+    myLoads.map(function(l){
+      return h("div",{key:l.id,className:"load-item"},
+        h("div",{className:"load-icon"},"[M]"),
+        h("div",{className:"load-info"},h("div",{className:"load-route"},l.from+" > "+l.to),h("div",{className:"load-meta"},l.miles+" mi - Diesel: "+money(l.diesel))),
+        h("div",null,h("div",{className:"load-amt"},money(l.rate)),h("div",{className:"load-mi"},"Drv: "+money(l.rate*0.30)))
+      );
+    })
+  ),
 
-    // Oil alerts
-    trucks.filter(t=>(t.totalMiles-t.lastOilMiles)>=OIL_INTERVAL-500).length>0 && e("div",{className:"alert-oil"},
-      e("span",{style:{fontSize:28}},"(!)"),
-      e("div",null,
-        e("div",{style:{fontWeight:800,fontSize:13,color:"#92400e",marginBottom:4}},"ALERTA CAMBIO DE ACEITE"),
-        trucks.filter(t=>(t.totalMiles-t.lastOilMiles)>=OIL_INTERVAL-500).map(t=>{
-          const ms=t.totalMiles-t.lastOilMiles,ov=ms>=OIL_INTERVAL;
-          return e("div",{key:t.id,style:{fontSize:12,color:ov?"#9b1b1b":"#92400e",fontWeight:600,marginBottom:2}},
-            (ov?"●":"●")+" "+t.unit+" — "+ms.toLocaleString()+" mi desde último cambio",
-            ov && e("span",{style:{marginLeft:6,background:"#9b1b1b",color:"#fff",padding:"1px 6px",borderRadius:4,fontSize:10,fontWeight:800}},"VENCIDO")
-          );
-        })
+  // REPORTS
+  tab==="reports" && canPDF && h("div",null,
+    h("div",{className:"card"},
+      h("h2",null,"Reports"),
+      h("div",{style:{display:"flex",gap:8,marginBottom:12}},
+        h("button",{className:"btn btn-navy",style:{flex:1,marginTop:0},onClick:function(){
+          var w=window.open("","_blank");
+          var rows=loads.map(function(l){return "<tr><td>"+l.from+" > "+l.to+"</td><td>"+l.miles+"</td><td>"+money(l.rate)+"</td><td>"+l.driver+"</td><td>"+money(l.diesel)+"</td></tr>";}).join("");
+          w.document.write("<!DOCTYPE html><html><head><title>JFX Weekly Report</title><style>body{font-family:Arial;padding:24px;max-width:700px;margin:0 auto}h1{color:#1a2456;letter-spacing:4px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#1a2456;color:#fff;padding:8px;font-size:11px;text-align:left}td{padding:8px;border-bottom:1px solid #f0f0f0}.total{background:#eef0f6;font-weight:900;padding:12px;border-left:4px solid #1a2456;margin-top:8px}</style></head><body><h1>JFX <span style='color:#9b1b1b'>CARRIER</span></h1><p>"+getWeek()+"</p><table><thead><tr><th>Route</th><th>Mi</th><th>Rate</th><th>Driver</th><th>Diesel</th></tr></thead><tbody>"+rows+"</tbody></table><p>Gross: "+money(gross)+"</p><p>-Dispatch: "+money(d10)+"</p><p>-Drivers: "+money(d30)+"</p><p>-Insurance: $250</p><p>-Diesel: "+money(totD)+"</p><div class='total'>NET PROFIT: "+money(net)+"</div><br><button onclick='window.print()' style='padding:10px 20px;background:#1a2456;color:#fff;border:none;border-radius:6px;cursor:pointer'>Print</button></body></html>");
+          w.document.close();
+        }},"PDF Semanal"),
+        h("button",{className:"btn btn-outline",style:{flex:1,marginTop:0,border:"1.5px solid #dde1e9",borderRadius:8,color:"#6b7280",background:"transparent",fontWeight:800,fontSize:11,cursor:"pointer"},onClick:function(){
+          exportCSV([["JFX CARRIER Weekly"],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","DIESEL","DRIVER"]].concat(loads.map(function(l){return[l.from,l.to,l.miles,l.rate,l.diesel,l.driver];})),"JFX_Weekly");
+        }},"Excel")
+      ),
+      h("div",{className:"divider"}),
+      h("label",null,"Driver para reporte"),
+      h("select",{value:pdfDrv,onChange:function(e){setPdfDrv(e.target.value);}},DRIVERS.map(function(d){return h("option",{key:d},d);})),
+      h("div",{style:{display:"flex",gap:8}},
+        h("button",{className:"btn btn-red",style:{flex:1},onClick:function(){
+          var dl=loads.filter(function(l){return l.driver===pdfDrv;});
+          var dg=dl.reduce(function(s,l){return s+l.rate;},0);
+          var w=window.open("","_blank");
+          var rows=dl.map(function(l){return "<tr><td>"+l.from+" > "+l.to+"</td><td>"+l.miles+"</td><td>"+money(l.rate)+"</td><td>"+money(l.rate*0.30)+"</td></tr>";}).join("");
+          w.document.write("<!DOCTYPE html><html><head><title>Driver Statement</title><style>body{font-family:Arial;padding:24px}h1{color:#1a2456;letter-spacing:4px}table{width:100%;border-collapse:collapse;margin:12px 0}th{background:#1a2456;color:#fff;padding:8px;font-size:11px;text-align:left}td{padding:8px;border-bottom:1px solid #f0f0f0}.total{background:#eef0f6;font-weight:900;padding:12px;border-left:4px solid #16a34a}</style></head><body><h1>JFX <span style='color:#9b1b1b'>CARRIER</span></h1><p>Driver: "+pdfDrv+"</p><p>"+getWeek()+"</p><table><thead><tr><th>Route</th><th>Miles</th><th>Rate</th><th>Pay 30%</th></tr></thead><tbody>"+rows+"</tbody></table><div class='total'>TOTAL PAY: "+money(dg*0.30)+"</div><br><button onclick='window.print()' style='padding:10px 20px;background:#1a2456;color:#fff;border:none;border-radius:6px;cursor:pointer'>Print</button></body></html>");
+          w.document.close();
+        }},"PDF Driver"),
+        h("button",{className:"btn btn-outline",style:{flex:1,marginTop:0,border:"1.5px solid #dde1e9",borderRadius:8,color:"#6b7280",background:"transparent",fontWeight:800,fontSize:11,cursor:"pointer"},onClick:function(){
+          var dl=loads.filter(function(l){return l.driver===pdfDrv;});
+          exportCSV([["Driver: "+pdfDrv],["Week:",getWeek()],[""],["FROM","TO","MILES","RATE","PAY 30%"]].concat(dl.map(function(l){return[l.from,l.to,l.miles,l.rate,(l.rate*0.30).toFixed(2)];})),"Driver_"+pdfDrv.replace(/ /g,"_"));
+        }},"Excel")
       )
     ),
+    h("div",{className:"sec-title"},"Driver Overview"),
+    DRIVERS.map(function(d){
+      var dl=loads.filter(function(l){return l.driver===d;}); var dg=dl.reduce(function(s,l){return s+l.rate;},0);
+      return h("div",{key:d,className:"load-item"},
+        h("div",{className:"load-icon"},"[U]"),
+        h("div",{className:"load-info"},h("div",{className:"load-route"},d),h("div",{className:"load-meta"},dl.length+" loads - Gross: "+money(dg))),
+        h("div",null,h("div",{className:"load-amt"},money(dg*0.30)),h("div",{className:"load-mi"},"30% PAY"))
+      );
+    })
+  ),
 
-    e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}},
-      e("div",{className:"sec-title",style:{marginBottom:0,flex:1}},"Flota ("+trucks.length+")"),
-      e("button",{className:"btn btn-red btn-sm",onClick:()=>setShowAddTruck(true)},"+ Agregar")
+  // DRIVERS
+  tab==="drivers" && h("div",null,
+    DRIVERS.map(function(d){
+      var dl=loads.filter(function(l){return l.driver===d;}); var dg=dl.reduce(function(s,l){return s+l.rate;},0); var dm=dl.reduce(function(s,l){return s+l.miles;},0);
+      return h("div",{key:d,className:"card"},
+        h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}},
+          h("div",null,h("h2",{style:{fontSize:16,marginBottom:2}},d),h("div",{style:{fontSize:11,color:"#9ca3af"}},dl.length+" loads - "+dm.toLocaleString()+" mi")),
+          h("span",{className:"chip"},"Driver")
+        ),
+        h("div",{className:"stats",style:{marginBottom:0}},
+          h("div",{className:"stat"},h("div",{className:"lbl"},"Gross"),h("div",{className:"val val-yellow",style:{fontSize:18}},money(dg))),
+          h("div",{className:"stat"},h("div",{className:"lbl"},"Pay 30%"),h("div",{className:"val val-green",style:{fontSize:18}},money(dg*0.30)))
+        )
+      );
+    })
+  ),
+
+  // TRUCKS
+  tab==="trucks" && canTrucks && h("div",null,
+
+    mileRecs.length>0 && h("div",{className:"card"},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}},
+        h("h2",{style:{marginBottom:0}},"Registro de Millas"),
+        h("span",{style:{background:"#fde8e8",color:"#9b1b1b",border:"1px solid #9b1b1b",borderRadius:4,padding:"2px 8px",fontSize:9,fontWeight:800}},"PRIVADO")
+      ),
+      h("div",{style:{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}},"Esta Semana"),
+      DRIVERS.map(function(d){
+        var recs=mileRecs.filter(function(r){return r.driver===d && r.week===getWeek();});
+        if(!recs.length) return h("div",{key:d,style:{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid #f5f5f5",fontSize:11}},h("span",{style:{fontWeight:700}},d),h("span",{style:{color:"#d97706"}},"Sin registro esta semana"));
+        var first=recs[0], last=recs[recs.length-1];
+        return h("div",{key:d,style:{padding:"7px 0",borderBottom:"1px solid #f5f5f5"}},
+          h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:2}},h("span",{style:{fontWeight:800,fontSize:12}},d),h("span",{style:{color:"#16a34a",fontWeight:800}},"+"+((last.miles-first.miles)||0).toLocaleString()+" mi")),
+          h("div",{style:{fontSize:10,color:"#9ca3af"}},"Entrada: "+first.miles.toLocaleString()+" - "+first.day+" "+first.time)
+        );
+      }),
+      h("button",{className:"btn btn-navy",style:{marginTop:10},onClick:function(){
+        exportCSV([["JFX MILLAS"],["Driver","Unidad","Placa","Millas","Dia","Fecha","Hora"]].concat(mileRecs.map(function(r){return[r.driver,r.truck,r.plate,r.miles,r.day||"",r.date,r.time];})),"JFX_Millas");
+      }},"Exportar Excel")
     ),
 
-    trucks.map(t=>{
-      const ms=t.totalMiles-t.lastOilMiles,pct=Math.min(ms/OIL_INTERVAL*100,100);
-      const oc=ms>=OIL_INTERVAL?"#9b1b1b":ms>=OIL_INTERVAL-500?"#d97706":"#16a34a";
-      return e("div",{key:t.id,className:"card"},
-        e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
-          e("div",{style:{display:"flex",alignItems:"center",gap:10}},
-            e("span",{style:{fontSize:28}},"Truck"),
-            e("div",null,
-              e("div",{style:{fontFamily:"'Bebas Neue',sans-serif",fontSize:20,letterSpacing:2}},t.unit+" — "+t.make+" "+t.model),
-              e("div",{style:{fontSize:11,color:"#6b7280",fontWeight:600}},t.year+" · "+t.plate+" · "+t.driver)
-            )
+    trucks.filter(function(t){return(t.mi-t.oilMi)>=OIL_MI-500;}).length>0 && h("div",{className:"alert-box"},
+      "ALERTA ACEITE: "+trucks.filter(function(t){return(t.mi-t.oilMi)>=OIL_MI-500;}).map(function(t){return t.unit+" ("+(t.mi-t.oilMi).toLocaleString()+" mi)";}).join(", ")
+    ),
+
+    h("div",{className:"sec-title"},"Flota ("+trucks.length+")"),
+
+    trucks.map(function(t){
+      var ms=t.mi-t.oilMi, pct=Math.min(ms/OIL_MI*100,100);
+      var oc=ms>=OIL_MI?"#9b1b1b":ms>=OIL_MI-500?"#d97706":"#16a34a";
+      return h("div",{key:t.id,className:"card"},
+        h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}},
+          h("div",null,
+            h("div",{style:{fontWeight:900,fontSize:16,color:"#111"}},t.unit+" - "+t.make+" "+t.model),
+            h("div",{style:{fontSize:11,color:"#9ca3af"}},t.year+" - "+t.plate+" - "+t.driver)
           ),
-          e("button",{className:"btn btn-outline btn-sm",onClick:()=>setShowMaint(t.id)},"List Mant.")
+          h("button",{style:{padding:"6px 10px",background:"#eef0f6",border:"1px solid #c7d2fe",borderRadius:6,color:"#1a2456",fontSize:10,fontWeight:800,cursor:"pointer"},onClick:function(){setShowMaint(t.id);}},"Mant.")
         ),
-        e("div",{className:"stats-grid",style:{marginBottom:12}},
-          e("div",{className:"stat-card s-navy"},e("div",{className:"stat-label"},"Total Millas"),e("div",{className:"stat-value sv-navy",style:{fontSize:20}},t.totalMiles.toLocaleString())),
-          e("div",{className:"stat-card",style:{borderBottom:"3px solid "+oc}},e("div",{className:"stat-label"},"Desde Aceite"),e("div",{className:"stat-value",style:{fontSize:20,color:oc}},ms.toLocaleString()))
+        h("div",{className:"stats",style:{marginBottom:10}},
+          h("div",{className:"stat"},h("div",{className:"lbl"},"Total Mi"),h("div",{className:"val val-blue",style:{fontSize:18}},t.mi.toLocaleString())),
+          h("div",{className:"stat"},h("div",{className:"lbl"},"Desde Aceite"),h("div",{className:"val",style:{fontSize:18,color:oc}},ms.toLocaleString()))
         ),
-        e("div",{style:{background:"rgba(0,0,0,0.03)",border:"1px solid "+oc+"30",borderRadius:8,padding:"10px 12px"}},
-          e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},
-            e("span",{style:{fontSize:11,fontWeight:800,color:oc}},"Oil CAMBIO DE ACEITE"),
-            e("span",{style:{fontSize:11,fontWeight:700,color:oc}},ms>=OIL_INTERVAL?"¡VENCIDO!":"Faltan "+(OIL_INTERVAL-ms).toLocaleString()+" mi")
+        h("div",{style:{background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:8,padding:10}},
+          h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:5}},
+            h("span",{style:{fontSize:11,fontWeight:800,color:oc}},"ACEITE"),
+            h("span",{style:{fontSize:11,fontWeight:700,color:oc}},ms>=OIL_MI?"VENCIDO":"Faltan "+(OIL_MI-ms).toLocaleString()+" mi")
           ),
-          e("div",{className:"oil-bar-wrap"},e("div",{className:"oil-bar-inner",style:{width:pct+"%",background:oc}}))
+          h("div",{className:"oil-bar-bg"},h("div",{className:"oil-bar-fill",style:{width:pct+"%",background:oc}}))
         ),
-        e("div",{style:{display:"flex",gap:8,marginTop:10}},
-          e("input",{type:"number",placeholder:"Actualizar millas",style:{flex:1,marginBottom:0},
-            onBlur:ev=>{const v=parseInt(ev.target.value);if(v&&v>t.totalMiles){setTrucks(trucks.map(x=>x.id===t.id?{...x,totalMiles:v}:x));ev.target.value="";}}
-          }),
-          e("button",{className:"btn btn-navy btn-sm",style:{marginTop:0,whiteSpace:"nowrap"},onClick:()=>{
-            setTrucks(trucks.map(x=>x.id===t.id?{...x,lastOilMiles:x.totalMiles,maintenances:[...x.maintenances,{id:Date.now(),type:"Cambio de Aceite",date:new Date().toISOString().split("T")[0],miles:x.totalMiles,cost:0,notes:"Registrado"}]}:x));
-          }},"OK Aceite OK")
+        h("div",{style:{display:"flex",gap:8,marginTop:10,alignItems:"flex-end"}},
+          h("div",{style:{flex:1}},
+            h("label",null,"Actualizar millas"),
+            h("input",{type:"number",placeholder:String(t.mi),style:{marginBottom:0},onBlur:function(e){var v=parseInt(e.target.value);if(v&&v>t.mi){setTrucks(function(prev){return prev.map(function(x){return x.id===t.id?Object.assign({},x,{mi:v}):x;});});e.target.value="";}}})),
+          h("button",{style:{padding:"10px 12px",background:"#1a2456",border:"none",borderRadius:8,color:"#fff",fontSize:11,fontWeight:800,cursor:"pointer",whiteSpace:"nowrap"},onClick:function(){
+            setTrucks(function(prev){return prev.map(function(x){return x.id===t.id?Object.assign({},x,{oilMi:x.mi,mx:x.mx.concat([{id:Date.now(),type:"Cambio de Aceite",date:new Date().toISOString().split("T")[0],miles:x.mi,cost:0}])}):x;});});
+          }},"Aceite OK")
         )
       );
     }),
 
-    // Add Truck Modal
-    showAddTruck && e("div",{className:"modal-overlay",onClick:ev=>ev.target===ev.currentTarget&&setShowAddTruck(false)},
-      e("div",{className:"modal-sheet"},
-        e("div",{className:"modal-handle"}),
-        e("div",{className:"card-title",style:{marginBottom:16}},"Truck Agregar Unidad"),
-        e("div",{className:"form-row"},
-          e("div",null,e("label",null,"Unidad #"),e("input",{value:truckForm.unit,onChange:ev=>setTruckForm({...truckForm,unit:ev.target.value}),placeholder:"T-105"})),
-          e("div",null,e("label",null,"Placa"),e("input",{value:truckForm.plate,onChange:ev=>setTruckForm({...truckForm,plate:ev.target.value}),placeholder:"JFX-105"}))
-        ),
-        e("div",{className:"form-row"},
-          e("div",null,e("label",null,"Marca"),e("input",{value:truckForm.make,onChange:ev=>setTruckForm({...truckForm,make:ev.target.value}),placeholder:"Freightliner"})),
-          e("div",null,e("label",null,"Modelo"),e("input",{value:truckForm.model,onChange:ev=>setTruckForm({...truckForm,model:ev.target.value}),placeholder:"Cascadia"}))
-        ),
-        e("div",{className:"form-row"},
-          e("div",null,e("label",null,"Año"),e("input",{type:"number",value:truckForm.year,onChange:ev=>setTruckForm({...truckForm,year:ev.target.value}),placeholder:"2023"})),
-          e("div",null,e("label",null,"Driver"),e("select",{value:truckForm.driver,onChange:ev=>setTruckForm({...truckForm,driver:ev.target.value})},DRIVERS.map(d=>e("option",{key:d},d))))
-        ),
-        e("div",{className:"form-row"},
-          e("div",null,e("label",null,"Millas Actuales"),e("input",{type:"number",value:truckForm.totalMiles,onChange:ev=>setTruckForm({...truckForm,totalMiles:ev.target.value}),placeholder:"50000"})),
-          e("div",null,e("label",null,"Millas Ultimo Aceite"),e("input",{type:"number",value:truckForm.lastOilMiles,onChange:ev=>setTruckForm({...truckForm,lastOilMiles:ev.target.value}),placeholder:"50000"}))
-        ),
-        e("button",{className:"btn btn-red",onClick:()=>{
-          if(!truckForm.unit||!truckForm.make){alert("Completa al menos unidad y marca");return;}
-          setTrucks([...trucks,{id:Date.now(),unit:truckForm.unit,make:truckForm.make,model:truckForm.model,year:truckForm.year,plate:truckForm.plate,driver:truckForm.driver,totalMiles:+truckForm.totalMiles||0,lastOilMiles:+truckForm.lastOilMiles||0,maintenances:[],weeklyLogs:[]}]);
-          setTruckForm({unit:"",make:"",model:"",year:"",plate:"",driver:DRIVERS[0],totalMiles:"",lastOilMiles:""});
-          setShowAddTruck(false);
-        }},"+ Agregar Camión"),
-        e("button",{className:"btn btn-outline",style:{width:"100%",marginTop:8},onClick:()=>setShowAddTruck(false)},"Cancelar")
-      )
-    ),
-
     // Maintenance Modal
-    showMaint && (()=>{
-      const truck=trucks.find(t=>t.id===showMaint);
+    showMaint && (function(){
+      var truck=trucks.find(function(t){return t.id===showMaint;});
       if(!truck) return null;
-      return e("div",{className:"modal-overlay",onClick:ev=>ev.target===ev.currentTarget&&setShowMaint(null)},
-        e("div",{className:"modal-sheet"},
-          e("div",{className:"modal-handle"}),
-          e("div",{className:"card-title",style:{marginBottom:14}},"Fix "+truck.unit+" — Mantenimientos"),
-          e("div",{style:{background:"#f4f5f7",borderRadius:10,padding:14,marginBottom:14}},
-            e("div",{style:{fontSize:10,fontWeight:800,color:"#1a2456",letterSpacing:2,textTransform:"uppercase",marginBottom:10}},"+ Registrar"),
-            e("div",{className:"form-row"},
-              e("div",null,e("label",null,"Tipo"),
-                e("select",{value:maintForm.type,onChange:ev=>setMaintForm({...maintForm,type:ev.target.value})},
-                  ["","Cambio de Aceite","Cambio de Filtros","Frenos","Neumáticos","Revisión General","Transmisión","Motor","Suspensión","Eléctrico","Otro"].map(o=>e("option",{key:o},o))
+      return h("div",{style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:200,display:"flex",alignItems:"flex-end"},onClick:function(e){if(e.target===e.currentTarget)setShowMaint(null);}},
+        h("div",{style:{background:"#fff",borderTop:"3px solid #1a2456",borderRadius:"14px 14px 0 0",width:"100%",padding:18,maxHeight:"85vh",overflowY:"auto"}},
+          h("div",{style:{width:32,height:4,background:"#e5e7eb",borderRadius:2,margin:"0 auto 16px"}}),
+          h("h2",{style:{fontSize:18,marginBottom:12}},truck.unit+" - Mantenimientos"),
+          h("div",{style:{background:"#f4f5f7",borderRadius:10,padding:14,marginBottom:14}},
+            h("div",{style:{fontWeight:800,fontSize:11,color:"#1a2456",letterSpacing:2,textTransform:"uppercase",marginBottom:10}},"+ Registrar"),
+            h("div",{className:"form2"},
+              h("div",null,h("label",null,"Tipo"),
+                h("select",{value:mf.type,onChange:function(e){setMf(Object.assign({},mf,{type:e.target.value}));}},
+                  ["","Cambio de Aceite","Filtros","Frenos","Neumaticos","Revision General","Transmision","Motor","Suspension","Electrico","Otro"].map(function(o){return h("option",{key:o},o);})
                 )
               ),
-              e("div",null,e("label",null,"Fecha"),e("input",{type:"date",value:maintForm.date,onChange:ev=>setMaintForm({...maintForm,date:ev.target.value})}))
+              h("div",null,h("label",null,"Fecha"),h("input",{type:"date",value:mf.date,onChange:function(e){setMf(Object.assign({},mf,{date:e.target.value}));}}))
             ),
-            e("div",{className:"form-row"},
-              e("div",null,e("label",null,"Millas"),e("input",{type:"number",value:maintForm.miles,onChange:ev=>setMaintForm({...maintForm,miles:ev.target.value}),placeholder:truck.totalMiles.toString()})),
-              e("div",null,e("label",null,"Costo ($)"),e("input",{type:"number",value:maintForm.cost,onChange:ev=>setMaintForm({...maintForm,cost:ev.target.value}),placeholder:"0"}))
+            h("div",{className:"form2"},
+              h("div",null,h("label",null,"Millas"),h("input",{type:"number",value:mf.miles,onChange:function(e){setMf(Object.assign({},mf,{miles:e.target.value}));},placeholder:String(truck.mi)})),
+              h("div",null,h("label",null,"Costo ($)"),h("input",{type:"number",value:mf.cost,onChange:function(e){setMf(Object.assign({},mf,{cost:e.target.value}));},placeholder:"0"}))
             ),
-            e("label",null,"Notas"),
-            e("input",{value:maintForm.notes,onChange:ev=>setMaintForm({...maintForm,notes:ev.target.value}),placeholder:"Descripción del trabajo"}),
-            e("button",{className:"btn btn-red",onClick:()=>{
-              if(!maintForm.type||!maintForm.date){alert("Completa tipo y fecha");return;}
-              const nm={id:Date.now(),type:maintForm.type,date:maintForm.date,miles:+maintForm.miles||truck.totalMiles,cost:+maintForm.cost||0,notes:maintForm.notes};
-              const ut={...truck,maintenances:[...truck.maintenances,nm]};
-              if(maintForm.type==="Cambio de Aceite") ut.lastOilMiles=+maintForm.miles||truck.totalMiles;
-              setTrucks(trucks.map(x=>x.id===showMaint?ut:x));
-              setMaintForm({type:"",date:"",miles:"",cost:"",notes:""});
+            h("label",null,"Notas"),
+            h("input",{value:mf.notes,onChange:function(e){setMf(Object.assign({},mf,{notes:e.target.value}));},placeholder:"Descripcion del trabajo"}),
+            h("button",{className:"btn btn-red",onClick:function(){
+              if(!mf.type||!mf.date){alert("Completa tipo y fecha");return;}
+              var nm={id:Date.now(),type:mf.type,date:mf.date,miles:parseInt(mf.miles)||truck.mi,cost:parseInt(mf.cost)||0,notes:mf.notes};
+              setTrucks(function(prev){return prev.map(function(x){
+                if(x.id!==showMaint) return x;
+                var updated=Object.assign({},x,{mx:x.mx.concat([nm])});
+                if(mf.type==="Cambio de Aceite") updated.oilMi=nm.miles;
+                return updated;
+              });});
+              setMf({type:"",date:"",miles:"",cost:"",notes:""});
             }},"+ Registrar")
           ),
-          e("div",{style:{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}},"Historial ("+truck.maintenances.length+")"),
-          truck.maintenances.length===0 && e("div",{style:{textAlign:"center",padding:"20px 0",color:"#9ca3af",fontSize:13}},"Sin mantenimientos registrados"),
-          [...truck.maintenances].reverse().map(m=>e("div",{key:m.id,style:{background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:8,padding:"12px 14px",marginBottom:8}},
-            e("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:4}},
-              e("span",{style:{fontWeight:800,fontSize:13}},m.type),
-              e("span",{style:{fontWeight:700,fontSize:13,color:"#16a34a"}},m.cost?"$"+m.cost.toLocaleString():"-")
-            ),
-            e("div",{style:{fontSize:11,color:"#6b7280",fontWeight:600}},"Cal "+m.date+" · "+m.miles.toLocaleString()+" mi"),
-            m.notes && e("div",{style:{fontSize:11,color:"#374151",marginTop:4,fontStyle:"italic"}},'"'+m.notes+'"')
-          )),
-          e("button",{className:"btn btn-outline",style:{width:"100%",marginTop:8},onClick:()=>setShowMaint(null)},"Cerrar")
+          h("div",{style:{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,textTransform:"uppercase",marginBottom:8}},"Historial ("+truck.mx.length+")"),
+          truck.mx.length===0 && h("div",{style:{textAlign:"center",padding:"16px 0",color:"#9ca3af",fontSize:13}},"Sin registros"),
+          truck.mx.slice().reverse().map(function(m){
+            return h("div",{key:m.id,style:{background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:8,padding:12,marginBottom:8}},
+              h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:3}},h("span",{style:{fontWeight:800}},"["+m.type+"]"),h("span",{style:{color:"#16a34a",fontWeight:700}},m.cost?"$"+m.cost:"-")),
+              h("div",{style:{fontSize:11,color:"#9ca3af"}},m.date+" - "+m.miles.toLocaleString()+" mi"),
+              m.notes && h("div",{style:{fontSize:11,color:"#374151",marginTop:3,fontStyle:"italic"}},m.notes)
+            );
+          }),
+          h("button",{style:{width:"100%",padding:11,marginTop:8,background:"transparent",border:"1.5px solid #dde1e9",borderRadius:8,color:"#6b7280",fontWeight:800,fontSize:11,cursor:"pointer"},onClick:function(){setShowMaint(null);}},"Cerrar")
         )
       );
     })()
   )
 
-), // end main
+),
 
-// BOTTOM NAV
-e("div",{className:"bottom-nav"},
-  navItems.map(n=>e("button",{key:n.id,className:"nav-item"+(tab===n.id?" active":""),onClick:()=>setTab(n.id)},
-    e("span",{className:"ni"},n.icon), n.label
-  ))
+h("div",{className:"bottom-nav"},
+  navItems.map(function(n){
+    return h("button",{key:n.id,className:"nav-btn"+(tab===n.id?" active":""),onClick:function(){setTab(n.id);}},
+      h("span",null,n.icon), n.label);
+  })
 )
 ```
 
-); // end app
+);
 }
 
-ReactDOM.createRoot(document.getElementById(‘root’)).render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById(“app”)).render(React.createElement(App));
 </script>
 
 </body>
