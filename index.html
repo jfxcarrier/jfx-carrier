@@ -389,6 +389,17 @@
         setTimeout(function(){sp.style.display='none';},500);
       },200);
     }
+    // Hook into React render to hide splash
+    var _origCreateRoot = ReactDOM.createRoot.bind(ReactDOM);
+    ReactDOM.createRoot = function(el) {
+      var root = _origCreateRoot(el);
+      var _origRender = root.render.bind(root);
+      root.render = function(comp) {
+        _origRender(comp);
+        setTimeout(hideSplash, 100);
+      };
+      return root;
+    };
   </script>
   <script>
 var __defProp = Object.defineProperty;
@@ -2218,11 +2229,15 @@ If amount not found use 0.` }
     setShowPDF(false);
   } }, "📤 Download / Send PDF"), /* @__PURE__ */ React.createElement("div", { style: { height: 10 } }), /* @__PURE__ */ React.createElement("button", { className: "btn-outline", style: { width: "100%" }, onClick: () => setShowPDF(false) }, "Close")))));
 }
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(JFXCarrier));
+// Wait for DOM to be ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function() {
+    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(JFXCarrier));
+  });
+} else {
+  ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(JFXCarrier));
+}
 
-  </script>
-  <script>
-    try { hideSplash(); } catch(e) { console.error(e); }
   </script>
 </body>
 </html>
