@@ -2221,6 +2221,8 @@ If amount not found use 0.` }
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(JFXCarrier));
 
   </script>
-  <script>hideSplash();</script>
+  <script>
+    try { hideSplash(); } catch(e) { console.error(e); }
+  </script>
 </body>
 </html>
