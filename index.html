@@ -8,7 +8,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
   <meta name="apple-mobile-web-app-title" content="JFX Carrier"/>
   <title>JFX Carrier Inc</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
 
@@ -362,60 +361,73 @@
   .pdf-green { color: #16a34a; }
   .pdf-red   { color: #9b1b1b; font-weight: 700; }
 
-  * { -webkit-tap-highlight-color: transparent; }
-  #splash { position:fixed;inset:0;background:#1a2456;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s; }
-  #splash h1 { font-family:"Bebas Neue",sans-serif;font-size:48px;letter-spacing:8px;color:white;margin-bottom:6px; }
-  #splash h1 span { color:#9b1b1b; }
-  #splash p { font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px; }
-  .splash-bar { width:200px;height:3px;background:rgba(255,255,255,0.15);border-radius:99px;overflow:hidden; }
-  .splash-fill { height:100%;width:0%;background:linear-gradient(90deg,#fff,#9b1b1b);border-radius:99px;transition:width 0.3s; }
+  #splash{position:fixed;inset:0;background:#1a2456;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s}
+  #splash h1{font-family:"Bebas Neue",sans-serif;font-size:52px;letter-spacing:8px;color:white;margin-bottom:6px}
+  #splash h1 span{color:#9b1b1b}
+  #splash p{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
+  .sbar{width:200px;height:3px;background:rgba(255,255,255,0.15);border-radius:99px;overflow:hidden}
+  .sfill{height:100%;width:0%;background:linear-gradient(90deg,#fff,#9b1b1b);border-radius:99px;transition:width 0.4s}
   </style>
+
+  <!-- Load React FIRST synchronously -->
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
 </head>
 <body>
   <div id="splash">
     <h1>JFX <span>CARRIER</span></h1>
     <p>Fleet Management Software</p>
-    <div class="splash-bar"><div class="splash-fill" id="sbar"></div></div>
+    <div class="sbar"><div class="sfill" id="sfill"></div></div>
   </div>
   <div id="root"></div>
 
   <script>
-    // Animate loading bar
-    let p = 0;
-    const bar = document.getElementById('sbar');
-    const iv = setInterval(()=>{ p = Math.min(p+Math.random()*15, 90); bar.style.width=p+'%'; }, 200);
-  </script>
+    // Animate bar
+    var fill = document.getElementById('sfill');
+    var pct = 0;
+    var iv = setInterval(function(){
+      pct = Math.min(pct + 10, 80);
+      fill.style.width = pct + '%';
+    }, 250);
 
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" onload="window._reactLoaded=true"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js" onload="initApp()"></script>
-
-  <script>
-  function initApp() {
-    const bar = document.getElementById('sbar');
-    const splash = document.getElementById('splash');
-    bar.style.width = '100%';
-
-    const code = document.getElementById('app-code').textContent;
-    try {
-      const transformed = Babel.transform(code, {
-        presets: [['react', {runtime:'classic'}]],
-        plugins: [],
-      }).code;
-      const fn = new Function('React','ReactDOM', transformed);
-      fn(React, ReactDOM);
-    } catch(e) {
-      console.error('App error:', e);
-      splash.innerHTML = '<p style="color:white;padding:20px">Error: '+e.message+'</p>';
-      return;
+    function hideSplash() {
+      clearInterval(iv);
+      fill.style.width = '100%';
+      setTimeout(function(){
+        var sp = document.getElementById('splash');
+        sp.style.opacity = '0';
+        setTimeout(function(){ sp.style.display='none'; }, 500);
+      }, 300);
     }
 
-    setTimeout(()=>{
-      bar.style.width='100%';
-      splash.style.opacity='0';
-      setTimeout(()=>splash.style.display='none', 500);
-    }, 300);
-  }
+    function runApp() {
+      var code = document.getElementById('app-code').textContent;
+      try {
+        var result = Babel.transform(code, { presets: ['react'], sourceType: 'script' });
+        eval(result.code);
+        hideSplash();
+      } catch(e) {
+        clearInterval(iv);
+        console.error(e);
+        document.getElementById('splash').innerHTML =
+          '<div style="color:white;padding:30px;text-align:center;font-family:Arial;max-width:400px">' +
+          '<h2 style="margin-bottom:12px">JFX CARRIER</h2>' +
+          '<p style="opacity:0.7;font-size:13px">Error: ' + e.message + '</p></div>';
+      }
+    }
+
+    // Load Babel then run app
+    var babelScript = document.createElement('script');
+    babelScript.src = 'https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.5/babel.min.js';
+    babelScript.onload = runApp;
+    babelScript.onerror = function() {
+      // Try fallback CDN
+      var fallback = document.createElement('script');
+      fallback.src = 'https://unpkg.com/@babel/standalone@7.23.5/babel.min.js';
+      fallback.onload = runApp;
+      document.head.appendChild(fallback);
+    };
+    document.head.appendChild(babelScript);
   </script>
 
   <script id="app-code" type="text/plain">
@@ -3601,8 +3613,7 @@ If amount not found use 0.`}
   </>);
 }
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(<JFXCarrier/>);
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(JFXCarrier));
   </script>
 </body>
 </html>
