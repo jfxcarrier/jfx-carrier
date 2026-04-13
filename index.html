@@ -379,10 +379,10 @@
   </div>
   <div id="root"></div>
   <script>
-    var _fill=document.getElementById('sfill'),_pct=0;
-    var _iv=setInterval(function(){_pct=Math.min(_pct+15,90);_fill.style.width=_pct+'%';},150);
+    var _f=document.getElementById('sfill'),_p=0;
+    var _iv=setInterval(function(){_p=Math.min(_p+15,90);_f.style.width=_p+'%';},150);
     function hideSplash(){
-      clearInterval(_iv);_fill.style.width='100%';
+      clearInterval(_iv);_f.style.width='100%';
       setTimeout(function(){
         var sp=document.getElementById('splash');
         sp.style.opacity='0';
