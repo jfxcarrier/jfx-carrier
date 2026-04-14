@@ -360,12 +360,12 @@
   .pdf-green { color: #16a34a; }
   .pdf-red   { color: #9b1b1b; font-weight: 700; }
 
-  .role-btn { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 8px 10px;border:2px solid #e5e7eb;border-radius:14px;background:#fff;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.05); }
-  .role-btn:hover, .role-btn.active { border-color:#1a2456;background:rgba(26,36,86,0.04);transform:translateY(-2px);box-shadow:0 4px 14px rgba(26,36,86,0.12); }
-  .role-btn.active { box-shadow:0 0 0 3px rgba(26,36,86,0.15),0 4px 14px rgba(26,36,86,0.12); }
-  label { display:block;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;margin-top:0; }
-  input, select { display:block;width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:Montserrat,sans-serif;font-weight:500;color:#111;background:#fafafa;box-sizing:border-box;margin-bottom:0;transition:border-color 0.2s; }
-  input:focus, select:focus { outline:none;border-color:#1a2456;background:#fff;box-shadow:0 0 0 3px rgba(26,36,86,0.08); }
+  .role-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 8px 10px;border:2px solid #e5e7eb;border-radius:14px;background:#fff;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+  .role-btn:hover,.role-btn.active{border-color:#1a2456;background:rgba(26,36,86,0.04);transform:translateY(-2px);box-shadow:0 4px 14px rgba(26,36,86,0.12);}
+  .role-btn.active{box-shadow:0 0 0 3px rgba(26,36,86,0.15),0 4px 14px rgba(26,36,86,0.12);}
+  label{display:block;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;margin-top:0;}
+  input,select{display:block;width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:Montserrat,sans-serif;font-weight:500;color:#111;background:#fafafa;box-sizing:border-box;margin-bottom:0;transition:border-color 0.2s;}
+  input:focus,select:focus{outline:none;border-color:#1a2456;background:#fff;box-shadow:0 0 0 3px rgba(26,36,86,0.08);}
   </style>
 </head>
 <body>
@@ -477,7 +477,7 @@ function loginHTML(){
         +"<label>Contrasena</label>"
         +"<input type='password' id='pInput' placeholder='Ingresa tu contrasena' onkeydown='if(event.key===\"Enter\")doLogin()'/>"
         +"<button class='btn btn-navy' onclick='doLogin()' style='margin-top:8px'>ENTRAR</button>"
-        +"<div style='text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0;font-size:9px;color:#9ca3af;font-style:italic'>Built by operators, for operators</div>"
+        +"<div style='text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0'>"+"<div style='font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px'>POWERED BY</div>"+"<div style='font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:3px;color:#1a2456'>JFX <span style='color:#9b1b1b'>CARRIER INC</span></div>"+"<div style='font-size:9px;color:#c4c9d4;font-style:italic;margin-top:2px'>Built by operators, for operators&#8482;</div>"+"</div>"
       +"</div>"
     +"</div>"
   +"</div>";
