@@ -3212,7 +3212,7 @@ If amount not found use 0.`}
                 height="320"
                 frameBorder="0"
                 style={{display:"block"}}
-                src={`https://www.google.com/maps/embed/v1/directions?key=${GOOGLE_MAPS_KEY !== "TU_GOOGLE_MAPS_API_KEY" ? GOOGLE_MAPS_KEY : "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY"}&origin=${Object.values(driverLocations)[0]?.lat},${Object.values(driverLocations)[0]?.lng}&destination=${Object.values(driverLocations)[Object.values(driverLocations).length-1]?.lat},${Object.values(driverLocations)[Object.values(driverLocations).length-1]?.lng}&mode=driving`}
+src={`https://www.google.com/maps/embed/v1/view?key=${GOOGLE_MAPS_KEY}&center=${Object.values(driverLocations)[0]?.lat},${Object.values(driverLocations)[0]?.lng}&zoom=12&maptype=roadmap`}
                 allowFullScreen
               />
             ) : (
