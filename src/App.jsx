@@ -2984,7 +2984,7 @@ Responde en español, de forma clara y concisa. Si preguntan algo que no sabes, 
                   try {
                     const resp = await fetch("https://api.anthropic.com/v1/messages",{
                       method:"POST",
-                      headers:{"Content-Type":"application/json"},
+headers:{"Content-Type":"application/json","x-api-key":"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","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
                       body:JSON.stringify({
                         model:"claude-haiku-4-5-20251001",
                         max_tokens:600,
