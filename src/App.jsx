@@ -2429,6 +2429,21 @@ If not found use empty string.`}
                     </div>
                     <span className="chip chip-red">{user?.role==="owner"?"Mi Camión":"Mi Perfil"}</span>
                   </div>
+                  <div style={{marginBottom:12,padding:"10px 14px",background:"#f0fdf4",borderRadius:10,border:"1px solid #bbf7d0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+  <div>
+    <div style={{fontSize:12,fontWeight:700,color:"#16a34a"}}>📍 GPS Tracking</div>
+    <div style={{fontSize:10,color:"#6b7280"}}>{driverLocations[d]?"Activo · Compartiendo ubicación":"Inactivo"}</div>
+  </div>
+  <button onClick={()=>{
+    if(driverLocations[d]){
+      const nl={...driverLocations};delete nl[d];setDriverLocations(nl);
+    } else {
+      navigator.geolocation.getCurrentPosition(p=>setDriverLocations(prev=>({...prev,[d]:{lat:p.coords.latitude,lng:p.coords.longitude,driver:d,time:new Date().toLocaleTimeString()}})),e=>alert("Activa el GPS en tu dispositivo"));
+    }
+  }} style={{padding:"6px 14px",borderRadius:8,border:"none",cursor:"pointer",fontWeight:700,fontSize:11,background:driverLocations[d]?"#ef4444":"#16a34a",color:"#fff"}}>
+    {driverLocations[d]?"⏹ Detener":"▶ Activar GPS"}
+  </button>
+</div>
                   <div className="stats-grid" style={{marginBottom:10}}>
                     <div className="stat-card s-yellow"><div className="stat-label">Gross</div><div className="stat-value sv-yellow" style={{fontSize:20}}>{fmt(dg)}</div></div>
                     <div className="stat-card s-green"><div className="stat-label">Pay (30%)</div><div className="stat-value sv-green" style={{fontSize:20}}>{fmt(dg*0.30)}</div></div>
