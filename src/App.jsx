@@ -1829,7 +1829,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
             >
               {notifStatus==="granted"?"🔔 Notif. ON":notifStatus==="denied"?"🔕 Bloqueado":"🔔 Activar Notif."}
             </div>}
-          </div>
+          </div>{user?.role==="driver" && <div style={{marginBottom:12,padding:"10px 14px",background:trackingActive?"#f0fdf4":"#f8fafc",borderRadius:10,border:`1px solid ${trackingActive?"#bbf7d0":"#e2e8f0"}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}><div><div style={{fontSize:12,fontWeight:700,color:trackingActive?"#16a34a":"#6b7280"}}>📍 GPS Tracking</div><div style={{fontSize:10,color:"#6b7280"}}>{trackingActive?"Activo · Compartiendo ubicación":"Inactivo"}</div></div><button onClick={()=>trackingActive?stopTracking(trackingInterval,setTrackingActive,setTrackingInterval):startTracking(user.driver,user?.truck,setDriverLocations,setTrackingActive,setTrackingInterval)} style={{padding:"6px 14px",borderRadius:8,border:"none",cursor:"pointer",fontWeight:700,fontSize:11,background:trackingActive?"#ef4444":"#16a34a",color:"#fff"}}>{trackingActive?"⏹ Detener":"▶ Activar GPS"}</button></div>}
 
           {/* ── DRIVER: My Truck + Weekly Mileage Log ── */}
           {user?.role==="driver" && (()=>{
