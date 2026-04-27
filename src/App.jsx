@@ -1386,7 +1386,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
     ...(canPDF?[{id:"reports",icon:"📄",label:"Reports"}]:[]),
     ...(user?.role!=="driver"&&!isOwner?[{id:"drivers",icon:"🚛",label:"Drivers"}]:[]),
     ...(canTrucks?[{id:"trucks",icon:"🚚",label:"Camiones"}]:[]),
-    ...(canTrucks?[{id:"tracking",icon:"📍",label:"GPS"}]:[]),
+    ...((canTrucks||user?.role==="dispatch")?[{id:"tracking",icon:"📍",label:"GPS"}]:[]),
     {id:"support",icon:"🎧",label:"Support"},
     ...(canTrucks?[{id:"ifta",icon:"🗺️",label:"IFTA"}]:[]),
     ...(user?.role==="driver"?[{id:"receipts",icon:"🧾",label:"Gastos"}]:[]),
