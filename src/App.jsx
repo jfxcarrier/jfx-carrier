@@ -3201,8 +3201,7 @@ If amount not found use 0.`}
         </>}
 
         {/* ══ GPS TRACKING TAB (Manager only) ══ */}
-        {tab==="tracking" && canTrucks && <>
-
+        {tab==="tracking" && (canTrucks || user?.role==="dispatch") && <>
           {/* Embedded Google Map */}
           <div style={{borderRadius:12,overflow:"hidden",marginBottom:14,border:"1px solid #dde1e9",boxShadow:"0 1px 6px rgba(26,36,86,0.06)"}}>
             {Object.keys(driverLocations).length > 0 ? (
