@@ -1334,7 +1334,59 @@ export default function App(){
   const [showMileageEntry,setShowMileageEntry]=useState(false); // modal al entrar
   const [entryMiles,setEntryMiles]=useState("");
   const [mileageRecords,setMileageRecords]=useState([]); // registro global visible solo por manager
+// ==================== SINCRONIZACIÓN CON FIREBASE ====================
+  const [fbLoaded, setFbLoaded] = useState(false);
 
+  // Cargar datos desde Firestore al iniciar
+  useEffect(()=>{
+    const loadFromFirebase = async ()=>{
+      try{
+        const collections = [
+          {name:"loads", setter:setLoads},
+          {name:"owners", setter:setOwners},
+          {name:"trucks", setter:setTrucks},
+          {name:"receipts", setter:setReceipts},
+          {name:"iftaLogs", setter:setIftaLogs},
+          {name:"geofences", setter:setGeofences},
+        ];
+        for(const c of collections){
+          const snap = await getDoc(doc(db, "appData", c.name));
+          if(snap.exists() && snap.data().items){
+            c.setter(snap.data().items);
+          }
+        }
+        // Datos que son objetos (no arrays)
+        const objDocs = [
+          {name:"driverDocs", setter:setDriverDocs},
+          {name:"brokerLinks", setter:setBrokerLinks},
+          {name:"driverLocations", setter:setDriverLocations},
+        ];
+        for(const c of objDocs){
+          const snap = await getDoc(doc(db, "appData", c.name));
+          if(snap.exists() && snap.data().data){
+            c.setter(snap.data().data);
+          }
+        }
+        setFbLoaded(true);
+      }catch(e){
+        console.error("Error cargando desde Firebase:", e);
+        setFbLoaded(true);
+      }
+    };
+    loadFromFirebase();
+  },[]);
+
+  // Guardar en Firestore cuando cambian los datos
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","loads"),{items:loads}).catch(e=>console.error(e)); },[loads,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","owners"),{items:owners}).catch(e=>console.error(e)); },[owners,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","trucks"),{items:trucks}).catch(e=>console.error(e)); },[trucks,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","receipts"),{items:receipts}).catch(e=>console.error(e)); },[receipts,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","iftaLogs"),{items:iftaLogs}).catch(e=>console.error(e)); },[iftaLogs,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","geofences"),{items:geofences}).catch(e=>console.error(e)); },[geofences,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","driverDocs"),{data:driverDocs}).catch(e=>console.error(e)); },[driverDocs,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","brokerLinks"),{data:brokerLinks}).catch(e=>console.error(e)); },[brokerLinks,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","driverLocations"),{data:driverLocations}).catch(e=>console.error(e)); },[driverLocations,fbLoaded]);
+  // ==================== FIN SINCRONIZACIÓN FIREBASE ====================
   const login=()=>{
     if(!pass){ alert("Ingresa tu contraseña"); return; }
     if(role === "owner"){
