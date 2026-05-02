@@ -1379,17 +1379,25 @@ const login=async ()=>{
     "jhonny corredor":"jonycoco@hotmail.com",
     "fiorela corredor":"jaxonfreightcorp@gmail.com",
     "henry verde":"jfxcarrier@gmail.com",
+    "angela andrade":"americanfreightturbo@gmail.com",
   };
   let email=null;
   if(role==="manager") email=emailMap["jhonny corredor"];
   else if(role==="dispatch") email=emailMap["fiorela corredor"];
   else if(role==="driver") email=emailMap[selectedDriver?.toLowerCase()];
-  else if(role==="owner"){
+ else if(role==="owner"){
     const owner=owners.find(o=>o.name===selectedOwner&&o.password===pass);
     if(!owner){alert("Nombre o contraseña incorrectos");return;}
+    const ownerEmail=emailMap[owner.name.toLowerCase()];
+    if(ownerEmail){
+      try{
+        await signInWithEmailAndPassword(auth,ownerEmail,pass);
+      }catch(e){ console.error(e); }
+    }
     setUser({role:"owner",name:owner.name,ownerData:owner});
     setTab("dashboard");
     return;
+  }
   } else if(role==="billing"){
     setUser({role:"billing",name:"JFX Billing",driver:null});
     setTab("dashboard");
