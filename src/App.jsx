@@ -2681,8 +2681,7 @@ If not found use empty string.`}
         </div>
       )}
       </div>
-    );
-}
+    )}
                     </div>
     
                   const first = driverRecs[0];
