@@ -373,6 +373,7 @@ const DISPATCHERS = ["Fiorela Corredor"];
 
 // Truck Owners (socios) — el manager asigna driver y camión
 const INITIAL_OWNERS = [
+  {id:1, name:"Angela Andrade", truck:"T-68", driver:"Henry Verde", password:"123456"},
 ];
 
 const USERS = {
@@ -386,6 +387,7 @@ const INITIAL_LOADS = [
 ];
 
 const INITIAL_TRUCKS = [
+  {id:1, unit:"T-68", make:"Kenworth", model:"T680", year:"", plate:"", driver:"Henry Verde", totalMiles:"", lastOilMiles:""},
 ];
 const OIL_INTERVAL = 13000; // millas entre cambios de aceite
 
