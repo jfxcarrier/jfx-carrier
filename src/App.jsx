@@ -2028,7 +2028,6 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                 </div>
               </>
             ) : null;
-            ) : null;
           })()}
           <div className="stats-grid">
             <div className="stat-card s-yellow"><div className="stat-label">Gross Revenue</div><div className="stat-value sv-yellow">{fmt(gross)}</div></div>
