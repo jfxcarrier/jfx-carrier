@@ -1694,8 +1694,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
             <div style={{fontSize:11,fontWeight:800,color:"#1a2456",lineHeight:1}}>{user.name}</div>
             <span className={"badge badge-"+user.role} style={{marginTop:3,display:"inline-block"}}>{user.role}</span>
           </div>
-          <button className="icon-btn" onClick={()=>setUser(null)} title="Cerrar sesión">⬅</button>
-        </div>
+      <button className={"icon-btn"} onClick={()=>{signOut(auth);setUser(null);}} title="Cerrar sesión">←</button>  </div>
       </div>
 
       <div className="main">
