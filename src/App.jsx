@@ -1999,34 +1999,6 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                       ))}
                     </div>
                   )}
-               {/* Driver's own documents */}
-                <div style={{marginTop:12}}>
-                  <div style={{fontSize:10,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Mis Documentos DOT</div>
-                  <div style={{display:"flex",gap:8,marginBottom:10}}>
-                    {["license","medical"].map(docType=>{
-                      const docs = driverDocs[user.driver]||{};
-                      const doc = docs[docType];
-                      const status = expiryStatus(doc?.expiry);
-                      return(
-                        <div key={docType} style={{flex:1,padding:"10px 12px",borderRadius:8,background:status?status.bg:"#f4f5f7",border:`1.5px solid ${status?status.color+"40":"#dde1e9"}`}}>
-                          <div style={{fontSize:9,fontWeight:800,color:"#6b7280",letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>
-                            {docType==="license"?"🪪 CDL License":"🩺 Medical Card"}
-                          </div>
-                          {doc?.img && <img src={doc.img} style={{width:"100%",height:50,objectFit:"cover",borderRadius:6,marginBottom:6,border:"1px solid #dde1e9"}}/>}
-                          {doc?.expiry
-                            ? <div style={{fontSize:11,fontWeight:700,color:status?.color}}>{status?.icon} {status?.label}</div>
-                            : <div style={{fontSize:11,color:"#9ca3af"}}>No subido</div>
-                          }
-                          <button style={{marginTop:6,width:"100%",padding:"6px 8px",background:"#1a2456",border:"none",borderRadius:6,color:"white",fontSize:9,fontWeight:700,cursor:"pointer"}}
-                            onClick={()=>{setDocsDriver(user.driver);setShowDocsModal(true);}}>
-                            {doc?"Actualizar":"Subir"}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                </div>
                 {showDocsModal&&(
   <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowDocsModal(false)}>
     <div className="modal-sheet">
@@ -3200,7 +3172,40 @@ Responde en español, de forma clara y concisa.`,
             </div>
           </div>
         </>}
-
+{/* — MIS DOCUMENTOS TAB (Driver only) — */}
+{tab==="docs" && user?.role==="driver" && <>
+  <div className="card accent-1" style={{marginBottom:14}}>
+    <div className="card-header" style={{marginBottom:12}}>
+      <div>
+        <div className="card-title">📋 Mis Documentos DOT</div>
+        <div className="card-sub">CDL License · Medical Card</div>
+      </div>
+    </div>
+    <div style={{display:"flex",gap:8,marginBottom:10}}>
+      {["license","medical"].map(docType=>{
+        const docs = driverDocs[user.driver]||{};
+        const doc = docs[docType];
+        const status = expiryStatus(doc?.expiry);
+        return(
+          <div key={docType} style={{flex:1,padding:"10px 12px",borderRadius:8,background:status?status.bg:"#f4f5f7",border:`1.5px solid ${status?status.color:"#dde1e9"}`}}>
+            <div style={{fontWeight:800,fontSize:9,color:"#6b7280",letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>
+              {docType==="license"?"🪪 CDL License":"🩺 Medical Card"}
+            </div>
+            {doc?.img && <img src={doc.img} style={{width:"100%",height:50,objectFit:"cover",borderRadius:6,marginBottom:6,border:"1px solid #dde1e9"}}/>}
+            {doc?.expiry
+              ? <div style={{fontSize:11,fontWeight:700,color:status?.color}}>{status?.icon} {status?.label}</div>
+              : <div style={{fontSize:11,color:"#9ca3af"}}>No subido</div>
+            }
+            <button style={{marginTop:6,width:"100%",padding:"6px 8px",background:"#1a2456",border:"none",borderRadius:6,color:"white",fontSize:9,fontWeight:700,cursor:"pointer"}}
+              onClick={()=>{setDocsDriver(user.driver);setShowDocsModal(true);}}>
+              {doc?"Actualizar":"Subir"}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</>}
         {/* ══ RECEIPTS / GASTOS TAB (Driver only) ══ */}
         {tab==="receipts" && user?.role==="driver" && <>
 
