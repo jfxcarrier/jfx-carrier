@@ -1398,7 +1398,7 @@ const login=async ()=>{
     setTab("dashboard");
     return;
   }
-  } else if(role==="billing"){
+ else if(role==="billing"){
     setUser({role:"billing",name:"JFX Billing",driver:null});
     setTab("dashboard");
     return;
