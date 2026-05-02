@@ -2561,9 +2561,8 @@ If not found use empty string.`}
                         );
                       })}
                     </div>
-                  </div>
-                </div>
-               {showDocsModal&&(
+                  </div> 
+                  {showDocsModal&&(
   <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowDocsModal(false)}>
     <div className="modal-sheet">
       <div className="modal-handle"/>
@@ -2607,6 +2606,7 @@ If not found use empty string.`}
     </div>
   </div>
 )} 
+                </div>            
               );
             })()
           ) : (
