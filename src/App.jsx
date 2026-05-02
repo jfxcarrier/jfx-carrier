@@ -2563,6 +2563,50 @@ If not found use empty string.`}
                     </div>
                   </div>
                 </div>
+               {showDocsModal&&(
+  <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setShowDocsModal(false)}>
+    <div className="modal-sheet">
+      <div className="modal-handle"/>
+      <div className="modal-title">📋 Documentos DOT — {docsDriver}</div>
+      {["license","medical"].map(docType=>{
+        const docs=driverDocs[docsDriver]||{};
+        const doc=docs[docType];
+        const status=expiryStatus(doc?.expiry);
+        return(
+          <div key={docType} style={{marginBottom:16,padding:"12px",borderRadius:10,background:"#f8fafc",border:"1px solid #e2e8f0"}}>
+            <div style={{fontWeight:800,fontSize:11,color:"#6b7280",letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>
+              {docType==="license"?"🪪 CDL License":"🩺 Medical Card"}
+            </div>
+            {doc?.img&&<img src={doc.img} style={{width:"100%",height:80,objectFit:"cover",borderRadius:8,marginBottom:8,border:"1px solid #dde1e9"}}/>}
+            {doc?.expiry&&<div style={{fontSize:11,fontWeight:700,color:status?.color,marginBottom:8}}>{status?.icon} {status?.label}</div>}
+            <input type="date" placeholder="Fecha de vencimiento"
+              defaultValue={doc?.expiry||""}
+              style={{width:"100%",padding:"8px",borderRadius:6,border:"1px solid #dde1e9",fontSize:12,marginBottom:8}}
+              id={`expiry-${docType}`}/>
+            <input type="file" accept="image/*" capture="environment"
+              id={`file-${docType}`} style={{display:"none"}}
+              onChange={async(e)=>{
+                const file=e.target.files[0]; if(!file) return;
+                const reader=new FileReader();
+                reader.onload=()=>{
+                  const img=reader.result;
+                  const expiry=document.getElementById(`expiry-${docType}`).value;
+                  setDriverDocs(prev=>({...prev,[docsDriver]:{...(prev[docsDriver]||{}),[docType]:{img,expiry}}}));
+                  alert("✅ Documento guardado correctamente");
+                };
+                reader.readAsDataURL(file);
+              }}/>
+            <button style={{width:"100%",padding:"8px",background:"#1a2456",border:"none",borderRadius:8,color:"white",fontSize:12,fontWeight:700,cursor:"pointer"}}
+              onClick={()=>document.getElementById(`file-${docType}`).click()}>
+              📷 {doc?"Actualizar foto":"Tomar foto o subir archivo"}
+            </button>
+          </div>
+        );
+      })}
+      <button className="btn-outline" style={{width:"100%"}} onClick={()=>setShowDocsModal(false)}>Cerrar</button>
+    </div>
+  </div>
+)} 
               );
             })()
           ) : (
