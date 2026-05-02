@@ -2681,10 +2681,10 @@ If not found use empty string.`}
         </div>
       )}
       </div>
-    </>);
+    );
 }
                     </div>
-                  );
+    
                   const first = driverRecs[0];
                   const last  = driverRecs[driverRecs.length-1];
                   const diff  = last.miles - first.miles;
