@@ -2141,7 +2141,7 @@ If not found use empty string.`}
               <div className="load-icon">📦</div>
               <div className="load-info">
                 <div className="load-route">{l.from} → {l.to}</div>
-                <div className="load-meta"><span className="chip chip-navy">{l.driver}</span> · {l.miles} mi · ⛽ {fmt(l.diesel)}</div>{(l.pickupDate||l.deliveryDate)&&<div style={{fontSize:10,color:"#6b7280",marginTop:2}}>
+                <div className="load-meta"><span className="chip chip-navy">{l.driver}</span> · {l.miles} mi · ⛽ {fmt(l.diesel)}</div>
  {(l.pickupDate||l.deliveryDate)&&<div style={{display:"flex",gap:12,marginTop:4,fontSize:10,color:"#6b7280"}}>
   {l.pickupDate&&<div><span style={{fontWeight:700,color:"#1a2456",textTransform:"uppercase"}}>Pickup:</span> {l.pickupDate} {l.pickupTime&&<span style={{color:"#16a34a"}}>@ {l.pickupTime}</span>}</div>}
   {l.deliveryDate&&<div><span style={{fontWeight:700,color:"#1a2456",textTransform:"uppercase"}}>Drop Off:</span> {l.deliveryDate} {l.deliveryTime&&<span style={{color:"#dc2626"}}>@ {l.deliveryTime}</span>}</div>}
