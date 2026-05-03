@@ -2112,6 +2112,14 @@ If not found use empty string.`}
               <div className="form-group"><label>To City</label><input value={form.to} onChange={e=>setForm({...form,to:e.target.value})} placeholder="Dallas, TX"/></div>
             </div>
             <div className="form-row">
+  <div className="form-group"><label>Pickup Date</label><input type="date" value={form.pickupDate} onChange={e=>setForm({...form,pickupDate:e.target.value})}/></div>
+  <div className="form-group"><label>Pickup Time</label><input type="time" value={form.pickupTime} onChange={e=>setForm({...form,pickupTime:e.target.value})}/></div>
+</div>
+<div className="form-row">
+  <div className="form-group"><label>Delivery Date</label><input type="date" value={form.deliveryDate} onChange={e=>setForm({...form,deliveryDate:e.target.value})}/></div>
+  <div className="form-group"><label>Delivery Time</label><input type="time" value={form.deliveryTime} onChange={e=>setForm({...form,deliveryTime:e.target.value})}/></div>
+</div>
+            <div className="form-row">
               <div className="form-group">
                   <label>Miles {milesLoading && <span style={{color:"#1a2456",fontWeight:700}}>⟳ Calculando...</span>}</label>
                   <input type="number" value={form.miles} onChange={e=>setForm({...form,miles:e.target.value})}
