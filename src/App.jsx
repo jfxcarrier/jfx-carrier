@@ -1709,7 +1709,13 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
       </div>
 
       <div className="main">
-
+<div style={{background:"linear-gradient(135deg,#1a2456,#253080)",borderRadius:14,padding:"20px 18px",marginBottom:14,color:"white"}}>
+  <div style={{fontSize:11,opacity:0.7,letterSpacing:2,textTransform:"uppercase",marginBottom:4}}>
+    {user?.name?.split(" ")[0]?.endsWith("a")?"Bienvenida":"Bienvenido"}
+  </div>
+  <div style={{fontFamily:"Bebas Neue,sans-serif",fontSize:28,letterSpacing:3,marginBottom:2}}>{user?.name}</div>
+  <div style={{fontSize:12,opacity:0.7,textTransform:"uppercase"}}>{user?.role}</div>
+</div>
         {tab==="dashboard" && <>
           {/* ── OWNER VIEW — Read only dashboard ── */}
           {isOwner && (()=>{
