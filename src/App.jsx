@@ -1448,7 +1448,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
     {id:"drivers",icon:"🚛",label:"Mi Camión"},
   ] : [
     {id:"dashboard",icon:"📊",label:"Dashboard"},
-    {id:"docs",icon:"📋",label:"Mis Documentos"},
+...(user?.role==="driver"?[{id:"docs",icon:"📋",label:"Mis Documentos"}]:[]),
     ...(canAdd?[{id:"loads",icon:"📦",label:"Loads"}]:[]),
     {id:"weekly",icon:"📅",label:"Weekly"},
     ...(canPDF?[{id:"reports",icon:"📄",label:"Reports"}]:[]),
