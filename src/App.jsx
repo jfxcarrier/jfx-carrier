@@ -2033,6 +2033,10 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
             <div key={l.id} className="load-item">
               <div className="load-icon">🚛</div>
               <div className="load-info"><div className="load-route">{l.from} → {l.to}</div><div className="load-meta">{l.driver} · {l.date}</div></div>
+              {(l.pickupDate||l.deliveryDate)&&<div style={{display:"flex",gap:12,marginTop:4,fontSize:10,color:"#6b7280"}}>
+  {l.pickupDate&&<div><span style={{fontWeight:700,color:"#1a2456",textTransform:"uppercase"}}>Pickup:</span> {l.pickupDate} {l.pickupTime&&<span style={{color:"#16a34a"}}>@ {l.pickupTime}</span>}</div>}
+  {l.deliveryDate&&<div><span style={{fontWeight:700,color:"#1a2456",textTransform:"uppercase"}}>Drop Off:</span> {l.deliveryDate} {l.deliveryTime&&<span style={{color:"#dc2626"}}>@ {l.deliveryTime}</span>}</div>}
+</div>}
               <div className="load-right"><div className="load-amount">{fmt(l.rate)}</div><div className="load-miles">{l.miles} MI</div></div>
             </div>
           ))}
