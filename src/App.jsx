@@ -2012,9 +2012,8 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
           })()}
           <div className="stats-grid">
             <div className="stat-card s-yellow"><div className="stat-label">Gross Revenue</div><div className="stat-value sv-yellow">{fmt(gross)}</div></div>
-            <div className="stat-card s-green"><div className="stat-label">Net Profit</div><div className="stat-value sv-green">{fmt(net)}</div></div>
+<div className="stat-card s-green"><div className="stat-label">Driver Pay (30%)</div><div className="stat-value sv-green">{fmt(d30)}</div></div>
             <div className="stat-card s-navy"><div className="stat-label">Total Loads</div><div className="stat-value sv-navy">{myLoads.length}</div></div>
-            <div className="stat-card s-red"><div className="stat-label">Diesel Cost</div><div className="stat-value sv-red">{fmt(totD)}</div></div>
           </div>
           <div className="card accent-l">
             <div className="card-header">
