@@ -2141,7 +2141,11 @@ If not found use empty string.`}
               <div className="load-icon">📦</div>
               <div className="load-info">
                 <div className="load-route">{l.from} → {l.to}</div>
-                <div className="load-meta"><span className="chip chip-navy">{l.driver}</span> · {l.miles} mi · ⛽ {fmt(l.diesel)}</div>
+                <div className="load-meta"><span className="chip chip-navy">{l.driver}</span> · {l.miles} mi · ⛽ {fmt(l.diesel)}</div>{(l.pickupDate||l.deliveryDate)&&<div style={{fontSize:10,color:"#6b7280",marginTop:2}}>
+  {l.pickupDate&&<span>📦 {l.pickupDate} {l.pickupTime||""}</span>}
+  {l.pickupDate&&l.deliveryDate&&<span> → </span>}
+  {l.deliveryDate&&<span>🏁 {l.deliveryDate} {l.deliveryTime||""}</span>}
+</div>}
 <div style={{display:"flex",gap:4,marginTop:4}}>
   <span onClick={()=>setLoads(loads.map(x=>x.id===l.id?{...x,status:"picked"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="picked"?"#3b82f6":"#e2e8f0",color:l.status==="picked"?"#fff":"#6b7280"}}>📦 Recogida</span>
   <span onClick={()=>setLoads(loads.map(x=>x.id===l.id?{...x,status:"transit"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="transit"?"#f97316":"#e2e8f0",color:l.status==="transit"?"#fff":"#6b7280"}}>🚛 En Camino</span>
@@ -2183,7 +2187,11 @@ If not found use empty string.`}
           {myLoads.map(l=>(
             <div key={l.id} className="load-item">
               <div className="load-icon">🗺️</div>
-              <div className="load-info"><div className="load-route">{l.from} → {l.to}</div><div className="load-meta">{l.miles} mi · Diesel: {fmt(l.diesel)}</div></div>
+              <div className="load-info"><div className="load-route">{l.from} → {l.to}</div><div className="load-meta">{l.miles} mi · Diesel: {fmt(l.diesel)}</div></div>{(l.pickupDate||l.deliveryDate)&&<div style={{fontSize:10,color:"#6b7280",marginTop:2}}>
+  {l.pickupDate&&<span>📦 {l.pickupDate} {l.pickupTime||""}</span>}
+  {l.pickupDate&&l.deliveryDate&&<span> → </span>}
+  {l.deliveryDate&&<span>🏁 {l.deliveryDate} {l.deliveryTime||""}</span>}
+</div>}
               <div className="load-right"><div className="load-amount">{fmt(l.rate)}</div><div className="load-miles">DRV: {fmt(l.rate*0.30)}</div></div>
             </div>
           ))}
