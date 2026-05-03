@@ -2021,12 +2021,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
               <div><div className="card-title">Weekly Breakdown</div><div className="card-sub">Mon → Mon cycle · Auto-calculated</div></div>
             </div>
             <div className="summary-row gross"><span className="lbl">Gross Revenue</span><span className="val">{fmt(gross)}</span></div>
-            <div className="summary-row deduct"><span className="lbl">Dispatch (10%)</span><span className="val">-{fmt(d10)}</span></div>
             <div className="summary-row deduct"><span className="lbl">Driver Pay (30%)</span><span className="val">-{fmt(d30)}</span></div>
-            <div className="summary-row deduct"><span className="lbl">Insurance</span><span className="val">-$250.00</span></div>
-            <div className="summary-row deduct"><span className="lbl">Diesel</span><span className="val">-{fmt(totD)}</span></div>
-            <div className="divider"/>
-            <div className="summary-row total"><span className="lbl">NET PROFIT</span><span className="val">{fmt(net)}</span></div>
           </div>
           <div className="sec-title">Recent Loads</div>
           {myLoads.slice(-3).reverse().map(l=>(
