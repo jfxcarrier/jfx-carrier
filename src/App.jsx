@@ -2012,16 +2012,21 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
           })()}
           <div className="stats-grid">
             <div className="stat-card s-yellow"><div className="stat-label">Gross Revenue</div><div className="stat-value sv-yellow">{fmt(gross)}</div></div>
-<div className="stat-card s-green"><div className="stat-label">Driver Pay (30%)</div><div className="stat-value sv-green">{fmt(d30)}</div></div>
-            <div className="stat-card s-navy"><div className="stat-label">Total Loads</div><div className="stat-value sv-navy">{myLoads.length}</div></div>
-          </div>
+{user?.role==="driver"?<div className="stat-card s-green"><div className="stat-label">Driver Pay (30%)</div><div className="stat-value sv-green">{fmt(d30)}</div></div>:<div className="stat-card s-green"><div className="stat-label">Net Profit</div><div className="stat-value sv-green">{fmt(net)}</div></div>}
+              <div className="stat-card s-navy"><div className="stat-label">Total Loads</div><div className="stat-value sv-navy">{myLoads.length}</div></div>
+              {user?.role!=="driver"&&<div className="stat-card s-red"><div className="stat-label">Diesel Cost</div><div className="stat-value sv-red">{fmt(totD)}</div></div>}
+            </div>
           <div className="card accent-l">
             <div className="card-header">
               <div><div className="card-title">Weekly Breakdown</div><div className="card-sub">Mon → Mon cycle · Auto-calculated</div></div>
             </div>
             <div className="summary-row gross"><span className="lbl">Gross Revenue</span><span className="val">{fmt(gross)}</span></div>
             <div className="summary-row deduct"><span className="lbl">Driver Pay (30%)</span><span className="val">-{fmt(d30)}</span></div>
-          </div>
+           {user?.role!=="driver"&&<><div className="summary-row deduct"><span className="lbl">Dispatch (10%)</span><span className="val">-{fmt(d10)}</span></div>
+              <div className="summary-row deduct"><span className="lbl">Insurance</span><span className="val">-$250.00</span></div>
+              <div className="summary-row deduct"><span className="lbl">Diesel</span><span className="val">-{fmt(totD)}</span></div>
+              <div className="divider"/>
+              <div className="summary-row total"><span className="lbl">NET PROFIT</span><span className="val">{fmt(net)}</span></div></>}
           <div className="sec-title">Recent Loads</div>
           {myLoads.slice(-3).reverse().map(l=>(
             <div key={l.id} className="load-item">
