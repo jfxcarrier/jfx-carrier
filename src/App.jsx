@@ -1274,6 +1274,10 @@ export default function App(){
   const [pendingReceipt,setPendingReceipt]=useState(null);
   const [receiptLoading,setReceiptLoading]=useState(false);
   const [receiptType,setReceiptType]=useState(null);
+  const [showAddDriver,setShowAddDriver]=useState(false);
+const [newDrvName,setNewDrvName]=useState("");
+const [newDrvEmail,setNewDrvEmail]=useState("");
+const [newDrvPass,setNewDrvPass]=useState("");
   const [showAnnualReport,setShowAnnualReport]=useState(false);
   const [annualYear,setAnnualYear]=useState(new Date().getFullYear());
   const [driverDocs,setDriverDocs]=useState({}); // {driverName: {license:{img,expiry}, medical:{img,expiry}}}
@@ -1373,14 +1377,25 @@ export default function App(){
   useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","brokerLinks"),{data:brokerLinks}).catch(e=>console.error(e)); },[brokerLinks,fbLoaded]);
   useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","driverLocations"),{data:driverLocations}).catch(e=>console.error(e)); },[driverLocations,fbLoaded]);
   // ==================== FIN SINCRONIZACIÓN FIREBASE ====================
-const login=async ()=>{
+const addDriver=async()=>{
+  if(!newDrvName||!newDrvEmail||!newDrvPass){alert("Completa todos los campos");return;}
+  try{
+    await firebase.auth().createUserWithEmailAndPassword(newDrvEmail,newDrvPass);
+    const updatedMap={...(appData?.driverEmails||{}),[newDrvName.toLowerCase()]:newDrvEmail};
+    await setDoc(doc(db,"appData","driverEmails"),{data:updatedMap});
+    setAppData(p=>({...p,driverEmails:updatedMap}));
+    alert("Driver agregado exitosamente!");
+    setNewDrvName("");setNewDrvEmail("");setNewDrvPass("");
+    setShowAddDriver(false);
+  }catch(e){alert("Error: "+e.message);}
+};
   if(!pass){ alert("Ingresa tu contraseña"); return; }
-  const emailMap={
-    "jhonny corredor":"jonycoco@hotmail.com",
-    "fiorela corredor":"jaxonfreightcorp@gmail.com",
-    "henry verde":"jfxcarrier@gmail.com",
-    "angela andrade":"americanfreightturbo@gmail.com",
-  };
+  const emailMap = (appData?.driverEmails)||{
+  "jhonny corredor":"jonycoco@hotmail.com",
+  "fiorela corredor":"jaxonfreightcorp@gmail.com",
+  "henry verde":"jfxcarrier@gmail.com",
+  "angela andrade":"americanfreightturbo@gmail.com",
+};
   let email=null;
   if(role==="manager") email=emailMap["jhonny corredor"];
   else if(role==="dispatch") email=emailMap["fiorela corredor"];
@@ -1533,7 +1548,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                   <label>Selecciona tu nombre</label>
                   <select value={selectedDriver} onChange={e=>setSelectedDriver(e.target.value)}
                     style={{width:"100%",padding:"12px 14px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111827",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:600,outline:"none"}}>
-                    {DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
+{Object.keys(appData?.driverEmails||{"jhonny corredor":"","fiorela corredor":"","henry verde":"","angela andrade":""}).map(d=><option key={d} value={d}>{d}</option>)}
                   </select>
                 </div>
                 {myTruck && (
