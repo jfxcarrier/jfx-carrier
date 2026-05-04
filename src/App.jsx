@@ -1815,7 +1815,6 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                     <div className="load-info">
                       <div className="load-route">{l.from} → {l.to}</div>
 
-</div>
   {(l.pickupDate||l.deliveryDate) && <div style={{fontSize:10,color:"#1a2456",fontWeight:600,marginTop:2}}>
                         {l.pickupDate&&"📦 "+l.pickupDate+" "+l.pickupTime} {l.deliveryDate&&"🏁 "+l.deliveryDate+" "+l.deliveryTime}
                       </div>}
