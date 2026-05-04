@@ -2027,6 +2027,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
               <div className="summary-row deduct"><span className="lbl">Diesel</span><span className="val">-{fmt(totD)}</span></div>
               <div className="divider"/>
               <div className="summary-row total"><span className="lbl">NET PROFIT</span><span className="val">{fmt(net)}</span></div></>}
+            </div>
           <div className="sec-title">Recent Loads</div>
           {myLoads.slice(-3).reverse().map(l=>(
             <div key={l.id} className="load-item">
