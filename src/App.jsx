@@ -2152,7 +2152,6 @@ If not found use empty string.`}
   <span onClick={()=>setLoads(loads.map(x=>x.id==l.id?{...x,status:"transit"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="transit"?"#dc2626":"#e2e8f0",color:l.status==="transit"?"#fff":"#6b7280"}}>🚛 En Camino</span>
   <span onClick={()=>setLoads(loads.map(x=>x.id==l.id?{...x,status:"delivered"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="delivered"?"#dc2626":"#e2e8f0",color:l.status==="delivered"?"#fff":"#6b7280"}}>✅ Entregada</span>
 </div>}
-</div>
               </div>
               <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
                 <div className="load-amount">{fmt(l.rate)}</div>
