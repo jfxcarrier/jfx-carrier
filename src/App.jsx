@@ -1815,10 +1815,10 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                     <div className="load-info">
                       <div className="load-route">{l.from} → {l.to}</div>
 <div style={{display:"flex",gap:4,marginTop:4}}>
-  <span onClick={()=>setLoads(loads.map(x=>x.id===l.id?{...x,status:"picked"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="picked"?"#3b82f6":"#e2e8f0",color:l.status==="picked"?"#fff":"#6b7280"}}>📦 Recogida</span>
-  <span onClick={()=>setLoads(loads.map(x=>x.id===l.id?{...x,status:"transit"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="transit"?"#f97316":"#e2e8f0",color:l.status==="transit"?"#fff":"#6b7280"}}>🚛 En Camino</span>
-  <span onClick={()=>setLoads(loads.map(x=>x.id===l.id?{...x,status:"delivered"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="delivered"?"#16a34a":"#e2e8f0",color:l.status==="delivered"?"#fff":"#6b7280"}}>✅ Entregada</span>
-</div>
+<span style={{fontSize:9,fontWeight:800,color:"#1a2456",marginRight:4}}>ETA</span>
+<span onClick={()=>setLoads(loads.map(x=>x.id==l.id?{...x,status:"picked"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="picked"?"#dc2626":"#e2e8f0",color:l.status==="picked"?"#fff":"#6b7280"}}>🟠 Recogida</span>
+<span onClick={()=>setLoads(loads.map(x=>x.id==l.id?{...x,status:"transit"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="transit"?"#dc2626":"#e2e8f0",color:l.status==="transit"?"#fff":"#6b7280"}}>🚛 En Camino</span>
+<span onClick={()=>setLoads(loads.map(x=>x.id==l.id?{...x,status:"delivered"}:x))} style={{cursor:"pointer",fontSize:9,padding:"2px 8px",borderRadius:10,fontWeight:700,background:l.status==="delivered"?"#dc2626":"#e2e8f0",color:l.status==="delivered"?"#fff":"#6b7280"}}>✅ Entregada</span>
                       {(l.pickupDate||l.deliveryDate) && <div style={{fontSize:10,color:"#1a2456",fontWeight:600,marginTop:2}}>
                         {l.pickupDate&&"📦 "+l.pickupDate+" "+l.pickupTime} {l.deliveryDate&&"🏁 "+l.deliveryDate+" "+l.deliveryTime}
                       </div>}
