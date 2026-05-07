@@ -1389,6 +1389,7 @@ const addDriver=async()=>{
     setShowAddDriver(false);
   }catch(e){alert("Error: "+e.message);}
 };
+  const login=async ()=>{
   if(!pass){ alert("Ingresa tu contraseña"); return; }
   const emailMap = (appData?.driverEmails)||{
   "jhonny corredor":"jonycoco@hotmail.com",
