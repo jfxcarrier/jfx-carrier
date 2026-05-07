@@ -960,7 +960,7 @@ function startTracking(driverName, truckUnit, setDriverLocations, setTrackingAct
           lng: pos.coords.longitude,
           accuracy: pos.coords.accuracy,
           timestamp: new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}),
-          truck: truckUnit,
+truck: truckUnit||"N/A",
           driver: driverName
         }
       }));
