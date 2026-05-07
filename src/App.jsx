@@ -1391,14 +1391,13 @@ const addDriver=async()=>{
 };
   const login=async ()=>{
   if(!pass){ alert("Ingresa tu contraseña"); return; }
- const emailMap = {
+const emailMap = {
   "jhonny corredor":"jonycoco@hotmail.com",
   "fiorela corredor":"jaxonfreightcorp@gmail.com",
   "henry verde":"jfxcarrier@gmail.com",
   "angela andrade":"americanfreightturbo@gmail.com",
-  ...(appData?.driverEmails||{})
 };
-  let email=null;
+    let email=null;
   if(role==="manager") email=emailMap["jhonny corredor"];
   else if(role==="dispatch") email=emailMap["fiorela corredor"];
   else if(role==="driver") email=emailMap[selectedDriver?.toLowerCase()];
