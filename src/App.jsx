@@ -1391,11 +1391,12 @@ const addDriver=async()=>{
 };
   const login=async ()=>{
   if(!pass){ alert("Ingresa tu contraseña"); return; }
-  const emailMap = (appData?.driverEmails)||{
+ const emailMap = {
   "jhonny corredor":"jonycoco@hotmail.com",
   "fiorela corredor":"jaxonfreightcorp@gmail.com",
   "henry verde":"jfxcarrier@gmail.com",
   "angela andrade":"americanfreightturbo@gmail.com",
+  ...(appData?.driverEmails||{})
 };
   let email=null;
   if(role==="manager") email=emailMap["jhonny corredor"];
@@ -1431,7 +1432,7 @@ const addDriver=async()=>{
     } else if(role==="dispatch"){
       setUser({role:"dispatch",name:"Fiorela Corredor",driver:null});
     } else if(role==="driver"){
-      setUser({role:"driver",name:"Henry Verde",driver:selectedDriver});
+setUser({role:"driver",name:selectedDriver,driver:selectedDriver});
       setShowMileageEntry(true);
       return;
     }
