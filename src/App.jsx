@@ -2858,8 +2858,8 @@ If not found use empty string.`}
                 </div>
 
                 {/* Recent maintenances preview */}
-                {t.maintenances.length > 0 && (
-                  <div style={{marginTop:10,borderTop:"1px solid #f0f0f0",paddingTop:10}}>
+{t.maintenances?.length > 0 && (
+                <div style={{marginTop:10,borderTop:"1px solid #f0f0f0",paddingTop:10}}>
                     <div style={{fontSize:9,fontWeight:800,color:"#9ca3af",letterSpacing:2,marginBottom:6}}>ÚLTIMO MANTENIMIENTO</div>
                     {[...t.maintenances].reverse().slice(0,1).map(m=>(
                       <div key={m.id} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"#374151"}}>
