@@ -2957,8 +2957,8 @@ If not found use empty string.`}
                   </div>
 
                   {/* Maintenance history */}
-                  <div style={{fontSize:10,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Historial ({truck.maintenances.length})</div>
-                  {truck.maintenances.length===0 && <div className="empty-state" style={{padding:"24px 0"}}><div className="empty-icon">🔧</div><div className="empty-text">Sin mantenimientos registrados</div></div>}
+                  <div style={{fontSize:10,fontWeight:800,color:"#6b7280",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Historial ({truck.maintenances?.length})</div>
+                  {truck.maintenances?.length===0 && <div className="empty-state" style={{padding:"24px 0"}}><div className="empty-icon">🔧</div><div className="empty-text">Sin mantenimientos registrados</div></div>}
                   {[...truck.maintenances].reverse().map(m=>(
                     <div key={m.id} style={{background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:8,padding:"12px 14px",marginBottom:8}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
