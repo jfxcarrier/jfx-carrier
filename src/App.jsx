@@ -2949,8 +2949,8 @@ If not found use empty string.`}
                     <button className="btn-accent" onClick={()=>{
                       if(!maintForm.type||!maintForm.date) return;
                       const newM = {id:Date.now(),type:maintForm.type,date:maintForm.date,miles:+maintForm.miles||truck.totalMiles,cost:+maintForm.cost||0,notes:maintForm.notes};
-                      const updatedTruck = {...truck, maintenances:[...truck.maintenances, newM]};
-                      if(maintForm.type==="Cambio de Aceite") updatedTruck.lastOilMiles = +maintForm.miles||truck.totalMiles;
+const updatedTruck = {...truck, maintenances:[...(truck.maintenances||[]), newM]};
+                if(maintForm.type==="Cambio de Aceite") updatedTruck.lastOilMiles = +maintForm.miles||truck.totalMiles;
                       setTrucks(trucks.map(x=>x.id===showMaint?updatedTruck:x));
                       setMaintForm({type:"",date:"",miles:"",cost:"",notes:""});
                     }}>+ Registrar</button>
