@@ -1549,7 +1549,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                   <label>Selecciona tu nombre</label>
                   <select value={selectedDriver} onChange={e=>setSelectedDriver(e.target.value)}
                     style={{width:"100%",padding:"12px 14px",background:"#f4f5f7",border:"1.5px solid #dde1e9",borderRadius:8,color:"#111827",fontFamily:"Montserrat,sans-serif",fontSize:14,fontWeight:600,outline:"none"}}>
-{Object.keys(appData?.driverEmails||{"jhonny corredor":"","fiorela corredor":"","henry verde":"","angela andrade":""}).map(d=><option key={d} value={d}>{d}</option>)}
+{DRIVERS.map(d=><option key={d} value={d}>{d}</option>)}
                   </select>
                 </div>
                 {myTruck && (
