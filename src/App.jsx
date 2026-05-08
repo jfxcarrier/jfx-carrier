@@ -1367,15 +1367,15 @@ const [newDrvPass,setNewDrvPass]=useState("");
   },[]);
 
   // Guardar en Firestore cuando cambian los datos
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","loads"),{items:loads}).catch(e=>console.error(e)); },[loads,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","owners"),{items:owners}).catch(e=>console.error(e)); },[owners,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","trucks"),{items:trucks}).catch(e=>console.error(e)); },[trucks,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","receipts"),{items:receipts}).catch(e=>console.error(e)); },[receipts,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","iftaLogs"),{items:iftaLogs}).catch(e=>console.error(e)); },[iftaLogs,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","geofences"),{items:geofences}).catch(e=>console.error(e)); },[geofences,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","driverDocs"),{data:driverDocs}).catch(e=>console.error(e)); },[driverDocs,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","brokerLinks"),{data:brokerLinks}).catch(e=>console.error(e)); },[brokerLinks,fbLoaded]);
-  useEffect(()=>{ if(fbLoaded) setDoc(doc(db,"appData","driverLocations"),{data:driverLocations}).catch(e=>console.error(e)); },[driverLocations,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","loads"),{items:loads}).catch(e=>console.error(e)); },[loads,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","owners"),{items:owners}).catch(e=>console.error(e)); },[owners,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","trucks"),{items:trucks}).catch(e=>console.error(e)); },[trucks,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","receipts"),{items:receipts}).catch(e=>console.error(e)); },[receipts,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","iftaLogs"),{items:iftaLogs}).catch(e=>console.error(e)); },[iftaLogs,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","geofences"),{items:geofences}).catch(e=>console.error(e)); },[geofences,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","driverDocs"),{data:driverDocs}).catch(e=>console.error(e)); },[driverDocs,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","brokerLinks"),{data:brokerLinks}).catch(e=>console.error(e)); },[brokerLinks,fbLoaded]);
+  useEffect(()=>{ if(fbLoaded && auth.currentUser) setDoc(doc(db,"appData","driverLocations"),{data:driverLocations}).catch(e=>console.error(e)); },[driverLocations,fbLoaded]);
   // ==================== FIN SINCRONIZACIÓN FIREBASE ====================
 const addDriver=async()=>{
   if(!newDrvName||!newDrvEmail||!newDrvPass){alert("Completa todos los campos");return;}
