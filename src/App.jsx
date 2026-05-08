@@ -2143,8 +2143,10 @@ If not found use empty string.`}
           <div className="card accent-l">
             <div className="card-header"><div className="card-title">+ Add New Load</div></div>
             <div className="form-row">
-              <div className="form-group"><label>From City</label><input value={form.from} onChange={e=>setForm({...form,from:e.target.value})} placeholder="Chicago, IL"/></div>
-              <div className="form-group"><label>To City</label><input value={form.to} onChange={e=>setForm({...form,to:e.target.value})} placeholder="Dallas, TX"/></div>
+<div className="form-group"><label>From City</label><input value={form.fromCity} onChange={e=>setForm({...form,fromCity:e.target.value})} placeholder="Chicago"/></div>
+            <div className="form-group"><label>From State</label><select value={form.fromState} onChange={e=>setForm({...form,fromState:e.target.value})}><option value="">Select state</option>{US_STATES.map(s=><option key={s.code} value={s.code}>{s.code} - {s.name}</option>)}</select></div>
+<div className="form-group"><label>To City</label><input value={form.toCity} onChange={e=>setForm({...form,toCity:e.target.value})} placeholder="Dallas"/></div>
+            <div className="form-group"><label>To State</label><select value={form.toState} onChange={e=>setForm({...form,toState:e.target.value})}><option value="">Select state</option>{US_STATES.map(s=><option key={s.code} value={s.code}>{s.code} - {s.name}</option>)}</select></div>
             </div>
             <div className="form-row">
   <div className="form-group"><label>Pickup Date</label><input type="date" value={form.pickupDate} onChange={e=>setForm({...form,pickupDate:e.target.value})}/></div>
