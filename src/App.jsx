@@ -716,9 +716,6 @@ const IFTA_QUARTERS = {
   4: {label:"Q4 — Octubre, Noviembre, Diciembre",months:[9,10,11],due:"January 31"},
 };
 
-// Common US states for trucking
-const US_STATES = ["AL","AR","AZ","CA","CO","CT","DE","FL","GA","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY",
-  "AB","BC","MB","NB","NL","NS","ON","QC","SK"]; // Canadian provinces
 
 function getQuarterLoads(loads, year, quarter) {
   const months = IFTA_QUARTERS[quarter].months;
