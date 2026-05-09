@@ -1643,7 +1643,7 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
                 {dateStr} · {timeStr}
               </div>
             </div>
-
+            
             {/* Truck quick info */}
             {myTruck && (
               <div style={{display:"flex",justifyContent:"space-around",padding:"14px 20px",borderBottom:"1px solid #f0f0f0",background:"#fafbff"}}>
