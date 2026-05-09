@@ -1460,9 +1460,9 @@ export default function App() {
   };
 
   const addLoad = () => {
-    if (!form.from || !form.to || !form.miles || !form.rate) return;
-    setLoads([...loads, { id: Date.now(), from: form.from, to: form.to, miles: +form.miles, rate: +form.rate, diesel: +form.diesel || 0, driver: form.driver, date: new Date().toISOString().split("T")[0], pickupDate: form.pickupDate, pickupTime: form.pickupTime, deliveryDate: form.deliveryDate, deliveryTime: form.deliveryTime, notes: form.notes, status: "picked" }]);
-    setForm({ from: "", to: "", miles: "", rate: "", diesel: "", driver: DRIVERS[0], pickupDate: "", pickupTime: "", deliveryDate: "", deliveryTime: "", notes: "" });
+    if(!form.fromCity||!form.fromState||!form.toCity||!form.toState||!form.miles||!form.rate) return;
+    setLoads([...loads, { id: Date.now(), from: form.fromCity+", "+form.fromState, to: form.toCity+", "+form.toState, miles: +form.miles, rate: +form.rate, diesel: +form.diesel || 0, driver: form.driver, date: new Date().toISOString().split("T")[0], pickupDate: form.pickupDate, pickupTime: form.pickupTime, deliveryDate: form.deliveryDate, deliveryTime: form.deliveryTime, notes: form.notes, status: "picked" }]);
+    setForm({ fromCity: "", fromState: "", toCity: "", toState: "", miles: "", rate: "", diesel: "", driver: DRIVERS[0], pickupDate: "", pickupTime: "", deliveryDate: "", deliveryTime: "", notes: "" });
   };
 
   const myLoads = user?.role === "driver" ? loads.filter(l => l.driver === user.driver) : loads;
