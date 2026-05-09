@@ -1737,8 +1737,8 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
             <div style={{fontSize:11,fontWeight:800,color:"#1a2456",lineHeight:1}}>{user.name}</div>
             <span className={"badge badge-"+user.role} style={{marginTop:3,display:"inline-block"}}>{user.role}</span>
           </div>
-<button className={"icon-btn"} onClick={()=>{signOut(auth);setUser(null);}} title="Cerrar sesión" style={{background:"#9b1b1b",color:"white",border:"none",fontWeight:700,fontSize:13,padding:"6px 12px",borderRadius:6,cursor:"pointer"}}>🚪 Salir</button>
-        </div>
+      <button className={"icon-btn"} onClick={()=>{signOut(auth);setUser(null);}} title="Cerrar sesión">←</button>  </div>
+      </div>
 
       <div className="main">
 <div style={{background:"linear-gradient(135deg,#1a2456,#253080)",borderRadius:14,padding:"20px 18px",marginBottom:14,color:"white"}}>
@@ -2144,7 +2144,6 @@ If not found use empty string.`}
             <div className="form-group"><label>From State</label><select value={form.fromState} onChange={e=>setForm({...form,fromState:e.target.value})}><option value="">Select state</option>{US_STATES.map(s=><option key={s.code} value={s.code}>{s.code} - {s.name}</option>)}</select></div>
 <div className="form-group"><label>To City</label><input value={form.toCity} onChange={e=>setForm({...form,toCity:e.target.value})} placeholder="Dallas"/></div>
             <div className="form-group"><label>To State</label><select value={form.toState} onChange={e=>setForm({...form,toState:e.target.value})}><option value="">Select state</option>{US_STATES.map(s=><option key={s.code} value={s.code}>{s.code} - {s.name}</option>)}</select></div>
-            
             </div>
             <div className="form-row">
   <div className="form-group"><label>Pickup Date</label><input type="date" value={form.pickupDate} onChange={e=>setForm({...form,pickupDate:e.target.value})}/></div>
