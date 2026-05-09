@@ -1737,8 +1737,8 @@ setForm({from:"",to:"",miles:"",rate:"",diesel:"",driver:DRIVERS[0],pickupDate:"
             <div style={{fontSize:11,fontWeight:800,color:"#1a2456",lineHeight:1}}>{user.name}</div>
             <span className={"badge badge-"+user.role} style={{marginTop:3,display:"inline-block"}}>{user.role}</span>
           </div>
-      <button className={"icon-btn"} onClick={()=>{signOut(auth);setUser(null);}} title="Cerrar sesión">cerrar sesion</button>  </div>
-      </div>
+<button onClick={()=>{signOut(auth);setUser(null);}} title="Cerrar sesión" style={{background:"#9b1b1b",color:"white",border:"2px solid #7a1515",fontWeight:700,fontSize:12,padding:"7px 16px",borderRadius:8,cursor:"pointer",letterSpacing:1,textTransform:"uppercase",boxShadow:"0 2px 8px rgba(155,27,27,0.25)"}}>🚪 Cerrar Sesión</button>
+        </div>
 
       <div className="main">
 <div style={{background:"linear-gradient(135deg,#1a2456,#253080)",borderRadius:14,padding:"20px 18px",marginBottom:14,color:"white"}}>
