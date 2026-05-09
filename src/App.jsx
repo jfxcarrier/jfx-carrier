@@ -2145,6 +2145,7 @@ If not found use empty string.`}
 <div className="form-group"><label>To City</label><input value={form.toCity} onChange={e=>setForm({...form,toCity:e.target.value})} placeholder="Dallas"/></div>
             <div className="form-group"><label>To State</label><select value={form.toState} onChange={e=>setForm({...form,toState:e.target.value})}><option value="">Select state</option>{US_STATES.map(s=><option key={s.code} value={s.code}>{s.code} - {s.name}</option>)}</select></div>
             </div>
+            </div>
             <div className="form-row">
   <div className="form-group"><label>Pickup Date</label><input type="date" value={form.pickupDate} onChange={e=>setForm({...form,pickupDate:e.target.value})}/></div>
   <div className="form-group"><label>Pickup Time</label><input type="time" value={form.pickupTime} onChange={e=>setForm({...form,pickupTime:e.target.value})}/></div>
