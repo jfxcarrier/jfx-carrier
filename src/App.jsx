@@ -180,6 +180,7 @@ const CSS = `
     border-radius: 6px; color: var(--red2); font-size: 13px; cursor: pointer; transition: all 0.18s;
   }
   .btn-danger:hover { background: rgba(155,27,27,0.14); }
+  .logout-btn { background:#9b1b1b; color:white; border:2px solid #7a1515; font-weight:700; font-size:12px; padding:7px 16px; border-radius:8px; cursor:pointer; letter-spacing:1px; text-transform:uppercase; box-shadow:0 2px 8px rgba(155,27,27,0.25); }
 
   /* ══ TOPBAR ══════════════════════════════════════════ */
   .topbar {
